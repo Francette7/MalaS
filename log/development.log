@@ -1,0 +1,2158 @@
+  [1m[35m (1279.0ms)[0m  [1m[35mCREATE DATABASE "scaff_development" ENCODING = 'unicode'[0m
+  [1m[35m (643.1ms)[0m  [1m[35mCREATE DATABASE "scaff_test" ENCODING = 'unicode'[0m
+  [1m[35m (131.9ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (105.6ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(1454809796900757255)[0m
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to DeviseCreateUsers (20190911060712)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (98.3ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "quarter_id" bigint, "reset_password_token" character varying, "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (28.4ms)[0m  [1m[35mCREATE  INDEX  "index_users_on_quarter_id" ON "users"  ("quarter_id")[0m
+  [1m[35m (29.1ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_users_on_email" ON "users"  ("email")[0m
+  [1m[35m (28.6ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_users_on_reset_password_token" ON "users"  ("reset_password_token")[0m
+  [1m[36mprimary::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911060712"]]
+  [1m[35m (11.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateQuarters (20190911060923)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (121.8ms)[0m  [1m[35mCREATE TABLE "quarters" ("id" bigserial primary key, "zip_code" character varying, "name" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911060923"]]
+  [1m[35m (10.5ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateClubs (20190911061102)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (36.7ms)[0m  [1m[35mCREATE TABLE "clubs" ("id" bigserial primary key, "recruiter_id" bigint, "quarter_id" bigint, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (29.4ms)[0m  [1m[35mCREATE  INDEX  "index_clubs_on_recruiter_id" ON "clubs"  ("recruiter_id")[0m
+  [1m[35m (29.6ms)[0m  [1m[35mCREATE  INDEX  "index_clubs_on_quarter_id" ON "clubs"  ("quarter_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911061102"]]
+  [1m[35m (10.4ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateRecrutements (20190911062120)
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(1454809796900757255)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(1454809796900757255)[0m
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateRecrutements (20190911062120)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (81.8ms)[0m  [1m[35mCREATE TABLE "recrutements" ("id" bigserial primary key, "content" text, "deadline" timestamp, "club_id" bigint, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (27.0ms)[0m  [1m[35mCREATE  INDEX  "index_recrutements_on_club_id" ON "recrutements"  ("club_id")[0m
+  [1m[36mprimary::SchemaMigration Create (3.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911062120"]]
+  [1m[35m (11.6ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateRequests (20190911062143)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (38.3ms)[0m  [1m[35mCREATE TABLE "requests" ("id" bigserial primary key, "recrutement_id" bigint, "user_id" bigint, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (29.6ms)[0m  [1m[35mCREATE  INDEX  "index_requests_on_recrutement_id" ON "requests"  ("recrutement_id")[0m
+  [1m[35m (29.4ms)[0m  [1m[35mCREATE  INDEX  "index_requests_on_user_id" ON "requests"  ("user_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911062143"]]
+  [1m[35m (11.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddNameToUsers (20190911062611)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "users" ADD "first_name" character varying[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "users" ADD "last_name" character varying[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "users" ADD "quarter" character varying[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "users" ADD "age" integer[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "users" ADD "skills" text[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "users" ADD "gender" character varying[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "users" ADD "pseudonym" character varying[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911062611"]]
+  [1m[35m (3.7ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddRoleToUsers (20190911062806)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "users" ADD "role" character varying[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911062806"]]
+  [1m[35m (4.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.7ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2019-09-11 06:49:06.509805"], ["updated_at", "2019-09-11 06:49:06.509805"]]
+  [1m[35m (14.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(1454809796900757255)[0m
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mQuarter Load (0.5ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters"[0m
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mClub Load (0.7ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs"[0m
+  [1m[36mRecrutement Load (0.7ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements"[0m
+  [1m[36mRequest Load (14.4ms)[0m  [1m[34mSELECT "requests".* FROM "requests"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.9ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "93387"], ["name", "Paul Village"], ["created_at", "2019-09-11 06:49:58.600652"], ["updated_at", "2019-09-11 06:49:58.600652"]]
+  [1m[35m (24.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.3ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "56682-9525"], ["name", "Micah Mountains"], ["created_at", "2019-09-11 06:49:58.631436"], ["updated_at", "2019-09-11 06:49:58.631436"]]
+  [1m[35m (4.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "03085-3530"], ["name", "Everett Passage"], ["created_at", "2019-09-11 06:49:58.642406"], ["updated_at", "2019-09-11 06:49:58.642406"]]
+  [1m[35m (4.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "45344-9240"], ["name", "Champlin Isle"], ["created_at", "2019-09-11 06:49:58.653104"], ["updated_at", "2019-09-11 06:49:58.653104"]]
+  [1m[35m (5.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "78601-1455"], ["name", "Flor Meadows"], ["created_at", "2019-09-11 06:49:58.664245"], ["updated_at", "2019-09-11 06:49:58.664245"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "47974"], ["name", "Hodkiewicz Mission"], ["created_at", "2019-09-11 06:49:58.675346"], ["updated_at", "2019-09-11 06:49:58.675346"]]
+  [1m[35m (4.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "30653"], ["name", "Simonis Road"], ["created_at", "2019-09-11 06:49:58.685780"], ["updated_at", "2019-09-11 06:49:58.685780"]]
+  [1m[35m (6.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "29406-3128"], ["name", "Glover Locks"], ["created_at", "2019-09-11 06:49:58.697238"], ["updated_at", "2019-09-11 06:49:58.697238"]]
+  [1m[35m (5.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "72870-8407"], ["name", "Smith Groves"], ["created_at", "2019-09-11 06:49:58.708551"], ["updated_at", "2019-09-11 06:49:58.708551"]]
+  [1m[35m (4.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "34971"], ["name", "Arnita Canyon"], ["created_at", "2019-09-11 06:49:58.719624"], ["updated_at", "2019-09-11 06:49:58.719624"]]
+  [1m[35m (5.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "17276-5252"], ["name", "Pacocha Loaf"], ["created_at", "2019-09-11 06:49:58.730569"], ["updated_at", "2019-09-11 06:49:58.730569"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "59919-3573"], ["name", "Shelton Fork"], ["created_at", "2019-09-11 06:49:58.741830"], ["updated_at", "2019-09-11 06:49:58.741830"]]
+  [1m[35m (4.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "25479-0656"], ["name", "Terry Streets"], ["created_at", "2019-09-11 06:49:58.753541"], ["updated_at", "2019-09-11 06:49:58.753541"]]
+  [1m[35m (3.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "51959"], ["name", "Nicky Light"], ["created_at", "2019-09-11 06:49:58.764141"], ["updated_at", "2019-09-11 06:49:58.764141"]]
+  [1m[35m (4.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.3ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "47481-1533"], ["name", "Rory Road"], ["created_at", "2019-09-11 06:49:58.774660"], ["updated_at", "2019-09-11 06:49:58.774660"]]
+  [1m[35m (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "99733"], ["name", "Kilback Junction"], ["created_at", "2019-09-11 06:49:58.785835"], ["updated_at", "2019-09-11 06:49:58.785835"]]
+  [1m[35m (5.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "30396"], ["name", "Swift Harbors"], ["created_at", "2019-09-11 06:49:58.797106"], ["updated_at", "2019-09-11 06:49:58.797106"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "43819-6155"], ["name", "Doyle Overpass"], ["created_at", "2019-09-11 06:49:58.808103"], ["updated_at", "2019-09-11 06:49:58.808103"]]
+  [1m[35m (5.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "01314"], ["name", "Dennis Field"], ["created_at", "2019-09-11 06:49:58.819410"], ["updated_at", "2019-09-11 06:49:58.819410"]]
+  [1m[35m (4.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "98184"], ["name", "Quitzon Locks"], ["created_at", "2019-09-11 06:49:58.830194"], ["updated_at", "2019-09-11 06:49:58.830194"]]
+  [1m[35m (5.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "hue@townechamplin.biz"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.4ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mUser Create (0.9ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "hue@townechamplin.biz"], ["encrypted_password", "$2a$11$ddKjWWguKkXyxXqRhe7fqOH6v3/twJeZWL0S75EeXlsanlTFF9jMq"], ["quarter_id", 5], ["created_at", "2019-09-11 06:49:59.124847"], ["updated_at", "2019-09-11 06:49:59.124847"]]
+  [1m[35m (10.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "erminia@denesik.info"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 19], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "erminia@denesik.info"], ["encrypted_password", "$2a$11$ZyKjMLiwnBvHUZGxqGkD3unhgJdXZ/DKsWsk/Duzqry65CTYnIWXW"], ["quarter_id", 19], ["created_at", "2019-09-11 06:49:59.290535"], ["updated_at", "2019-09-11 06:49:59.290535"]]
+  [1m[35m (11.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "blaine@sauer.co"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 13], ["LIMIT", 1]]
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "blaine@sauer.co"], ["encrypted_password", "$2a$11$wRsuGRrHFaLDbXq9J5hXdO/JVYXNkGz3/nUOKKmInBXsPGzYGXTD2"], ["quarter_id", 13], ["created_at", "2019-09-11 06:49:59.459236"], ["updated_at", "2019-09-11 06:49:59.459236"]]
+  [1m[35m (9.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "saturnina@vonrueden.net"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 15], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "saturnina@vonrueden.net"], ["encrypted_password", "$2a$11$uCRoeTz7n/FdQeZBYRMaf.tpcL2SgaJ8JVZb/XeTMJxbnvNEQqJvi"], ["quarter_id", 15], ["created_at", "2019-09-11 06:49:59.619788"], ["updated_at", "2019-09-11 06:49:59.619788"]]
+  [1m[35m (3.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "arnulfo.senger@satterfield.co"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "arnulfo.senger@satterfield.co"], ["encrypted_password", "$2a$11$WpbvEZQhkrEdMpGdLfLDpu/pv48LXB1KMOMyjiRv6t0zVpIyiJXD."], ["quarter_id", 2], ["created_at", "2019-09-11 06:49:59.778644"], ["updated_at", "2019-09-11 06:49:59.778644"]]
+  [1m[35m (10.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "corazon_jones@johnston.io"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 17], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "corazon_jones@johnston.io"], ["encrypted_password", "$2a$11$YuJrHSK3VL3fpBA7oPAwW.RxK5Ck/lKixADHlOT0EfqjB2b4AwfA2"], ["quarter_id", 17], ["created_at", "2019-09-11 06:49:59.941276"], ["updated_at", "2019-09-11 06:49:59.941276"]]
+  [1m[35m (3.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "agustin@gusikowskihackett.org"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 15], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "agustin@gusikowskihackett.org"], ["encrypted_password", "$2a$11$WU8uLgBxarXNK67coUpza.lg0Gq/1X7XnonHLMz2GjCkPoVJNd2ha"], ["quarter_id", 15], ["created_at", "2019-09-11 06:50:00.099736"], ["updated_at", "2019-09-11 06:50:00.099736"]]
+  [1m[35m (10.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "shameka@zemlakschneider.io"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 12], ["LIMIT", 1]]
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "shameka@zemlakschneider.io"], ["encrypted_password", "$2a$11$Y8BEeSzhlSv4hRZAFTo/Ieu9Z8Bzxwq3LOYDtj7qr31cay4iD4k/y"], ["quarter_id", 12], ["created_at", "2019-09-11 06:50:00.264187"], ["updated_at", "2019-09-11 06:50:00.264187"]]
+  [1m[35m (12.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "ginny_johnson@wisozkhills.io"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "ginny_johnson@wisozkhills.io"], ["encrypted_password", "$2a$11$iZbonbG6X1oDZdOS8IX8e.Op.4mNjN60HDRqlSFkxKTM/3WvIvOAK"], ["quarter_id", 4], ["created_at", "2019-09-11 06:50:00.429635"], ["updated_at", "2019-09-11 06:50:00.429635"]]
+  [1m[35m (12.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "mauro.schowalter@parisian.info"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "mauro.schowalter@parisian.info"], ["encrypted_password", "$2a$11$1srqss7J5x4dMQcxXaEcOeHGYLPAyDD72TVWV5dzXTEgaaSLP/.zS"], ["quarter_id", 9], ["created_at", "2019-09-11 06:50:00.602016"], ["updated_at", "2019-09-11 06:50:00.602016"]]
+  [1m[35m (6.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mQuarter Load (0.6ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.5ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 1]]
+  [1m[35m (10.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 2]]
+  [1m[35m (7.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 3]]
+  [1m[35m (6.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 4]]
+  [1m[35m (6.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 5]]
+  [1m[35m (5.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 6]]
+  [1m[35m (6.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 7]]
+  [1m[35m (6.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 8]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 9]]
+  [1m[35m (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 10]]
+  [1m[35m (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 11]]
+  [1m[35m (6.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (1.1ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 12]]
+  [1m[35m (5.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 13]]
+  [1m[35m (6.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 14]]
+  [1m[35m (5.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 15]]
+  [1m[35m (6.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 16]]
+  [1m[35m (5.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.5ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 17]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 18]]
+  [1m[35m (5.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 19]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.5ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 20]]
+  [1m[35m (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (0.5ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 1]]
+  [1m[35m (3.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (0.3ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 2]]
+  [1m[35m (7.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (0.3ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 3]]
+  [1m[35m (7.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (0.4ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 4]]
+  [1m[35m (7.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (0.4ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 5]]
+  [1m[35m (6.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (0.4ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 6]]
+  [1m[35m (6.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (0.5ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 7]]
+  [1m[35m (5.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (0.4ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 8]]
+  [1m[35m (7.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (0.4ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 9]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Destroy (0.5ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 10]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mClub Load (0.7ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs"[0m
+  [1m[36mRecrutement Load (0.7ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements"[0m
+  [1m[36mRequest Load (0.7ms)[0m  [1m[34mSELECT "requests".* FROM "requests"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "07159-5026"], ["name", "Lyndon Lock"], ["created_at", "2019-09-11 06:51:48.323349"], ["updated_at", "2019-09-11 06:51:48.323349"]]
+  [1m[35m (2.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "84241-7936"], ["name", "Lucius Parkways"], ["created_at", "2019-09-11 06:51:48.337536"], ["updated_at", "2019-09-11 06:51:48.337536"]]
+  [1m[35m (10.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "35184"], ["name", "Wintheiser Road"], ["created_at", "2019-09-11 06:51:48.352626"], ["updated_at", "2019-09-11 06:51:48.352626"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "72843-3445"], ["name", "Dewey Skyway"], ["created_at", "2019-09-11 06:51:48.364066"], ["updated_at", "2019-09-11 06:51:48.364066"]]
+  [1m[35m (5.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "77615"], ["name", "Abel Ridge"], ["created_at", "2019-09-11 06:51:48.375264"], ["updated_at", "2019-09-11 06:51:48.375264"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "60338-4681"], ["name", "Alejandro Flats"], ["created_at", "2019-09-11 06:51:48.386516"], ["updated_at", "2019-09-11 06:51:48.386516"]]
+  [1m[35m (3.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "72372-1674"], ["name", "Altenwerth Run"], ["created_at", "2019-09-11 06:51:48.397662"], ["updated_at", "2019-09-11 06:51:48.397662"]]
+  [1m[35m (4.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "77739"], ["name", "Mosciski Roads"], ["created_at", "2019-09-11 06:51:48.408692"], ["updated_at", "2019-09-11 06:51:48.408692"]]
+  [1m[35m (5.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "49132"], ["name", "Len Heights"], ["created_at", "2019-09-11 06:51:48.419294"], ["updated_at", "2019-09-11 06:51:48.419294"]]
+  [1m[35m (5.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "00789-5008"], ["name", "Robel Shores"], ["created_at", "2019-09-11 06:51:48.430561"], ["updated_at", "2019-09-11 06:51:48.430561"]]
+  [1m[35m (4.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "71307-0975"], ["name", "Rey Mews"], ["created_at", "2019-09-11 06:51:48.441556"], ["updated_at", "2019-09-11 06:51:48.441556"]]
+  [1m[35m (5.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "10233-3168"], ["name", "Rosa Extension"], ["created_at", "2019-09-11 06:51:48.452767"], ["updated_at", "2019-09-11 06:51:48.452767"]]
+  [1m[35m (5.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "44139-6811"], ["name", "Jan Street"], ["created_at", "2019-09-11 06:51:48.463859"], ["updated_at", "2019-09-11 06:51:48.463859"]]
+  [1m[35m (5.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "11151-0593"], ["name", "Cindi Mountains"], ["created_at", "2019-09-11 06:51:48.474896"], ["updated_at", "2019-09-11 06:51:48.474896"]]
+  [1m[35m (5.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "94626"], ["name", "Rosa Summit"], ["created_at", "2019-09-11 06:51:48.485984"], ["updated_at", "2019-09-11 06:51:48.485984"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "19717"], ["name", "Runolfsson Fork"], ["created_at", "2019-09-11 06:51:48.496659"], ["updated_at", "2019-09-11 06:51:48.496659"]]
+  [1m[35m (6.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "51932-0788"], ["name", "Tromp Estates"], ["created_at", "2019-09-11 06:51:48.507977"], ["updated_at", "2019-09-11 06:51:48.507977"]]
+  [1m[35m (5.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "54078"], ["name", "Kay Plaza"], ["created_at", "2019-09-11 06:51:48.519266"], ["updated_at", "2019-09-11 06:51:48.519266"]]
+  [1m[35m (4.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "62714"], ["name", "Christel Shoal"], ["created_at", "2019-09-11 06:51:48.530311"], ["updated_at", "2019-09-11 06:51:48.530311"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "33004"], ["name", "Jacobson Cape"], ["created_at", "2019-09-11 06:51:48.541297"], ["updated_at", "2019-09-11 06:51:48.541297"]]
+  [1m[35m (5.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "melody.harvey@monahanmoore.com"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 14], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "raven@kuphallang.org"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 12], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "ruthie.pagac@glover.org"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 14], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "gudrun@hammesmurazik.io"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "felton@grady.net"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 14], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "lu@beatty.io"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "kathrin_marquardt@kohler.net"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "merlyn_bednar@mclaughlin.biz"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 18], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "rafael@sauer.biz"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "napoleon_hamill@beatty.biz"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 20], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mQuarter Load (0.6ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.5ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 21]]
+  [1m[35m (8.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 22]]
+  [1m[35m (7.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 23]]
+  [1m[35m (10.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 24]]
+  [1m[35m (5.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 25]]
+  [1m[35m (6.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 26]]
+  [1m[35m (7.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 27]]
+  [1m[35m (6.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 28]]
+  [1m[35m (6.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 29]]
+  [1m[35m (5.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 30]]
+  [1m[35m (3.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 31]]
+  [1m[35m (6.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 32]]
+  [1m[35m (6.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.5ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 33]]
+  [1m[35m (5.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 34]]
+  [1m[35m (5.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 35]]
+  [1m[35m (5.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 36]]
+  [1m[35m (5.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 37]]
+  [1m[35m (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 38]]
+  [1m[35m (5.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 39]]
+  [1m[35m (5.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 40]]
+  [1m[35m (6.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mClub Load (0.7ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs"[0m
+  [1m[36mRecrutement Load (0.5ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements"[0m
+  [1m[36mRequest Load (0.6ms)[0m  [1m[34mSELECT "requests".* FROM "requests"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.6ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "48359"], ["name", "Coletta Rapids"], ["created_at", "2019-09-11 06:53:45.366762"], ["updated_at", "2019-09-11 06:53:45.366762"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "99047-9639"], ["name", "Senger Avenue"], ["created_at", "2019-09-11 06:53:45.378337"], ["updated_at", "2019-09-11 06:53:45.378337"]]
+  [1m[35m (6.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "74105"], ["name", "Marion Gardens"], ["created_at", "2019-09-11 06:53:45.389942"], ["updated_at", "2019-09-11 06:53:45.389942"]]
+  [1m[35m (5.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "67224"], ["name", "Enriqueta Valleys"], ["created_at", "2019-09-11 06:53:45.401083"], ["updated_at", "2019-09-11 06:53:45.401083"]]
+  [1m[35m (5.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "67699"], ["name", "Franklin Crossroad"], ["created_at", "2019-09-11 06:53:45.412169"], ["updated_at", "2019-09-11 06:53:45.412169"]]
+  [1m[35m (4.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "72643-9287"], ["name", "Halvorson Ridge"], ["created_at", "2019-09-11 06:53:45.422553"], ["updated_at", "2019-09-11 06:53:45.422553"]]
+  [1m[35m (5.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "93077"], ["name", "Anamaria Forge"], ["created_at", "2019-09-11 06:53:45.434698"], ["updated_at", "2019-09-11 06:53:45.434698"]]
+  [1m[35m (3.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "28001"], ["name", "Auer Common"], ["created_at", "2019-09-11 06:53:45.445469"], ["updated_at", "2019-09-11 06:53:45.445469"]]
+  [1m[35m (5.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "67045"], ["name", "Kimbra Grove"], ["created_at", "2019-09-11 06:53:45.456027"], ["updated_at", "2019-09-11 06:53:45.456027"]]
+  [1m[35m (5.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "64649"], ["name", "Audry Loop"], ["created_at", "2019-09-11 06:53:45.467348"], ["updated_at", "2019-09-11 06:53:45.467348"]]
+  [1m[35m (5.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "65334"], ["name", "Esteban Shoal"], ["created_at", "2019-09-11 06:53:45.478622"], ["updated_at", "2019-09-11 06:53:45.478622"]]
+  [1m[35m (4.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "32454"], ["name", "Gorczany Locks"], ["created_at", "2019-09-11 06:53:45.489510"], ["updated_at", "2019-09-11 06:53:45.489510"]]
+  [1m[35m (5.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "73493-7979"], ["name", "Joanie Haven"], ["created_at", "2019-09-11 06:53:45.500762"], ["updated_at", "2019-09-11 06:53:45.500762"]]
+  [1m[35m (4.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "19207"], ["name", "Cristopher Groves"], ["created_at", "2019-09-11 06:53:45.511820"], ["updated_at", "2019-09-11 06:53:45.511820"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.3ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "74726-5643"], ["name", "Zemlak Shoal"], ["created_at", "2019-09-11 06:53:45.522598"], ["updated_at", "2019-09-11 06:53:45.522598"]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "04485"], ["name", "Jules Inlet"], ["created_at", "2019-09-11 06:53:45.533532"], ["updated_at", "2019-09-11 06:53:45.533532"]]
+  [1m[35m (5.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "67305"], ["name", "Feeney Junctions"], ["created_at", "2019-09-11 06:53:45.544695"], ["updated_at", "2019-09-11 06:53:45.544695"]]
+  [1m[35m (5.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "61535"], ["name", "Leland Prairie"], ["created_at", "2019-09-11 06:53:45.556055"], ["updated_at", "2019-09-11 06:53:45.556055"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "12163-2612"], ["name", "Hilpert Drives"], ["created_at", "2019-09-11 06:53:45.566916"], ["updated_at", "2019-09-11 06:53:45.566916"]]
+  [1m[35m (5.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "67345"], ["name", "Zboncak Light"], ["created_at", "2019-09-11 06:53:45.578052"], ["updated_at", "2019-09-11 06:53:45.578052"]]
+  [1m[35m (5.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "paz.runte@jacobi.co"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 17], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "joycelyn@keler.biz"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "garret@swift.com"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "foster@hermann.biz"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "debbie@aufderharherman.io"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 18], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "shawnda.johnson@kilbacksipes.net"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "freddie.lind@purdyskiles.org"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 13], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "rogelio.prohaska@crona.biz"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "chauncey_rohan@stark.name"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 20], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "joaquin_sauer@kaulkechamplin.com"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.6ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mQuarter Load (0.6ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.5ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 41]]
+  [1m[35m (13.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 42]]
+  [1m[35m (6.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 43]]
+  [1m[35m (6.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 44]]
+  [1m[35m (6.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 45]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 46]]
+  [1m[35m (6.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 47]]
+  [1m[35m (6.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 48]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 49]]
+  [1m[35m (6.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 50]]
+  [1m[35m (6.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.2ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 51]]
+  [1m[35m (7.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 52]]
+  [1m[35m (6.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 53]]
+  [1m[35m (6.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 54]]
+  [1m[35m (6.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 55]]
+  [1m[35m (6.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 56]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 57]]
+  [1m[35m (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 58]]
+  [1m[35m (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 59]]
+  [1m[35m (6.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 60]]
+  [1m[35m (6.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mClub Load (0.5ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs"[0m
+  [1m[36mRecrutement Load (0.6ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements"[0m
+  [1m[36mRequest Load (0.5ms)[0m  [1m[34mSELECT "requests".* FROM "requests"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "32458-1428"], ["name", "Marna Tunnel"], ["created_at", "2019-09-11 06:54:43.713063"], ["updated_at", "2019-09-11 06:54:43.713063"]]
+  [1m[35m (3.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "00925-8031"], ["name", "Santina Corner"], ["created_at", "2019-09-11 06:54:43.721519"], ["updated_at", "2019-09-11 06:54:43.721519"]]
+  [1m[35m (6.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "82682-9236"], ["name", "Wiza Extension"], ["created_at", "2019-09-11 06:54:43.732491"], ["updated_at", "2019-09-11 06:54:43.732491"]]
+  [1m[35m (5.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "04438"], ["name", "Schaefer Plaza"], ["created_at", "2019-09-11 06:54:43.743793"], ["updated_at", "2019-09-11 06:54:43.743793"]]
+  [1m[35m (6.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "03849"], ["name", "Dibbert Estate"], ["created_at", "2019-09-11 06:54:43.765543"], ["updated_at", "2019-09-11 06:54:43.765543"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "41759"], ["name", "Hammes Ways"], ["created_at", "2019-09-11 06:54:43.776864"], ["updated_at", "2019-09-11 06:54:43.776864"]]
+  [1m[35m (5.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "34181-0177"], ["name", "Emerson Brook"], ["created_at", "2019-09-11 06:54:43.788255"], ["updated_at", "2019-09-11 06:54:43.788255"]]
+  [1m[35m (5.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "08906"], ["name", "Brian Place"], ["created_at", "2019-09-11 06:54:43.799404"], ["updated_at", "2019-09-11 06:54:43.799404"]]
+  [1m[35m (4.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "04738-2082"], ["name", "Hegmann Mission"], ["created_at", "2019-09-11 06:54:43.810492"], ["updated_at", "2019-09-11 06:54:43.810492"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "24830"], ["name", "Patience Isle"], ["created_at", "2019-09-11 06:54:43.821774"], ["updated_at", "2019-09-11 06:54:43.821774"]]
+  [1m[35m (4.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "86979-7654"], ["name", "Wiza Mission"], ["created_at", "2019-09-11 06:54:43.832413"], ["updated_at", "2019-09-11 06:54:43.832413"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "71401-2876"], ["name", "Larson Garden"], ["created_at", "2019-09-11 06:54:43.843483"], ["updated_at", "2019-09-11 06:54:43.843483"]]
+  [1m[35m (5.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "73374-2909"], ["name", "Kory Oval"], ["created_at", "2019-09-11 06:54:43.854660"], ["updated_at", "2019-09-11 06:54:43.854660"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "87487-4800"], ["name", "Domenic Mount"], ["created_at", "2019-09-11 06:54:43.865223"], ["updated_at", "2019-09-11 06:54:43.865223"]]
+  [1m[35m (6.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "29406-7722"], ["name", "Jermaine Groves"], ["created_at", "2019-09-11 06:54:43.876608"], ["updated_at", "2019-09-11 06:54:43.876608"]]
+  [1m[35m (5.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "63237"], ["name", "Douglas Corners"], ["created_at", "2019-09-11 06:54:43.887784"], ["updated_at", "2019-09-11 06:54:43.887784"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "46705"], ["name", "Hand Station"], ["created_at", "2019-09-11 06:54:43.898826"], ["updated_at", "2019-09-11 06:54:43.898826"]]
+  [1m[35m (5.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "62330"], ["name", "Armstrong Inlet"], ["created_at", "2019-09-11 06:54:43.909971"], ["updated_at", "2019-09-11 06:54:43.909971"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "87474"], ["name", "Schumm Square"], ["created_at", "2019-09-11 06:54:43.920912"], ["updated_at", "2019-09-11 06:54:43.920912"]]
+  [1m[35m (5.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "94920-6493"], ["name", "Dibbert Flats"], ["created_at", "2019-09-11 06:54:43.932114"], ["updated_at", "2019-09-11 06:54:43.932114"]]
+  [1m[35m (4.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "esteban_lubowitz@vandervort.co"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "katheleen_mitchell@towne.io"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "bettyann.lubowitz@trantowlind.info"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "cordell@nitzsche.com"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 14], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "golda@runte.biz"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (1.7ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "terrance@terrystamm.biz"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "june@gleason.name"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 20], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "nathanael_wunsch@wehner.net"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "kaci.swaniawski@adamslegros.co"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 17], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "toi@langbergnaum.com"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.6ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.9ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mQuarter Load (0.6ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.6ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 61]]
+  [1m[35m (15.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 62]]
+  [1m[35m (6.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 63]]
+  [1m[35m (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 64]]
+  [1m[35m (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 65]]
+  [1m[35m (6.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 66]]
+  [1m[35m (6.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.7ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 67]]
+  [1m[35m (3.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 68]]
+  [1m[35m (7.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 69]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 70]]
+  [1m[35m (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.5ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 71]]
+  [1m[35m (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 72]]
+  [1m[35m (5.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 73]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 74]]
+  [1m[35m (5.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 75]]
+  [1m[35m (6.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 76]]
+  [1m[35m (5.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 77]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 78]]
+  [1m[35m (6.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 79]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 80]]
+  [1m[35m (5.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mClub Load (0.7ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs"[0m
+  [1m[36mRecrutement Load (0.7ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements"[0m
+  [1m[36mRequest Load (0.7ms)[0m  [1m[34mSELECT "requests".* FROM "requests"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.6ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "17943-6983"], ["name", "Klein Radial"], ["created_at", "2019-09-11 06:59:48.797470"], ["updated_at", "2019-09-11 06:59:48.797470"]]
+  [1m[35m (12.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "86442-2831"], ["name", "Carolyn Forest"], ["created_at", "2019-09-11 06:59:48.815593"], ["updated_at", "2019-09-11 06:59:48.815593"]]
+  [1m[35m (5.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "04705-0828"], ["name", "Ermelinda Ridge"], ["created_at", "2019-09-11 06:59:48.826744"], ["updated_at", "2019-09-11 06:59:48.826744"]]
+  [1m[35m (4.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "50263-4557"], ["name", "Daron Gateway"], ["created_at", "2019-09-11 06:59:48.838056"], ["updated_at", "2019-09-11 06:59:48.838056"]]
+  [1m[35m (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "78711"], ["name", "Napoleon Club"], ["created_at", "2019-09-11 06:59:48.859406"], ["updated_at", "2019-09-11 06:59:48.859406"]]
+  [1m[35m (5.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "51867"], ["name", "Effertz River"], ["created_at", "2019-09-11 06:59:48.870574"], ["updated_at", "2019-09-11 06:59:48.870574"]]
+  [1m[35m (5.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "67323-5199"], ["name", "Noe Fields"], ["created_at", "2019-09-11 06:59:48.882028"], ["updated_at", "2019-09-11 06:59:48.882028"]]
+  [1m[35m (4.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "52466-8303"], ["name", "Pfannerstill Stream"], ["created_at", "2019-09-11 06:59:48.893066"], ["updated_at", "2019-09-11 06:59:48.893066"]]
+  [1m[35m (5.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "53264"], ["name", "McKenzie Motorway"], ["created_at", "2019-09-11 06:59:48.903920"], ["updated_at", "2019-09-11 06:59:48.903920"]]
+  [1m[35m (5.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "94356"], ["name", "Shizuko Avenue"], ["created_at", "2019-09-11 06:59:48.915075"], ["updated_at", "2019-09-11 06:59:48.915075"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "50190"], ["name", "Antony Viaduct"], ["created_at", "2019-09-11 06:59:48.926362"], ["updated_at", "2019-09-11 06:59:48.926362"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "46612-0485"], ["name", "Damion Underpass"], ["created_at", "2019-09-11 06:59:48.937347"], ["updated_at", "2019-09-11 06:59:48.937347"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (1.7ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "52791"], ["name", "Laurene Mount"], ["created_at", "2019-09-11 06:59:48.947857"], ["updated_at", "2019-09-11 06:59:48.947857"]]
+  [1m[35m (5.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "14547-5879"], ["name", "Crooks Trace"], ["created_at", "2019-09-11 06:59:48.959144"], ["updated_at", "2019-09-11 06:59:48.959144"]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "80027"], ["name", "Shanahan Wells"], ["created_at", "2019-09-11 06:59:48.970443"], ["updated_at", "2019-09-11 06:59:48.970443"]]
+  [1m[35m (5.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "80606-8014"], ["name", "Thiel Lock"], ["created_at", "2019-09-11 06:59:48.981627"], ["updated_at", "2019-09-11 06:59:48.981627"]]
+  [1m[35m (5.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "34646-6041"], ["name", "Beahan Parkway"], ["created_at", "2019-09-11 06:59:48.993438"], ["updated_at", "2019-09-11 06:59:48.993438"]]
+  [1m[35m (3.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "78381-0663"], ["name", "Vance Plaza"], ["created_at", "2019-09-11 06:59:49.003509"], ["updated_at", "2019-09-11 06:59:49.003509"]]
+  [1m[35m (5.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.8ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "92651-1554"], ["name", "Garry Fork"], ["created_at", "2019-09-11 06:59:49.014710"], ["updated_at", "2019-09-11 06:59:49.014710"]]
+  [1m[35m (49.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "08649-6729"], ["name", "Smitham Crescent"], ["created_at", "2019-09-11 06:59:49.069797"], ["updated_at", "2019-09-11 06:59:49.069797"]]
+  [1m[35m (28.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "harry@spencer.co"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "bobbie@rogahn.info"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "huong@hermann.org"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "roxie@collier.net"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 13], ["LIMIT", 1]]
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "corrie_kutch@hilpert.biz"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "guadalupe@ledner.org"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 19], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "raphael@heathcote.name"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "mel@ziememetz.name"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 19], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "arianna.kilback@ullrich.biz"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "katia@harberpfeffer.biz"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 14], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (1.0ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.7ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mQuarter Load (0.7ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.6ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 81]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 82]]
+  [1m[35m (8.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 83]]
+  [1m[35m (7.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 84]]
+  [1m[35m (6.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 85]]
+  [1m[35m (6.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 86]]
+  [1m[35m (5.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 87]]
+  [1m[35m (6.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 88]]
+  [1m[35m (6.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 89]]
+  [1m[35m (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 90]]
+  [1m[35m (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 91]]
+  [1m[35m (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 92]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 93]]
+  [1m[35m (6.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 94]]
+  [1m[35m (6.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 95]]
+  [1m[35m (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 96]]
+  [1m[35m (6.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 97]]
+  [1m[35m (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 98]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 99]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 100]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mClub Load (0.5ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs"[0m
+  [1m[36mRecrutement Load (0.6ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements"[0m
+  [1m[36mRequest Load (0.6ms)[0m  [1m[34mSELECT "requests".* FROM "requests"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.6ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "19043-7238"], ["name", "Lakenya Loaf"], ["created_at", "2019-09-11 07:00:40.095876"], ["updated_at", "2019-09-11 07:00:40.095876"]]
+  [1m[35m (3.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "77587"], ["name", "Norberto Path"], ["created_at", "2019-09-11 07:00:40.104928"], ["updated_at", "2019-09-11 07:00:40.104928"]]
+  [1m[35m (6.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "85075"], ["name", "Ai Forge"], ["created_at", "2019-09-11 07:00:40.116251"], ["updated_at", "2019-09-11 07:00:40.116251"]]
+  [1m[35m (5.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "00498-1245"], ["name", "Nathan Coves"], ["created_at", "2019-09-11 07:00:40.127658"], ["updated_at", "2019-09-11 07:00:40.127658"]]
+  [1m[35m (6.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "46777-3411"], ["name", "Tamra Rest"], ["created_at", "2019-09-11 07:00:40.149331"], ["updated_at", "2019-09-11 07:00:40.149331"]]
+  [1m[35m (6.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "60424"], ["name", "Devon Divide"], ["created_at", "2019-09-11 07:00:40.160659"], ["updated_at", "2019-09-11 07:00:40.160659"]]
+  [1m[35m (5.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "18074-4969"], ["name", "Boehm Road"], ["created_at", "2019-09-11 07:00:40.171724"], ["updated_at", "2019-09-11 07:00:40.171724"]]
+  [1m[35m (5.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "67328-9061"], ["name", "Agustina Falls"], ["created_at", "2019-09-11 07:00:40.183188"], ["updated_at", "2019-09-11 07:00:40.183188"]]
+  [1m[35m (4.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "20291-6479"], ["name", "Barrett Lodge"], ["created_at", "2019-09-11 07:00:40.194321"], ["updated_at", "2019-09-11 07:00:40.194321"]]
+  [1m[35m (5.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "48316-4698"], ["name", "Estelle Harbor"], ["created_at", "2019-09-11 07:00:40.205143"], ["updated_at", "2019-09-11 07:00:40.205143"]]
+  [1m[35m (5.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "58045"], ["name", "O'Reilly Harbors"], ["created_at", "2019-09-11 07:00:40.216257"], ["updated_at", "2019-09-11 07:00:40.216257"]]
+  [1m[35m (5.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "75311-0967"], ["name", "Runolfsson Spur"], ["created_at", "2019-09-11 07:00:40.227426"], ["updated_at", "2019-09-11 07:00:40.227426"]]
+  [1m[35m (4.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "52817"], ["name", "Ferry Valleys"], ["created_at", "2019-09-11 07:00:40.238613"], ["updated_at", "2019-09-11 07:00:40.238613"]]
+  [1m[35m (4.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.3ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "49639"], ["name", "VonRueden Court"], ["created_at", "2019-09-11 07:00:40.249014"], ["updated_at", "2019-09-11 07:00:40.249014"]]
+  [1m[35m (6.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "23019"], ["name", "Nga Roads"], ["created_at", "2019-09-11 07:00:40.260878"], ["updated_at", "2019-09-11 07:00:40.260878"]]
+  [1m[35m (4.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "74567-9086"], ["name", "Witting Courts"], ["created_at", "2019-09-11 07:00:40.271828"], ["updated_at", "2019-09-11 07:00:40.271828"]]
+  [1m[35m (5.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "05464"], ["name", "Spencer Estates"], ["created_at", "2019-09-11 07:00:40.282715"], ["updated_at", "2019-09-11 07:00:40.282715"]]
+  [1m[35m (5.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "83520-1182"], ["name", "Joeann Extension"], ["created_at", "2019-09-11 07:00:40.294115"], ["updated_at", "2019-09-11 07:00:40.294115"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "39856"], ["name", "Parker Valleys"], ["created_at", "2019-09-11 07:00:40.305080"], ["updated_at", "2019-09-11 07:00:40.305080"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "33244-7882"], ["name", "Lynch Forks"], ["created_at", "2019-09-11 07:00:40.316290"], ["updated_at", "2019-09-11 07:00:40.316290"]]
+  [1m[35m (4.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "carey@lemke.com"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "randa@metz.info"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "drusilla.quitzon@thompson.co"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 15], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "joshua_mayer@hintz.name"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "isis@westcollins.io"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (1.8ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "joseph_mueller@johnston.name"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.4ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 16], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "larae@reichel.info"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "darrel@kohlerbatz.name"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "florentino@corwin.co"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 14], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "rolland@fay.net"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 17], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mRecrutement Load (0.4ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements"[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mQuarter Load (0.6ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.5ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 101]]
+  [1m[35m (25.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 102]]
+  [1m[35m (14.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 103]]
+  [1m[35m (6.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 104]]
+  [1m[35m (5.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 105]]
+  [1m[35m (5.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 106]]
+  [1m[35m (5.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 107]]
+  [1m[35m (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 108]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 109]]
+  [1m[35m (6.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 110]]
+  [1m[35m (7.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 111]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 112]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 113]]
+  [1m[35m (5.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 114]]
+  [1m[35m (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 115]]
+  [1m[35m (5.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 116]]
+  [1m[35m (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 117]]
+  [1m[35m (5.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.3ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 118]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 119]]
+  [1m[35m (6.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Destroy (0.4ms)[0m  [1m[31mDELETE FROM "quarters" WHERE "quarters"."id" = $1[0m  [["id", 120]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mClub Load (0.7ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs"[0m
+  [1m[36mRecrutement Load (0.6ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements"[0m
+  [1m[36mRequest Load (0.7ms)[0m  [1m[34mSELECT "requests".* FROM "requests"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "09998-4526"], ["name", "Effertz Unions"], ["created_at", "2019-09-11 07:01:08.466021"], ["updated_at", "2019-09-11 07:01:08.466021"]]
+  [1m[35m (2.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.3ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "72223-1953"], ["name", "Valery Skyway"], ["created_at", "2019-09-11 07:01:08.473698"], ["updated_at", "2019-09-11 07:01:08.473698"]]
+  [1m[35m (6.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "65485"], ["name", "Ernser Track"], ["created_at", "2019-09-11 07:01:08.484654"], ["updated_at", "2019-09-11 07:01:08.484654"]]
+  [1m[35m (6.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "76097-0394"], ["name", "Lucretia Ridge"], ["created_at", "2019-09-11 07:01:08.496174"], ["updated_at", "2019-09-11 07:01:08.496174"]]
+  [1m[35m (5.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "97001-0831"], ["name", "Quintin Stream"], ["created_at", "2019-09-11 07:01:08.507392"], ["updated_at", "2019-09-11 07:01:08.507392"]]
+  [1m[35m (4.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "51383"], ["name", "Byron Rapid"], ["created_at", "2019-09-11 07:01:08.518566"], ["updated_at", "2019-09-11 07:01:08.518566"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "27118"], ["name", "Arlen Viaduct"], ["created_at", "2019-09-11 07:01:08.529408"], ["updated_at", "2019-09-11 07:01:08.529408"]]
+  [1m[35m (5.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "52460-2251"], ["name", "Lynch Shoals"], ["created_at", "2019-09-11 07:01:08.540524"], ["updated_at", "2019-09-11 07:01:08.540524"]]
+  [1m[35m (4.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "08112"], ["name", "Simon Mountain"], ["created_at", "2019-09-11 07:01:08.551153"], ["updated_at", "2019-09-11 07:01:08.551153"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "20858"], ["name", "Lueilwitz Forest"], ["created_at", "2019-09-11 07:01:08.562111"], ["updated_at", "2019-09-11 07:01:08.562111"]]
+  [1m[35m (6.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "58870"], ["name", "Sipes Islands"], ["created_at", "2019-09-11 07:01:08.573614"], ["updated_at", "2019-09-11 07:01:08.573614"]]
+  [1m[35m (5.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "54051-8973"], ["name", "Shanahan Throughway"], ["created_at", "2019-09-11 07:01:08.584815"], ["updated_at", "2019-09-11 07:01:08.584815"]]
+  [1m[35m (5.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "77650-3699"], ["name", "Botsford Square"], ["created_at", "2019-09-11 07:01:08.595977"], ["updated_at", "2019-09-11 07:01:08.595977"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "84531-4819"], ["name", "Ritchie Circle"], ["created_at", "2019-09-11 07:01:08.607025"], ["updated_at", "2019-09-11 07:01:08.607025"]]
+  [1m[35m (4.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "25647"], ["name", "Ming Creek"], ["created_at", "2019-09-11 07:01:08.618205"], ["updated_at", "2019-09-11 07:01:08.618205"]]
+  [1m[35m (4.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "04475"], ["name", "Peter Extensions"], ["created_at", "2019-09-11 07:01:08.629293"], ["updated_at", "2019-09-11 07:01:08.629293"]]
+  [1m[35m (4.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "40624-9572"], ["name", "Elsy Plaza"], ["created_at", "2019-09-11 07:01:08.640359"], ["updated_at", "2019-09-11 07:01:08.640359"]]
+  [1m[35m (4.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "35920-5947"], ["name", "Zemlak Trafficway"], ["created_at", "2019-09-11 07:01:08.651187"], ["updated_at", "2019-09-11 07:01:08.651187"]]
+  [1m[35m (5.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "92643"], ["name", "Stracke Mission"], ["created_at", "2019-09-11 07:01:08.662350"], ["updated_at", "2019-09-11 07:01:08.662350"]]
+  [1m[35m (5.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "10984-6774"], ["name", "Kub Cape"], ["created_at", "2019-09-11 07:01:08.673429"], ["updated_at", "2019-09-11 07:01:08.673429"]]
+  [1m[35m (4.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "winston.legros@maggio.org"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "colton_zboncak@oreillybednar.co"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "polly_auer@kuvalis.co"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 16], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "lorette@gibson.io"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 17], ["LIMIT", 1]]
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "noah@friesen.net"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "lavern@bahringer.net"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 18], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "roosevelt.runolfon@kihn.com"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (1.6ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "kelley_gerlach@bode.co"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "stephnie@willms.com"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 19], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "stanley.cummerata@bruen.info"], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 17], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.5ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.5ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mQuarter Load (1.1ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 13], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mQuarter Load (1.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.8ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.4ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.7ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 18], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.4ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.4ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.3ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 14], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.3ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 13], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.2ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 17], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.2ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 14], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.2ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.2ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 18], ["LIMIT", 1]]
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+Started GET "/" for ::1 at 2019-09-11 10:01:51 +0300
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by StaticPagesController#index as HTML
+Completed 500 Internal Server Error in 12ms (ActiveRecord: 0.0ms | Allocations: 2321)
+
+
+  
+NameError (uninitialized constant StaticPagesController::StaticPage
+Did you mean?  StaticPagesHelper):
+  
+app/controllers/static_pages_controller.rb:7:in `index'
+Started GET "/" for ::1 at 2019-09-11 10:02:41 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 21.0ms | Allocations: 462)
+[Webpacker] Compiling…
+[Webpacker] Compiled all packs in /home/dev/Bureau/Ruby/Mala/public/packs
+Completed 200 OK in 9283ms (Views: 9282.4ms | ActiveRecord: 0.0ms | Allocations: 1467418)
+
+
+Started GET "/users/sign_up" for ::1 at 2019-09-11 10:02:55 +0300
+Processing by Devise::RegistrationsController#new as HTML
+  Rendering devise/registrations/new.html.erb within layouts/application
+  Rendered devise/shared/_error_messages.html.erb (Duration: 11.3ms | Allocations: 225)
+  Rendered devise/shared/_links.html.erb (Duration: 4.9ms | Allocations: 564)
+  Rendered devise/registrations/new.html.erb within layouts/application (Duration: 287.8ms | Allocations: 179813)
+Completed 200 OK in 387ms (Views: 358.6ms | ActiveRecord: 7.6ms | Allocations: 202569)
+
+
+Started POST "/users" for ::1 at 2019-09-11 10:03:05 +0300
+Processing by Devise::RegistrationsController#create as HTML
+  Parameters: {"authenticity_token"=>"QxX3Gtz1G7xmNr7VHMtfmlPBY9cZ9xtZUyFR1V/01Sb9Incc1BdBdfbmnxxq6QL5dfYSo6fyuAN5S4oqQrpeRw==", "user"=>{"email"=>"a@a.a", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign up"}
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.9ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "a@a.a"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  Rendering devise/registrations/new.html.erb within layouts/application
+  Rendered devise/shared/_error_messages.html.erb (Duration: 0.5ms | Allocations: 243)
+  Rendered devise/shared/_links.html.erb (Duration: 0.2ms | Allocations: 78)
+  Rendered devise/registrations/new.html.erb within layouts/application (Duration: 3.4ms | Allocations: 1346)
+Completed 200 OK in 259ms (Views: 18.1ms | ActiveRecord: 1.3ms | Allocations: 23147)
+
+
+Started GET "/users/sign_in" for ::1 at 2019-09-11 10:03:12 +0300
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 0.9ms | Allocations: 220)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 35.5ms | Allocations: 2010)
+Completed 200 OK in 49ms (Views: 47.5ms | ActiveRecord: 0.0ms | Allocations: 12021)
+
+
+Started POST "/users/sign_in" for ::1 at 2019-09-11 10:03:17 +0300
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"vR3ocfn2SR6Y+/xGZLeLieHz2ljOFS0la2gh/VgmRGcHciVVv4nUdU4XmBstpUtDuWkOK8IhUhL3zvpdQUWBOw==", "user"=>{"email"=>"a@a.a", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "a@a.a"], ["LIMIT", 1]]
+Completed 401 Unauthorized in 26ms (ActiveRecord: 0.5ms | Allocations: 2330)
+
+
+Processing by Devise::SessionsController#new as HTML
+  Parameters: {"authenticity_token"=>"vR3ocfn2SR6Y+/xGZLeLieHz2ljOFS0la2gh/VgmRGcHciVVv4nUdU4XmBstpUtDuWkOK8IhUhL3zvpdQUWBOw==", "user"=>{"email"=>"a@a.a", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 0.2ms | Allocations: 134)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 2.0ms | Allocations: 1090)
+Completed 200 OK in 162ms (Views: 15.6ms | ActiveRecord: 0.0ms | Allocations: 10306)
+
+
+Started POST "/users/sign_in" for ::1 at 2019-09-11 10:03:28 +0300
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"/yL4THDlagUI9M/hfwm9YKbY97WZvFeoGvl/BMtMn5+MwW4c7Up2SrfL78LvGLUHKZlHf6u5SSZCU0tXnNGlfg==", "user"=>{"email"=>"", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+Completed 401 Unauthorized in 1ms (ActiveRecord: 0.0ms | Allocations: 449)
+
+
+Processing by Devise::SessionsController#new as HTML
+  Parameters: {"authenticity_token"=>"/yL4THDlagUI9M/hfwm9YKbY97WZvFeoGvl/BMtMn5+MwW4c7Up2SrfL78LvGLUHKZlHf6u5SSZCU0tXnNGlfg==", "user"=>{"email"=>"", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 0.3ms | Allocations: 134)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 2.1ms | Allocations: 1088)
+Completed 200 OK in 14ms (Views: 13.3ms | ActiveRecord: 0.0ms | Allocations: 10242)
+
+
+Started GET "/users/sign_up" for ::1 at 2019-09-11 10:03:29 +0300
+Processing by Devise::RegistrationsController#new as HTML
+  Rendering devise/registrations/new.html.erb within layouts/application
+  Rendered devise/shared/_error_messages.html.erb (Duration: 0.1ms | Allocations: 15)
+  Rendered devise/shared/_links.html.erb (Duration: 0.2ms | Allocations: 79)
+  Rendered devise/registrations/new.html.erb within layouts/application (Duration: 2.6ms | Allocations: 1121)
+Completed 200 OK in 22ms (Views: 21.5ms | ActiveRecord: 0.0ms | Allocations: 10311)
+
+
+Started POST "/users" for ::1 at 2019-09-11 10:03:39 +0300
+Processing by Devise::RegistrationsController#create as HTML
+  Parameters: {"authenticity_token"=>"FzF9QYf/IONielhWwV9s6KY1WQvSuw8r+R9de8SjFr+pBv1Hjx16KvKqeZ+3fTGLgAIof2y+rHHTdYaE2e2d3g==", "user"=>{"email"=>"s@s.s", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign up"}
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (2.9ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "s@s.s"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  Rendering devise/registrations/new.html.erb within layouts/application
+  Rendered devise/shared/_error_messages.html.erb (Duration: 0.4ms | Allocations: 230)
+  Rendered devise/shared/_links.html.erb (Duration: 0.2ms | Allocations: 78)
+  Rendered devise/registrations/new.html.erb within layouts/application (Duration: 2.5ms | Allocations: 1325)
+Completed 200 OK in 170ms (Views: 14.3ms | ActiveRecord: 3.4ms | Allocations: 16061)
+
+
+Started GET "/" for ::1 at 2019-09-11 10:05:19 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 0.9ms | Allocations: 411)
+Completed 200 OK in 16ms (Views: 14.8ms | ActiveRecord: 0.0ms | Allocations: 10472)
+
+
+Started GET "/users/sign_up" for ::1 at 2019-09-11 10:05:21 +0300
+Processing by Devise::RegistrationsController#new as HTML
+  Rendering devise/registrations/new.html.erb within layouts/application
+  Rendered devise/shared/_error_messages.html.erb (Duration: 0.5ms | Allocations: 212)
+  Rendered devise/shared/_links.html.erb (Duration: 0.9ms | Allocations: 496)
+  Rendered devise/registrations/new.html.erb within layouts/application (Duration: 9.4ms | Allocations: 2639)
+Completed 200 OK in 28ms (Views: 26.8ms | ActiveRecord: 0.0ms | Allocations: 12892)
+
+
+Started POST "/users" for ::1 at 2019-09-11 10:05:36 +0300
+Processing by Devise::RegistrationsController#create as HTML
+  Parameters: {"authenticity_token"=>"90qbZVlesFLlBArQJubqZHjWQpME3udd3apga+SqEbBJfRtjUbzqm3XUKxlQxLcHXuEz57rbRAf3wLuU+eSa0Q==", "user"=>{"email"=>"a@a.a", "quarter"=>"ivato", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign up"}
+[31mUnpermitted parameter: :quarter[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "a@a.a"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  Rendering devise/registrations/new.html.erb within layouts/application
+  Rendered devise/shared/_error_messages.html.erb (Duration: 0.4ms | Allocations: 230)
+  Rendered devise/shared/_links.html.erb (Duration: 0.2ms | Allocations: 78)
+  Rendered devise/registrations/new.html.erb within layouts/application (Duration: 2.7ms | Allocations: 1541)
+Completed 200 OK in 163ms (Views: 11.4ms | ActiveRecord: 0.9ms | Allocations: 17395)
+
+
+Started GET "/" for ::1 at 2019-09-11 10:09:56 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 0.4ms | Allocations: 175)
+Completed 200 OK in 18ms (Views: 15.1ms | ActiveRecord: 0.0ms | Allocations: 10338)
+
+
+Started GET "/users/sign_up" for ::1 at 2019-09-11 10:09:58 +0300
+Processing by Devise::RegistrationsController#new as HTML
+  Rendering devise/registrations/new.html.erb within layouts/application
+  Rendered devise/shared/_error_messages.html.erb (Duration: 0.0ms | Allocations: 15)
+  Rendered devise/shared/_links.html.erb (Duration: 0.2ms | Allocations: 89)
+  Rendered devise/registrations/new.html.erb within layouts/application (Duration: 11.8ms | Allocations: 3229)
+Completed 200 OK in 70ms (Views: 33.0ms | ActiveRecord: 6.7ms | Allocations: 24209)
+
+
+Started POST "/users" for ::1 at 2019-09-11 10:10:08 +0300
+Processing by Devise::RegistrationsController#create as HTML
+  Parameters: {"authenticity_token"=>"LVWXGmoHnSxa/C/ixYexzpvPqTWS1VK91engv5QvlIyTYhccYuXH5cosDiuzpeytvfjYQSzQ8ef/gztAiWEf7Q==", "user"=>{"email"=>"a@a.a", "quarter"=>"ivato", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign up"}
+Completed 500 Internal Server Error in 146ms (ActiveRecord: 0.0ms | Allocations: 1075)
+
+
+  
+ActiveRecord::AssociationTypeMismatch (Quarter(#69982517041580) expected, got "ivato" which is an instance of String(#47097683729940)):
+  
+activerecord (6.0.0) lib/active_record/associations/association.rb:279:in `raise_on_type_mismatch!'
+activerecord (6.0.0) lib/active_record/associations/belongs_to_association.rb:66:in `replace'
+activerecord (6.0.0) lib/active_record/associations/singular_association.rb:17:in `writer'
+activerecord (6.0.0) lib/active_record/associations/builder/association.rb:108:in `quarter='
+activemodel (6.0.0) lib/active_model/attribute_assignment.rb:51:in `public_send'
+activemodel (6.0.0) lib/active_model/attribute_assignment.rb:51:in `_assign_attribute'
+activemodel (6.0.0) lib/active_model/attribute_assignment.rb:44:in `block in _assign_attributes'
+activemodel (6.0.0) lib/active_model/attribute_assignment.rb:43:in `each'
+activemodel (6.0.0) lib/active_model/attribute_assignment.rb:43:in `_assign_attributes'
+activerecord (6.0.0) lib/active_record/attribute_assignment.rb:22:in `_assign_attributes'
+activemodel (6.0.0) lib/active_model/attribute_assignment.rb:35:in `assign_attributes'
+activerecord (6.0.0) lib/active_record/core.rb:326:in `initialize'
+devise (4.7.1) lib/devise/models/database_authenticatable.rb:41:in `initialize'
+activerecord (6.0.0) lib/active_record/inheritance.rb:70:in `new'
+activerecord (6.0.0) lib/active_record/inheritance.rb:70:in `new'
+devise (4.7.1) lib/devise/models/registerable.rb:22:in `new_with_session'
+devise (4.7.1) app/controllers/devise/registrations_controller.rb:100:in `build_resource'
+devise (4.7.1) app/controllers/devise/registrations_controller.rb:17:in `create'
+actionpack (6.0.0) lib/action_controller/metal/basic_implicit_render.rb:6:in `send_action'
+actionpack (6.0.0) lib/abstract_controller/base.rb:196:in `process_action'
+actionpack (6.0.0) lib/action_controller/metal/rendering.rb:30:in `process_action'
+actionpack (6.0.0) lib/abstract_controller/callbacks.rb:42:in `block in process_action'
+activesupport (6.0.0) lib/active_support/callbacks.rb:135:in `run_callbacks'
+actionpack (6.0.0) lib/abstract_controller/callbacks.rb:41:in `process_action'
+actionpack (6.0.0) lib/action_controller/metal/rescue.rb:22:in `process_action'
+actionpack (6.0.0) lib/action_controller/metal/instrumentation.rb:33:in `block in process_action'
+activesupport (6.0.0) lib/active_support/notifications.rb:180:in `block in instrument'
+activesupport (6.0.0) lib/active_support/notifications/instrumenter.rb:24:in `instrument'
+activesupport (6.0.0) lib/active_support/notifications.rb:180:in `instrument'
+actionpack (6.0.0) lib/action_controller/metal/instrumentation.rb:32:in `process_action'
+actionpack (6.0.0) lib/action_controller/metal/params_wrapper.rb:245:in `process_action'
+activerecord (6.0.0) lib/active_record/railties/controller_runtime.rb:27:in `process_action'
+actionpack (6.0.0) lib/abstract_controller/base.rb:136:in `process'
+actionview (6.0.0) lib/action_view/rendering.rb:39:in `process'
+actionpack (6.0.0) lib/action_controller/metal.rb:191:in `dispatch'
+actionpack (6.0.0) lib/action_controller/metal.rb:252:in `dispatch'
+actionpack (6.0.0) lib/action_dispatch/routing/route_set.rb:51:in `dispatch'
+actionpack (6.0.0) lib/action_dispatch/routing/route_set.rb:33:in `serve'
+actionpack (6.0.0) lib/action_dispatch/routing/mapper.rb:18:in `block in <class:Constraints>'
+actionpack (6.0.0) lib/action_dispatch/routing/mapper.rb:48:in `serve'
+actionpack (6.0.0) lib/action_dispatch/journey/router.rb:49:in `block in serve'
+actionpack (6.0.0) lib/action_dispatch/journey/router.rb:32:in `each'
+actionpack (6.0.0) lib/action_dispatch/journey/router.rb:32:in `serve'
+actionpack (6.0.0) lib/action_dispatch/routing/route_set.rb:837:in `call'
+warden (1.2.8) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.8) lib/warden/manager.rb:34:in `catch'
+warden (1.2.8) lib/warden/manager.rb:34:in `call'
+rack (2.0.7) lib/rack/tempfile_reaper.rb:15:in `call'
+rack (2.0.7) lib/rack/etag.rb:25:in `call'
+rack (2.0.7) lib/rack/conditional_get.rb:38:in `call'
+rack (2.0.7) lib/rack/head.rb:12:in `call'
+actionpack (6.0.0) lib/action_dispatch/http/content_security_policy.rb:18:in `call'
+rack (2.0.7) lib/rack/session/abstract/id.rb:232:in `context'
+rack (2.0.7) lib/rack/session/abstract/id.rb:226:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/cookies.rb:648:in `call'
+activerecord (6.0.0) lib/active_record/migration.rb:567:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/callbacks.rb:27:in `block in call'
+activesupport (6.0.0) lib/active_support/callbacks.rb:101:in `run_callbacks'
+actionpack (6.0.0) lib/action_dispatch/middleware/callbacks.rb:26:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/actionable_exceptions.rb:17:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/debug_exceptions.rb:32:in `call'
+web-console (4.0.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.0.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.0.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.0.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (6.0.0) lib/rails/rack/logger.rb:38:in `call_app'
+railties (6.0.0) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (6.0.0) lib/active_support/tagged_logging.rb:80:in `block in tagged'
+activesupport (6.0.0) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (6.0.0) lib/active_support/tagged_logging.rb:80:in `tagged'
+railties (6.0.0) lib/rails/rack/logger.rb:26:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.0.7) lib/rack/method_override.rb:22:in `call'
+rack (2.0.7) lib/rack/runtime.rb:22:in `call'
+activesupport (6.0.0) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/static.rb:126:in `call'
+rack (2.0.7) lib/rack/sendfile.rb:111:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/host_authorization.rb:83:in `call'
+webpacker (4.0.7) lib/webpacker/dev_server_proxy.rb:29:in `perform_request'
+rack-proxy (0.6.5) lib/rack/proxy.rb:57:in `call'
+railties (6.0.0) lib/rails/engine.rb:526:in `call'
+puma (3.12.1) lib/puma/configuration.rb:227:in `call'
+puma (3.12.1) lib/puma/server.rb:660:in `handle_request'
+puma (3.12.1) lib/puma/server.rb:474:in `process_client'
+puma (3.12.1) lib/puma/server.rb:334:in `block in run'
+puma (3.12.1) lib/puma/thread_pool.rb:135:in `block in spawn_thread'
+Started GET "/" for ::1 at 2019-09-11 10:12:04 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 1.1ms | Allocations: 434)
+Completed 200 OK in 19ms (Views: 18.5ms | ActiveRecord: 0.0ms | Allocations: 10482)
+
+
+Started GET "/users/sign_up" for ::1 at 2019-09-11 10:12:06 +0300
+Processing by Devise::RegistrationsController#new as HTML
+  Rendering devise/registrations/new.html.erb within layouts/application
+  Rendered devise/shared/_error_messages.html.erb (Duration: 0.5ms | Allocations: 212)
+  Rendered devise/registrations/new.html.erb within layouts/application (Duration: 427.6ms | Allocations: 192576)
+Completed 500 Internal Server Error in 431ms (ActiveRecord: 0.0ms | Allocations: 194299)
+
+
+  
+ActionView::Template::Error (undefined method `area_field' for #<ActionView::Helpers::FormBuilder:0x00007f4c28768c40>
+Did you mean?  date_field):
+    10: 
+    11:   <div class="field">
+    12:     <%= f.label :quarter %><br />
+    13:     <%= f.area_field :quarter%>
+    14:   </div>
+    15: 
+    16:   <div class="field">
+  
+app/views/devise/registrations/new.html.erb:13
+app/views/devise/registrations/new.html.erb:3
+Started GET "/" for ::1 at 2019-09-11 10:13:05 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 17.5ms | Allocations: 411)
+Completed 200 OK in 503ms (Views: 502.5ms | ActiveRecord: 0.0ms | Allocations: 10455)
+
+
+Started GET "/users/sign_up" for ::1 at 2019-09-11 10:13:07 +0300
+Processing by Devise::RegistrationsController#new as HTML
+  Rendering devise/registrations/new.html.erb within layouts/application
+  Rendered devise/shared/_error_messages.html.erb (Duration: 17.6ms | Allocations: 212)
+  Rendered devise/shared/_links.html.erb (Duration: 12.9ms | Allocations: 496)
+  Rendered devise/registrations/new.html.erb within layouts/application (Duration: 1051.9ms | Allocations: 8130)
+Completed 200 OK in 1067ms (Views: 1065.6ms | ActiveRecord: 0.0ms | Allocations: 18306)
+
+
+Started GET "/users/sign_up" for ::1 at 2019-09-11 10:13:20 +0300
+Processing by Devise::RegistrationsController#new as HTML
+  Rendering devise/registrations/new.html.erb within layouts/application
+  Rendered devise/shared/_error_messages.html.erb (Duration: 2.2ms | Allocations: 212)
+  Rendered devise/shared/_links.html.erb (Duration: 0.9ms | Allocations: 496)
+  Rendered devise/registrations/new.html.erb within layouts/application (Duration: 7.2ms | Allocations: 2624)
+Completed 200 OK in 25ms (Views: 23.5ms | ActiveRecord: 0.0ms | Allocations: 13282)
+
+
+Started POST "/users" for ::1 at 2019-09-11 10:13:34 +0300
+Processing by Devise::RegistrationsController#create as HTML
+  Parameters: {"authenticity_token"=>"y6rdf7eANiI0nuHAkT70qweTWP5V7iOXKrN72jHP3Cq4SUsvKi8qbYuhweMBL/zMiNLoNGfrPRlyGU+JZlLmyw==", "user"=>{"email"=>"o@o.o", "quarter"=>"", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign up"}
+Completed 500 Internal Server Error in 145ms (ActiveRecord: 0.0ms | Allocations: 1036)
+
+
+  
+ActiveRecord::AssociationTypeMismatch (Quarter(#69982517041580) expected, got "" which is an instance of String(#47097683729940)):
+  
+activerecord (6.0.0) lib/active_record/associations/association.rb:279:in `raise_on_type_mismatch!'
+activerecord (6.0.0) lib/active_record/associations/belongs_to_association.rb:66:in `replace'
+activerecord (6.0.0) lib/active_record/associations/singular_association.rb:17:in `writer'
+activerecord (6.0.0) lib/active_record/associations/builder/association.rb:108:in `quarter='
+activemodel (6.0.0) lib/active_model/attribute_assignment.rb:51:in `public_send'
+activemodel (6.0.0) lib/active_model/attribute_assignment.rb:51:in `_assign_attribute'
+activemodel (6.0.0) lib/active_model/attribute_assignment.rb:44:in `block in _assign_attributes'
+activemodel (6.0.0) lib/active_model/attribute_assignment.rb:43:in `each'
+activemodel (6.0.0) lib/active_model/attribute_assignment.rb:43:in `_assign_attributes'
+activerecord (6.0.0) lib/active_record/attribute_assignment.rb:22:in `_assign_attributes'
+activemodel (6.0.0) lib/active_model/attribute_assignment.rb:35:in `assign_attributes'
+activerecord (6.0.0) lib/active_record/core.rb:326:in `initialize'
+devise (4.7.1) lib/devise/models/database_authenticatable.rb:41:in `initialize'
+activerecord (6.0.0) lib/active_record/inheritance.rb:70:in `new'
+activerecord (6.0.0) lib/active_record/inheritance.rb:70:in `new'
+devise (4.7.1) lib/devise/models/registerable.rb:22:in `new_with_session'
+devise (4.7.1) app/controllers/devise/registrations_controller.rb:100:in `build_resource'
+devise (4.7.1) app/controllers/devise/registrations_controller.rb:17:in `create'
+actionpack (6.0.0) lib/action_controller/metal/basic_implicit_render.rb:6:in `send_action'
+actionpack (6.0.0) lib/abstract_controller/base.rb:196:in `process_action'
+actionpack (6.0.0) lib/action_controller/metal/rendering.rb:30:in `process_action'
+actionpack (6.0.0) lib/abstract_controller/callbacks.rb:42:in `block in process_action'
+activesupport (6.0.0) lib/active_support/callbacks.rb:135:in `run_callbacks'
+actionpack (6.0.0) lib/abstract_controller/callbacks.rb:41:in `process_action'
+actionpack (6.0.0) lib/action_controller/metal/rescue.rb:22:in `process_action'
+actionpack (6.0.0) lib/action_controller/metal/instrumentation.rb:33:in `block in process_action'
+activesupport (6.0.0) lib/active_support/notifications.rb:180:in `block in instrument'
+activesupport (6.0.0) lib/active_support/notifications/instrumenter.rb:24:in `instrument'
+activesupport (6.0.0) lib/active_support/notifications.rb:180:in `instrument'
+actionpack (6.0.0) lib/action_controller/metal/instrumentation.rb:32:in `process_action'
+actionpack (6.0.0) lib/action_controller/metal/params_wrapper.rb:245:in `process_action'
+activerecord (6.0.0) lib/active_record/railties/controller_runtime.rb:27:in `process_action'
+actionpack (6.0.0) lib/abstract_controller/base.rb:136:in `process'
+actionview (6.0.0) lib/action_view/rendering.rb:39:in `process'
+actionpack (6.0.0) lib/action_controller/metal.rb:191:in `dispatch'
+actionpack (6.0.0) lib/action_controller/metal.rb:252:in `dispatch'
+actionpack (6.0.0) lib/action_dispatch/routing/route_set.rb:51:in `dispatch'
+actionpack (6.0.0) lib/action_dispatch/routing/route_set.rb:33:in `serve'
+actionpack (6.0.0) lib/action_dispatch/routing/mapper.rb:18:in `block in <class:Constraints>'
+actionpack (6.0.0) lib/action_dispatch/routing/mapper.rb:48:in `serve'
+actionpack (6.0.0) lib/action_dispatch/journey/router.rb:49:in `block in serve'
+actionpack (6.0.0) lib/action_dispatch/journey/router.rb:32:in `each'
+actionpack (6.0.0) lib/action_dispatch/journey/router.rb:32:in `serve'
+actionpack (6.0.0) lib/action_dispatch/routing/route_set.rb:837:in `call'
+warden (1.2.8) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.8) lib/warden/manager.rb:34:in `catch'
+warden (1.2.8) lib/warden/manager.rb:34:in `call'
+rack (2.0.7) lib/rack/tempfile_reaper.rb:15:in `call'
+rack (2.0.7) lib/rack/etag.rb:25:in `call'
+rack (2.0.7) lib/rack/conditional_get.rb:38:in `call'
+rack (2.0.7) lib/rack/head.rb:12:in `call'
+actionpack (6.0.0) lib/action_dispatch/http/content_security_policy.rb:18:in `call'
+rack (2.0.7) lib/rack/session/abstract/id.rb:232:in `context'
+rack (2.0.7) lib/rack/session/abstract/id.rb:226:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/cookies.rb:648:in `call'
+activerecord (6.0.0) lib/active_record/migration.rb:567:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/callbacks.rb:27:in `block in call'
+activesupport (6.0.0) lib/active_support/callbacks.rb:101:in `run_callbacks'
+actionpack (6.0.0) lib/action_dispatch/middleware/callbacks.rb:26:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/actionable_exceptions.rb:17:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/debug_exceptions.rb:32:in `call'
+web-console (4.0.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.0.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.0.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.0.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (6.0.0) lib/rails/rack/logger.rb:38:in `call_app'
+railties (6.0.0) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (6.0.0) lib/active_support/tagged_logging.rb:80:in `block in tagged'
+activesupport (6.0.0) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (6.0.0) lib/active_support/tagged_logging.rb:80:in `tagged'
+railties (6.0.0) lib/rails/rack/logger.rb:26:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.0.7) lib/rack/method_override.rb:22:in `call'
+rack (2.0.7) lib/rack/runtime.rb:22:in `call'
+activesupport (6.0.0) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/static.rb:126:in `call'
+rack (2.0.7) lib/rack/sendfile.rb:111:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/host_authorization.rb:83:in `call'
+webpacker (4.0.7) lib/webpacker/dev_server_proxy.rb:29:in `perform_request'
+rack-proxy (0.6.5) lib/rack/proxy.rb:57:in `call'
+railties (6.0.0) lib/rails/engine.rb:526:in `call'
+puma (3.12.1) lib/puma/configuration.rb:227:in `call'
+puma (3.12.1) lib/puma/server.rb:660:in `handle_request'
+puma (3.12.1) lib/puma/server.rb:474:in `process_client'
+puma (3.12.1) lib/puma/server.rb:334:in `block in run'
+puma (3.12.1) lib/puma/thread_pool.rb:135:in `block in spawn_thread'
+Started POST "/users" for ::1 at 2019-09-11 10:13:50 +0300
+Processing by Devise::RegistrationsController#create as HTML
+  Parameters: {"authenticity_token"=>"y6rdf7eANiI0nuHAkT70qweTWP5V7iOXKrN72jHP3Cq4SUsvKi8qbYuhweMBL/zMiNLoNGfrPRlyGU+JZlLmyw==", "user"=>{"email"=>"o@o.o", "quarter"=>"ivato", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign up"}
+Completed 500 Internal Server Error in 143ms (ActiveRecord: 0.0ms | Allocations: 1036)
+
+
+  
+ActiveRecord::AssociationTypeMismatch (Quarter(#69982517041580) expected, got "ivato" which is an instance of String(#47097683729940)):
+  
+activerecord (6.0.0) lib/active_record/associations/association.rb:279:in `raise_on_type_mismatch!'
+activerecord (6.0.0) lib/active_record/associations/belongs_to_association.rb:66:in `replace'
+activerecord (6.0.0) lib/active_record/associations/singular_association.rb:17:in `writer'
+activerecord (6.0.0) lib/active_record/associations/builder/association.rb:108:in `quarter='
+activemodel (6.0.0) lib/active_model/attribute_assignment.rb:51:in `public_send'
+activemodel (6.0.0) lib/active_model/attribute_assignment.rb:51:in `_assign_attribute'
+activemodel (6.0.0) lib/active_model/attribute_assignment.rb:44:in `block in _assign_attributes'
+activemodel (6.0.0) lib/active_model/attribute_assignment.rb:43:in `each'
+activemodel (6.0.0) lib/active_model/attribute_assignment.rb:43:in `_assign_attributes'
+activerecord (6.0.0) lib/active_record/attribute_assignment.rb:22:in `_assign_attributes'
+activemodel (6.0.0) lib/active_model/attribute_assignment.rb:35:in `assign_attributes'
+activerecord (6.0.0) lib/active_record/core.rb:326:in `initialize'
+devise (4.7.1) lib/devise/models/database_authenticatable.rb:41:in `initialize'
+activerecord (6.0.0) lib/active_record/inheritance.rb:70:in `new'
+activerecord (6.0.0) lib/active_record/inheritance.rb:70:in `new'
+devise (4.7.1) lib/devise/models/registerable.rb:22:in `new_with_session'
+devise (4.7.1) app/controllers/devise/registrations_controller.rb:100:in `build_resource'
+devise (4.7.1) app/controllers/devise/registrations_controller.rb:17:in `create'
+actionpack (6.0.0) lib/action_controller/metal/basic_implicit_render.rb:6:in `send_action'
+actionpack (6.0.0) lib/abstract_controller/base.rb:196:in `process_action'
+actionpack (6.0.0) lib/action_controller/metal/rendering.rb:30:in `process_action'
+actionpack (6.0.0) lib/abstract_controller/callbacks.rb:42:in `block in process_action'
+activesupport (6.0.0) lib/active_support/callbacks.rb:135:in `run_callbacks'
+actionpack (6.0.0) lib/abstract_controller/callbacks.rb:41:in `process_action'
+actionpack (6.0.0) lib/action_controller/metal/rescue.rb:22:in `process_action'
+actionpack (6.0.0) lib/action_controller/metal/instrumentation.rb:33:in `block in process_action'
+activesupport (6.0.0) lib/active_support/notifications.rb:180:in `block in instrument'
+activesupport (6.0.0) lib/active_support/notifications/instrumenter.rb:24:in `instrument'
+activesupport (6.0.0) lib/active_support/notifications.rb:180:in `instrument'
+actionpack (6.0.0) lib/action_controller/metal/instrumentation.rb:32:in `process_action'
+actionpack (6.0.0) lib/action_controller/metal/params_wrapper.rb:245:in `process_action'
+activerecord (6.0.0) lib/active_record/railties/controller_runtime.rb:27:in `process_action'
+actionpack (6.0.0) lib/abstract_controller/base.rb:136:in `process'
+actionview (6.0.0) lib/action_view/rendering.rb:39:in `process'
+actionpack (6.0.0) lib/action_controller/metal.rb:191:in `dispatch'
+actionpack (6.0.0) lib/action_controller/metal.rb:252:in `dispatch'
+actionpack (6.0.0) lib/action_dispatch/routing/route_set.rb:51:in `dispatch'
+actionpack (6.0.0) lib/action_dispatch/routing/route_set.rb:33:in `serve'
+actionpack (6.0.0) lib/action_dispatch/routing/mapper.rb:18:in `block in <class:Constraints>'
+actionpack (6.0.0) lib/action_dispatch/routing/mapper.rb:48:in `serve'
+actionpack (6.0.0) lib/action_dispatch/journey/router.rb:49:in `block in serve'
+actionpack (6.0.0) lib/action_dispatch/journey/router.rb:32:in `each'
+actionpack (6.0.0) lib/action_dispatch/journey/router.rb:32:in `serve'
+actionpack (6.0.0) lib/action_dispatch/routing/route_set.rb:837:in `call'
+warden (1.2.8) lib/warden/manager.rb:36:in `block in call'
+warden (1.2.8) lib/warden/manager.rb:34:in `catch'
+warden (1.2.8) lib/warden/manager.rb:34:in `call'
+rack (2.0.7) lib/rack/tempfile_reaper.rb:15:in `call'
+rack (2.0.7) lib/rack/etag.rb:25:in `call'
+rack (2.0.7) lib/rack/conditional_get.rb:38:in `call'
+rack (2.0.7) lib/rack/head.rb:12:in `call'
+actionpack (6.0.0) lib/action_dispatch/http/content_security_policy.rb:18:in `call'
+rack (2.0.7) lib/rack/session/abstract/id.rb:232:in `context'
+rack (2.0.7) lib/rack/session/abstract/id.rb:226:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/cookies.rb:648:in `call'
+activerecord (6.0.0) lib/active_record/migration.rb:567:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/callbacks.rb:27:in `block in call'
+activesupport (6.0.0) lib/active_support/callbacks.rb:101:in `run_callbacks'
+actionpack (6.0.0) lib/action_dispatch/middleware/callbacks.rb:26:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/actionable_exceptions.rb:17:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/debug_exceptions.rb:32:in `call'
+web-console (4.0.1) lib/web_console/middleware.rb:132:in `call_app'
+web-console (4.0.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (4.0.1) lib/web_console/middleware.rb:17:in `catch'
+web-console (4.0.1) lib/web_console/middleware.rb:17:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (6.0.0) lib/rails/rack/logger.rb:38:in `call_app'
+railties (6.0.0) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (6.0.0) lib/active_support/tagged_logging.rb:80:in `block in tagged'
+activesupport (6.0.0) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (6.0.0) lib/active_support/tagged_logging.rb:80:in `tagged'
+railties (6.0.0) lib/rails/rack/logger.rb:26:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.0.7) lib/rack/method_override.rb:22:in `call'
+rack (2.0.7) lib/rack/runtime.rb:22:in `call'
+activesupport (6.0.0) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/static.rb:126:in `call'
+rack (2.0.7) lib/rack/sendfile.rb:111:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/host_authorization.rb:83:in `call'
+webpacker (4.0.7) lib/webpacker/dev_server_proxy.rb:29:in `perform_request'
+rack-proxy (0.6.5) lib/rack/proxy.rb:57:in `call'
+railties (6.0.0) lib/rails/engine.rb:526:in `call'
+puma (3.12.1) lib/puma/configuration.rb:227:in `call'
+puma (3.12.1) lib/puma/server.rb:660:in `handle_request'
+puma (3.12.1) lib/puma/server.rb:474:in `process_client'
+puma (3.12.1) lib/puma/server.rb:334:in `block in run'
+puma (3.12.1) lib/puma/thread_pool.rb:135:in `block in spawn_thread'
+Started GET "/" for ::1 at 2019-09-11 10:18:19 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 1.3ms | Allocations: 422)
+Completed 200 OK in 20ms (Views: 18.6ms | ActiveRecord: 0.0ms | Allocations: 10424)
+
+
+Started GET "/users/sign_up" for ::1 at 2019-09-11 10:18:22 +0300
+Processing by Devise::RegistrationsController#new as HTML
+  Rendering devise/registrations/new.html.erb within layouts/application
+  Rendered devise/shared/_error_messages.html.erb (Duration: 0.6ms | Allocations: 212)
+  Rendered devise/shared/_links.html.erb (Duration: 0.9ms | Allocations: 506)
+  Rendered devise/registrations/new.html.erb within layouts/application (Duration: 6.1ms | Allocations: 2431)
+Completed 200 OK in 1253ms (Views: 25.2ms | ActiveRecord: 1205.9ms | Allocations: 24321)
+
+
+Started POST "/users" for ::1 at 2019-09-11 10:18:32 +0300
+Processing by Devise::RegistrationsController#create as HTML
+  Parameters: {"authenticity_token"=>"4nHT6pqDY2/B90dnXCugxOALcSYhY/+DO8bRLWLtzLdcRlPskmE5plEnZq4qCf2nxjwAUp9mXNkRrArSf6NH1g==", "user"=>{"email"=>"o@o.o", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign up"}
+  [1m[35m (13.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "o@o.o"], ["LIMIT", 1]]
+  [1m[36mUser Create (11.3ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["email", "o@o.o"], ["encrypted_password", "$2a$11$LOY2u7PC4pBun7CJLnuFzeB/jLZVuyObjiU3Pd.5JCPqTLHChJ/7O"], ["created_at", "2019-09-11 07:18:32.991485"], ["updated_at", "2019-09-11 07:18:32.991485"]]
+  [1m[35m (16.6ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/
+Completed 302 Found in 225ms (ActiveRecord: 41.8ms | Allocations: 8597)
+
+
+Started GET "/" for ::1 at 2019-09-11 10:18:33 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/static_pages/index.html.erb:2
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 3.1ms | Allocations: 1101)
+Completed 200 OK in 17ms (Views: 16.0ms | ActiveRecord: 0.4ms | Allocations: 10118)
+
+
