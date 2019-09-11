@@ -14,7 +14,10 @@ class ClubsController < ApplicationController
 
   # GET /clubs/new
   def new
+        @user = current_user
+        @quarters = Quarter.all
     @club = Club.new
+   
   end
 
   # GET /clubs/1/edit
@@ -24,7 +27,10 @@ class ClubsController < ApplicationController
   # POST /clubs
   # POST /clubs.json
   def create
-    @club = Club.new(club_params)
+        @my_user = current_user.id
+    @club = Club.create('nom_club' => params[:nom_club], 'categorie' => params[:categorie], quarter_id: params[:quarter_id])
+
+  @club.recruiter_id =  @my_user
 
     respond_to do |format|
       if @club.save

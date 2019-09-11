@@ -29,7 +29,7 @@ puts "20 seed for Quarter created succesfully with 4 attributs"
 puts "20 seed for Recrutement created succesfully with 2 attributs"
 
 10.times do
-        Club.create(recruiter_id: rand(1..5), quarter_id: rand(1..20))
+        Club.create(nom_club: Faker::Game.title,categorie: Faker::Address.city, recruiter_id: rand(1..5), quarter_id: rand(1..20))
     end
 puts "10 seed for user created succesfully with 2 attributs and quarter_id"
 
