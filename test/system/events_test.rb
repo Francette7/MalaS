@@ -14,7 +14,6 @@ class EventsTest < ApplicationSystemTestCase
     visit events_url
     click_on "New Event"
 
-    fill_in "Admin", with: @event.admin_id
     fill_in "Description", with: @event.description
     fill_in "Duration", with: @event.duration
     fill_in "Location", with: @event.location
@@ -31,7 +30,6 @@ class EventsTest < ApplicationSystemTestCase
     visit events_url
     click_on "Edit", match: :first
 
-    fill_in "Admin", with: @event.admin_id
     fill_in "Description", with: @event.description
     fill_in "Duration", with: @event.duration
     fill_in "Location", with: @event.location
