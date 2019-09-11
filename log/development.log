@@ -5344,3 +5344,46 @@ Migrating to CreateEvents (20190911082906)
   [1m[36mRecrutement Load (1.0ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements"[0m
   [1m[36mRequest Load (0.9ms)[0m  [1m[34mSELECT "requests".* FROM "requests"[0m
   [1m[36mEvent Load (0.8ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+Started GET "/" for ::1 at 2019-09-11 12:17:55 +0300
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 12], ["LIMIT", 1]]
+  ↳ app/views/static_pages/index.html.erb:2
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 36.3ms | Allocations: 5789)
+Completed 500 Internal Server Error in 45ms (ActiveRecord: 6.2ms | Allocations: 8140)
+
+
+
+NoMethodError - undefined method `each' for nil:NilClass:
+  app/views/static_pages/index.html.erb:48
+
+Started POST "/__better_errors/d74e72559df2c333/variables" for ::1 at 2019-09-11 12:17:56 +0300
+Started GET "/" for ::1 at 2019-09-11 12:18:29 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mUser Load (4.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 12], ["LIMIT", 1]]
+  ↳ app/views/static_pages/index.html.erb:2
+  [1m[36mEvent Load (1.0ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:48
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 59.1ms | Allocations: 11486)
+Completed 200 OK in 1306ms (Views: 1289.3ms | ActiveRecord: 14.2ms | Allocations: 1461101)
+
+
+Started GET "/" for ::1 at 2019-09-11 12:19:29 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.1ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 4.7ms | Allocations: 1682)
+Completed 200 OK in 19ms (Views: 17.3ms | ActiveRecord: 1.1ms | Allocations: 12856)
+
+
+Started GET "/users/sign_in" for ::1 at 2019-09-11 12:19:36 +0300
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.2ms | Allocations: 656)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 154.6ms | Allocations: 179855)
+Completed 200 OK in 199ms (Views: 167.6ms | ActiveRecord: 0.0ms | Allocations: 202749)
+
+
