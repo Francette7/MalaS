@@ -12,6 +12,12 @@
   </head>
 
   <body>
+    <% if user_signed_in? && current_user.role === 'admin' %>
+    <ul>
+      <li><a href="#"> Espace Admin </a></li>
+    </ul>
+
+    <% end %>
     <%= yield %>
   </body>
 </html>
