@@ -14,7 +14,9 @@ class EventsController < ApplicationController
 
   # GET /events/new
   def new
+    puts "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaz"
     @event = Event.new
+     @club = Club.find(params['data_value'])
   end
 
   # GET /events/1/edit
@@ -24,7 +26,10 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    @event = Event.new(event_params)
+    puts "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"
+
+    @event = Event.new('start_date' => params[:start_date], 'duration' => params[:duration], 'title' => params[:title], 'description' => params[:description], 'price' => params[:price],  'location' => params[:location],  club_id: params['club_id'])
+ @club = Club.find(params['data_value'])
 
     respond_to do |format|
       if @event.save
