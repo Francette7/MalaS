@@ -46,6 +46,33 @@ $('.envoi').off("click").on("click",function(){
 
      	})
 
+
+
+$('.demand').off("click").on("click",function(){
+
+
+               var id = $(this).attr('id');
+
+
+               Rails.ajax({
+
+                    url: "/requests/new",
+                    
+
+                    type: "get",
+
+                    data: "data_value="+id,
+
+                    success: function(data) {
+                         window.location.replace('/requests/new?data_value='+id)
+                    },
+
+                    error: function(data) {}
+
+                    })
+
+          })
+
      	
 
     });

@@ -56,6 +56,12 @@ ActiveRecord::Schema.define(version: 2019_09_11_132319) do
   end
 
   create_table "requests", force: :cascade do |t|
+    t.text "nom"
+    t.text "prenom"
+    t.integer "age"
+    t.text "adresse"
+    t.text "contact"
+    t.text "parcours"
     t.bigint "recrutement_id"
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
