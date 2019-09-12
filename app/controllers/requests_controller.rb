@@ -14,7 +14,8 @@ class RequestsController < ApplicationController
 
   # GET /requests/new
   def new
-    @request = Request.new
+    @request = Request.new('nom' => params[:nom],'prenom' => params[:prenom],'age' => params[:age],'adresse' => params[:adresse],'parcours' => params[:parcours])
+     @recrutement = Recrutement.find(params['data_value'])
   end
 
   # GET /requests/1/edit
@@ -24,7 +25,9 @@ class RequestsController < ApplicationController
   # POST /requests
   # POST /requests.json
   def create
-    @request = Request.new(request_params)
+    @user = current_user
+  @request = Request.new('nom' => params[:nom],'prenom' => params[:prenom],'age' => params[:age],'adresse' => params[:adresse],'parcours' => params[:parcours], recrutement_id: params['recrutement_id'], user_id: current_user.id)
+ 
 
     respond_to do |format|
       if @request.save

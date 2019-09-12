@@ -1,17 +1,49 @@
 <%= form_with(model: request, local: true) do |form| %>
-  <% if request.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(request.errors.count, "error") %> prohibited this request from being saved:</h2>
+      <%= form_tag url_for(action: 'create'), method: "request" do %>
+    <input type="hidden" name="authenticity_token" value=<%= form_authenticity_token %> >
 
-      <ul>
-        <% request.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+
+<div class="field">
+    <%= label_tag :nom %>
+    <%= text_field_tag :nom, @request.nom %>
+  </div>
+
+  <div class="field">
+    <%= label_tag :prenom %>
+    <%= text_field_tag :prenom, @request.prenom  %>
+  </div>
+
+  <div class="field">
+    <%= label_tag :age %>
+    <%= text_field_tag :age, @request.age   %>
+  </div>
+
+  <div class="field">
+    <%= label_tag :adresse %>
+    <%= text_field_tag :adresse, @request.adresse    %>
+  </div>
+
+
+<div class="field">
+    <%= label_tag :contact %>
+    <%= text_field_tag :contact, @request.contact    %>
+  </div>
+
+
+  <div class="field">
+    <%= label_tag :parcours %>
+    <%= text_area_tag :parcours, @request.parcours   %>
+  </div>
+
+<div class="field">
+    <input type="hidden" name="recrutement_id" value="<%= @recrutement.id%>">
+  </div>
+
+
+
 
   <div class="actions">
-    <%= form.submit %>
+    <%= submit_tag "creer request" %>
   </div>
+<% end %>
 <% end %>
