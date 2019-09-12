@@ -5,4 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
      belongs_to :quarter
      belongs_to :club, optional: true
+     has_many :requests
+     has_many :recrutements
 end
