@@ -1,23 +1,19 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Scaff</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> MalagaSport </title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <p class="notice"><%= notice %></p>
-       <p class="alert"><%= alert %></p>
+    <p class="alert"><%= alert %></p>
   </head>
-
   <body>
-    <% if user_signed_in? && current_user.role === 'admin' %>
-    <ul>
-      <li><a href="#"> Espace Admin </a></li>
-    </ul>
-
-    <% end %>
+    <%= render partial: 'layouts/navigation'  %>
     <%= yield %>
   </body>
 </html>

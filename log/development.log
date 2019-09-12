@@ -5387,3 +5387,1935 @@ Processing by Devise::SessionsController#new as HTML
 Completed 200 OK in 199ms (Views: 167.6ms | ActiveRecord: 0.0ms | Allocations: 202749)
 
 
+  [1m[35m (0.5ms)[0m  [1m[35mDROP DATABASE IF EXISTS "scaff_development"[0m
+  [1m[35m (1.1ms)[0m  [1m[35mDROP DATABASE IF EXISTS "scaff_test"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP DATABASE IF EXISTS "scaff_development"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP DATABASE IF EXISTS "scaff_test"[0m
+  [1m[35m (1528.1ms)[0m  [1m[35mCREATE DATABASE "scaff_development" ENCODING = 'unicode'[0m
+  [1m[35m (621.2ms)[0m  [1m[35mCREATE DATABASE "scaff_test" ENCODING = 'unicode'[0m
+  [1m[35m (159.7ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (118.8ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_try_advisory_lock(1454809796900757255)[0m
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to DeviseCreateUsers (20190911060712)
+  [1m[35m (2.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (157.1ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "quarter_id" bigint, "reset_password_token" character varying, "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (32.2ms)[0m  [1m[35mCREATE  INDEX  "index_users_on_quarter_id" ON "users"  ("quarter_id")[0m
+  [1m[35m (41.4ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_users_on_email" ON "users"  ("email")[0m
+  [1m[35m (52.2ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_users_on_reset_password_token" ON "users"  ("reset_password_token")[0m
+  [1m[36mprimary::SchemaMigration Create (8.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911060712"]]
+  [1m[35m (10.7ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateQuarters (20190911060923)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (87.9ms)[0m  [1m[35mCREATE TABLE "quarters" ("id" bigserial primary key, "zip_code" character varying, "name" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911060923"]]
+  [1m[35m (18.7ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateClubs (20190911061102)
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (54.2ms)[0m  [1m[35mCREATE TABLE "clubs" ("id" bigserial primary key, "recruiter_id" bigint, "quarter_id" bigint, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (36.7ms)[0m  [1m[35mCREATE  INDEX  "index_clubs_on_recruiter_id" ON "clubs"  ("recruiter_id")[0m
+  [1m[35m (30.1ms)[0m  [1m[35mCREATE  INDEX  "index_clubs_on_quarter_id" ON "clubs"  ("quarter_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911061102"]]
+  [1m[35m (12.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateRecrutements (20190911062120)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (113.3ms)[0m  [1m[35mCREATE TABLE "recrutements" ("id" bigserial primary key, "content" text, "deadline" timestamp, "club_id" bigint, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (62.3ms)[0m  [1m[35mCREATE  INDEX  "index_recrutements_on_club_id" ON "recrutements"  ("club_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911062120"]]
+  [1m[35m (11.6ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateRequests (20190911062143)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (41.6ms)[0m  [1m[35mCREATE TABLE "requests" ("id" bigserial primary key, "recrutement_id" bigint, "user_id" bigint, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (43.1ms)[0m  [1m[35mCREATE  INDEX  "index_requests_on_recrutement_id" ON "requests"  ("recrutement_id")[0m
+  [1m[35m (43.4ms)[0m  [1m[35mCREATE  INDEX  "index_requests_on_user_id" ON "requests"  ("user_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.9ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911062143"]]
+  [1m[35m (16.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddNameToUsers (20190911062611)
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[35mALTER TABLE "users" ADD "first_name" character varying[0m
+  [1m[35m (0.8ms)[0m  [1m[35mALTER TABLE "users" ADD "last_name" character varying[0m
+  [1m[35m (1.1ms)[0m  [1m[35mALTER TABLE "users" ADD "quarter" character varying[0m
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "users" ADD "age" integer[0m
+  [1m[35m (0.8ms)[0m  [1m[35mALTER TABLE "users" ADD "skills" text[0m
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "users" ADD "gender" character varying[0m
+  [1m[35m (0.8ms)[0m  [1m[35mALTER TABLE "users" ADD "pseudonym" character varying[0m
+  [1m[36mprimary::SchemaMigration Create (0.9ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911062611"]]
+  [1m[35m (12.5ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddRoleToUsers (20190911062806)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[35mALTER TABLE "users" ADD "role" character varying[0m
+  [1m[36mprimary::SchemaMigration Create (1.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911062806"]]
+  [1m[35m (10.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateEvents (20190911082906)
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (92.5ms)[0m  [1m[35mCREATE TABLE "events" ("id" bigserial primary key, "start_date" timestamp, "duration" integer, "title" character varying, "description" text, "price" integer, "location" character varying, "club_id" bigint, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (41.3ms)[0m  [1m[35mCREATE  INDEX  "index_events_on_club_id" ON "events"  ("club_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911082906"]]
+  [1m[35m (17.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.0ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2019-09-11 11:28:54.979962"], ["updated_at", "2019-09-11 11:28:54.979962"]]
+  [1m[35m (29.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_advisory_unlock(1454809796900757255)[0m
+  [1m[35m (1.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mQuarter Load (0.5ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters"[0m
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mClub Load (0.6ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs"[0m
+  [1m[36mRecrutement Load (0.6ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements"[0m
+  [1m[36mRequest Load (0.6ms)[0m  [1m[34mSELECT "requests".* FROM "requests"[0m
+  [1m[36mEvent Load (0.7ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.6ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "76557"], ["name", "Daniel Causeway"], ["created_at", "2019-09-11 11:28:56.669461"], ["updated_at", "2019-09-11 11:28:56.669461"]]
+  [1m[35m (14.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.3ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "06263-6695"], ["name", "Stoltenberg Unions"], ["created_at", "2019-09-11 11:28:56.690919"], ["updated_at", "2019-09-11 11:28:56.690919"]]
+  [1m[35m (10.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "02518-9355"], ["name", "Padberg Mount"], ["created_at", "2019-09-11 11:28:56.708251"], ["updated_at", "2019-09-11 11:28:56.708251"]]
+  [1m[35m (8.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "85108-5053"], ["name", "Hand Row"], ["created_at", "2019-09-11 11:28:56.724899"], ["updated_at", "2019-09-11 11:28:56.724899"]]
+  [1m[35m (7.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "12320"], ["name", "Dani Ranch"], ["created_at", "2019-09-11 11:28:56.741545"], ["updated_at", "2019-09-11 11:28:56.741545"]]
+  [1m[35m (8.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "80696"], ["name", "Nadene Extensions"], ["created_at", "2019-09-11 11:28:56.758191"], ["updated_at", "2019-09-11 11:28:56.758191"]]
+  [1m[35m (8.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "93541-5371"], ["name", "O'Reilly Drive"], ["created_at", "2019-09-11 11:28:56.775249"], ["updated_at", "2019-09-11 11:28:56.775249"]]
+  [1m[35m (6.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "75080-2610"], ["name", "Nicol Port"], ["created_at", "2019-09-11 11:28:56.791809"], ["updated_at", "2019-09-11 11:28:56.791809"]]
+  [1m[35m (8.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "09818"], ["name", "Mose View"], ["created_at", "2019-09-11 11:28:56.809315"], ["updated_at", "2019-09-11 11:28:56.809315"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.6ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "89145"], ["name", "Ira Valleys"], ["created_at", "2019-09-11 11:28:56.825545"], ["updated_at", "2019-09-11 11:28:56.825545"]]
+  [1m[35m (6.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "00489"], ["name", "Sebrina Path"], ["created_at", "2019-09-11 11:28:56.842035"], ["updated_at", "2019-09-11 11:28:56.842035"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "34948-0382"], ["name", "Bauch Road"], ["created_at", "2019-09-11 11:28:56.858637"], ["updated_at", "2019-09-11 11:28:56.858637"]]
+  [1m[35m (6.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "13003-6787"], ["name", "Vicente Coves"], ["created_at", "2019-09-11 11:28:56.875028"], ["updated_at", "2019-09-11 11:28:56.875028"]]
+  [1m[35m (7.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "75232-8124"], ["name", "Joel Islands"], ["created_at", "2019-09-11 11:28:56.891908"], ["updated_at", "2019-09-11 11:28:56.891908"]]
+  [1m[35m (7.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.6ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "03431-9678"], ["name", "Schoen Divide"], ["created_at", "2019-09-11 11:28:56.908189"], ["updated_at", "2019-09-11 11:28:56.908189"]]
+  [1m[35m (40.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.6ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "78889-9523"], ["name", "Stroman Trail"], ["created_at", "2019-09-11 11:28:56.958987"], ["updated_at", "2019-09-11 11:28:56.958987"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.6ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "76976"], ["name", "McDermott Land"], ["created_at", "2019-09-11 11:28:56.975072"], ["updated_at", "2019-09-11 11:28:56.975072"]]
+  [1m[35m (7.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.6ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "16691"], ["name", "Beaulah Spurs"], ["created_at", "2019-09-11 11:28:56.991959"], ["updated_at", "2019-09-11 11:28:56.991959"]]
+  [1m[35m (6.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.7ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "91708"], ["name", "Willie Wall"], ["created_at", "2019-09-11 11:28:57.009111"], ["updated_at", "2019-09-11 11:28:57.009111"]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.7ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "78856"], ["name", "Patricia Walk"], ["created_at", "2019-09-11 11:28:57.025464"], ["updated_at", "2019-09-11 11:28:57.025464"]]
+  [1m[35m (6.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "shaun@walshschultz.biz"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.6ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "shaun@walshschultz.biz"], ["encrypted_password", "$2a$11$qJ/C1wR2Z0Qyb5h5EJVNWe/dW2legpR25dpmGFfBcEG7FaOzGVEMW"], ["quarter_id", 5], ["created_at", "2019-09-11 11:28:57.305600"], ["updated_at", "2019-09-11 11:28:57.305600"]]
+  [1m[35m (13.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "jarred.kozey@fritsch.net"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "jarred.kozey@fritsch.net"], ["encrypted_password", "$2a$11$UNhBsCRoFwYIrDtElbFFzeaD6hI120.1PDkWStQr9ssDYC8mpIwPe"], ["quarter_id", 11], ["created_at", "2019-09-11 11:28:57.491271"], ["updated_at", "2019-09-11 11:28:57.491271"]]
+  [1m[35m (12.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "bryce@daniel.net"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "bryce@daniel.net"], ["encrypted_password", "$2a$11$pk/d0gRdpwgja3B2989useS4doiRPPOzckFkrreSVAKZEMyffPhie"], ["quarter_id", 20], ["created_at", "2019-09-11 11:28:57.691185"], ["updated_at", "2019-09-11 11:28:57.691185"]]
+  [1m[35m (63.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "bradford@jerderippin.biz"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "bradford@jerderippin.biz"], ["encrypted_password", "$2a$11$bbOn8lAgRstfLYF6uLRDS.Rpu.nyWYD6O112IPKDu5Ma3TQPv9rpW"], ["quarter_id", 18], ["created_at", "2019-09-11 11:28:57.937776"], ["updated_at", "2019-09-11 11:28:57.937776"]]
+  [1m[35m (15.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "aurea.zboncak@kuphal.info"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "aurea.zboncak@kuphal.info"], ["encrypted_password", "$2a$11$B1z3dhQHb8/04Sj6gh1lF.Qx878Ma4FsYYtycXufR6zEziwi3Hbkq"], ["quarter_id", 4], ["created_at", "2019-09-11 11:28:58.126100"], ["updated_at", "2019-09-11 11:28:58.126100"]]
+  [1m[35m (10.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "rodney_halvorson@padberg.co"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "rodney_halvorson@padberg.co"], ["encrypted_password", "$2a$11$A3X6hlIGsfM2n.1LXVYc2.iG8sNqAVl54x3kN76ibM9uuYdF82zDi"], ["quarter_id", 8], ["created_at", "2019-09-11 11:28:58.308563"], ["updated_at", "2019-09-11 11:28:58.308563"]]
+  [1m[35m (11.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "tifany@huels.name"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "tifany@huels.name"], ["encrypted_password", "$2a$11$BRYkzP5TjyTFaghmryQrT.f7pVowZpJDETM3EqrW8Ajn6pz.wadUi"], ["quarter_id", 6], ["created_at", "2019-09-11 11:28:58.491991"], ["updated_at", "2019-09-11 11:28:58.491991"]]
+  [1m[35m (20.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "ambrose@schumm.net"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "ambrose@schumm.net"], ["encrypted_password", "$2a$11$V.S66JL.syL082mMzkHjheGVKAvyo0dF.UJoecuUdrMmTeRl9S77y"], ["quarter_id", 9], ["created_at", "2019-09-11 11:28:58.683140"], ["updated_at", "2019-09-11 11:28:58.683140"]]
+  [1m[35m (20.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "eneida@bergstrom.io"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "eneida@bergstrom.io"], ["encrypted_password", "$2a$11$xlRLMRnjOWOLMWEdG0CVLuvtyv888F42//ihEz.RojASYTn3QGMA2"], ["quarter_id", 4], ["created_at", "2019-09-11 11:28:58.874578"], ["updated_at", "2019-09-11 11:28:58.874578"]]
+  [1m[35m (21.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "waldo_parisian@heel.net"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "waldo_parisian@heel.net"], ["encrypted_password", "$2a$11$FHyGTdnQdlgLLPQDp5COL.23beKtM0L.28AAdWPxbGSbnk0N91l3O"], ["quarter_id", 2], ["created_at", "2019-09-11 11:28:59.070595"], ["updated_at", "2019-09-11 11:28:59.070595"]]
+  [1m[35m (25.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.4ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 18], ["LIMIT", 1]]
+  [1m[36mClub Create (0.7ms)[0m  [1m[32mINSERT INTO "clubs" ("recruiter_id", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recruiter_id", 2], ["quarter_id", 18], ["created_at", "2019-09-11 11:28:59.129650"], ["updated_at", "2019-09-11 11:28:59.129650"]]
+  [1m[35m (5.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.5ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mClub Create (0.7ms)[0m  [1m[32mINSERT INTO "clubs" ("recruiter_id", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recruiter_id", 4], ["quarter_id", 10], ["created_at", "2019-09-11 11:28:59.152448"], ["updated_at", "2019-09-11 11:28:59.152448"]]
+  [1m[35m (8.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.4ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 15], ["LIMIT", 1]]
+  [1m[36mClub Create (0.4ms)[0m  [1m[32mINSERT INTO "clubs" ("recruiter_id", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recruiter_id", 1], ["quarter_id", 15], ["created_at", "2019-09-11 11:28:59.172974"], ["updated_at", "2019-09-11 11:28:59.172974"]]
+  [1m[35m (5.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.4ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 12], ["LIMIT", 1]]
+  [1m[36mClub Create (0.4ms)[0m  [1m[32mINSERT INTO "clubs" ("recruiter_id", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recruiter_id", 5], ["quarter_id", 12], ["created_at", "2019-09-11 11:28:59.194856"], ["updated_at", "2019-09-11 11:28:59.194856"]]
+  [1m[35m (8.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mClub Create (0.4ms)[0m  [1m[32mINSERT INTO "clubs" ("recruiter_id", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recruiter_id", 4], ["quarter_id", 11], ["created_at", "2019-09-11 11:28:59.214230"], ["updated_at", "2019-09-11 11:28:59.214230"]]
+  [1m[35m (6.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mClub Create (0.3ms)[0m  [1m[32mINSERT INTO "clubs" ("recruiter_id", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recruiter_id", 4], ["quarter_id", 10], ["created_at", "2019-09-11 11:28:59.230643"], ["updated_at", "2019-09-11 11:28:59.230643"]]
+  [1m[35m (6.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 14], ["LIMIT", 1]]
+  [1m[36mClub Create (0.3ms)[0m  [1m[32mINSERT INTO "clubs" ("recruiter_id", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recruiter_id", 4], ["quarter_id", 14], ["created_at", "2019-09-11 11:28:59.246743"], ["updated_at", "2019-09-11 11:28:59.246743"]]
+  [1m[35m (7.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 12], ["LIMIT", 1]]
+  [1m[36mClub Create (0.3ms)[0m  [1m[32mINSERT INTO "clubs" ("recruiter_id", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recruiter_id", 2], ["quarter_id", 12], ["created_at", "2019-09-11 11:28:59.263612"], ["updated_at", "2019-09-11 11:28:59.263612"]]
+  [1m[35m (7.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mClub Create (0.4ms)[0m  [1m[32mINSERT INTO "clubs" ("recruiter_id", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recruiter_id", 5], ["quarter_id", 7], ["created_at", "2019-09-11 11:28:59.280551"], ["updated_at", "2019-09-11 11:28:59.280551"]]
+  [1m[35m (6.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mClub Create (0.3ms)[0m  [1m[32mINSERT INTO "clubs" ("recruiter_id", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recruiter_id", 5], ["quarter_id", 6], ["created_at", "2019-09-11 11:28:59.297427"], ["updated_at", "2019-09-11 11:28:59.297427"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.7ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Bert"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 5], ["created_at", "2019-09-11 11:28:59.319218"], ["updated_at", "2019-09-11 11:28:59.319218"]]
+  [1m[35m (10.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.6ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Elrond"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 2], ["created_at", "2019-09-11 11:28:59.341471"], ["updated_at", "2019-09-11 11:28:59.341471"]]
+  [1m[35m (10.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.5ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.4ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Fili"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 3], ["created_at", "2019-09-11 11:28:59.363388"], ["updated_at", "2019-09-11 11:28:59.363388"]]
+  [1m[35m (6.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.4ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Bilbo Baggins"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 2], ["created_at", "2019-09-11 11:28:59.378376"], ["updated_at", "2019-09-11 11:28:59.378376"]]
+  [1m[35m (9.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.4ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Gloin"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 5], ["created_at", "2019-09-11 11:28:59.395212"], ["updated_at", "2019-09-11 11:28:59.395212"]]
+  [1m[35m (8.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.3ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Beorn"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 3], ["created_at", "2019-09-11 11:28:59.411996"], ["updated_at", "2019-09-11 11:28:59.411996"]]
+  [1m[35m (8.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.3ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Dwalin"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 3], ["created_at", "2019-09-11 11:28:59.428237"], ["updated_at", "2019-09-11 11:28:59.428237"]]
+  [1m[35m (9.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.4ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "The Lord of the Eagles"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 4], ["created_at", "2019-09-11 11:28:59.444918"], ["updated_at", "2019-09-11 11:28:59.444918"]]
+  [1m[35m (9.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.3ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Kili"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 3], ["created_at", "2019-09-11 11:28:59.461799"], ["updated_at", "2019-09-11 11:28:59.461799"]]
+  [1m[35m (8.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.4ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Gloin"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 1], ["created_at", "2019-09-11 11:28:59.478256"], ["updated_at", "2019-09-11 11:28:59.478256"]]
+  [1m[35m (9.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.4ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "The Necromancer"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 3], ["created_at", "2019-09-11 11:28:59.495827"], ["updated_at", "2019-09-11 11:28:59.495827"]]
+  [1m[35m (74.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.8ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "The Lord of the Eagles"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 2], ["created_at", "2019-09-11 11:28:59.587346"], ["updated_at", "2019-09-11 11:28:59.587346"]]
+  [1m[35m (5.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.7ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "The Necromancer"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 4], ["created_at", "2019-09-11 11:28:59.610220"], ["updated_at", "2019-09-11 11:28:59.610220"]]
+  [1m[35m (7.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (1.4ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Bombur"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 4], ["created_at", "2019-09-11 11:28:59.635799"], ["updated_at", "2019-09-11 11:28:59.635799"]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.8ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Bert"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 4], ["created_at", "2019-09-11 11:28:59.659717"], ["updated_at", "2019-09-11 11:28:59.659717"]]
+  [1m[35m (8.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.5ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.7ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Bolg"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 5], ["created_at", "2019-09-11 11:28:59.685867"], ["updated_at", "2019-09-11 11:28:59.685867"]]
+  [1m[35m (6.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.8ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "The Great Goblin"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 2], ["created_at", "2019-09-11 11:28:59.710005"], ["updated_at", "2019-09-11 11:28:59.710005"]]
+  [1m[35m (7.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.9ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Gloin"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 1], ["created_at", "2019-09-11 11:28:59.733499"], ["updated_at", "2019-09-11 11:28:59.733499"]]
+  [1m[35m (8.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.6ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Tom"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 4], ["created_at", "2019-09-11 11:28:59.759024"], ["updated_at", "2019-09-11 11:28:59.759024"]]
+  [1m[35m (9.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.5ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.9ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Balin"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 2], ["created_at", "2019-09-11 11:28:59.784289"], ["updated_at", "2019-09-11 11:28:59.784289"]]
+  [1m[35m (7.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.5ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mRequest Create (1.6ms)[0m  [1m[32mINSERT INTO "requests" ("recrutement_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recrutement_id", 3], ["user_id", 1], ["created_at", "2019-09-11 11:28:59.829936"], ["updated_at", "2019-09-11 11:28:59.829936"]]
+  [1m[35m (4.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (6.5ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 14], ["LIMIT", 1]]
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mRequest Create (0.4ms)[0m  [1m[32mINSERT INTO "requests" ("recrutement_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recrutement_id", 14], ["user_id", 6], ["created_at", "2019-09-11 11:28:59.897727"], ["updated_at", "2019-09-11 11:28:59.897727"]]
+  [1m[35m (5.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.3ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 16], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mRequest Create (0.4ms)[0m  [1m[32mINSERT INTO "requests" ("recrutement_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recrutement_id", 16], ["user_id", 9], ["created_at", "2019-09-11 11:28:59.915835"], ["updated_at", "2019-09-11 11:28:59.915835"]]
+  [1m[35m (38.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.5ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mRequest Create (0.4ms)[0m  [1m[32mINSERT INTO "requests" ("recrutement_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recrutement_id", 2], ["user_id", 7], ["created_at", "2019-09-11 11:28:59.967873"], ["updated_at", "2019-09-11 11:28:59.967873"]]
+  [1m[35m (10.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.5ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 12], ["LIMIT", 1]]
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mRequest Create (0.6ms)[0m  [1m[32mINSERT INTO "requests" ("recrutement_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recrutement_id", 12], ["user_id", 7], ["created_at", "2019-09-11 11:28:59.993037"], ["updated_at", "2019-09-11 11:28:59.993037"]]
+  [1m[35m (10.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.8ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 13], ["LIMIT", 1]]
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mRequest Create (0.7ms)[0m  [1m[32mINSERT INTO "requests" ("recrutement_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recrutement_id", 13], ["user_id", 8], ["created_at", "2019-09-11 11:29:00.026644"], ["updated_at", "2019-09-11 11:29:00.026644"]]
+  [1m[35m (8.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.4ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 20], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mRequest Create (0.7ms)[0m  [1m[32mINSERT INTO "requests" ("recrutement_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recrutement_id", 20], ["user_id", 1], ["created_at", "2019-09-11 11:29:00.055398"], ["updated_at", "2019-09-11 11:29:00.055398"]]
+  [1m[35m (5.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.5ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 15], ["LIMIT", 1]]
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mRequest Create (0.8ms)[0m  [1m[32mINSERT INTO "requests" ("recrutement_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recrutement_id", 15], ["user_id", 8], ["created_at", "2019-09-11 11:29:00.078591"], ["updated_at", "2019-09-11 11:29:00.078591"]]
+  [1m[35m (7.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.5ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 17], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mRequest Create (0.6ms)[0m  [1m[32mINSERT INTO "requests" ("recrutement_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recrutement_id", 17], ["user_id", 10], ["created_at", "2019-09-11 11:29:00.106114"], ["updated_at", "2019-09-11 11:29:00.106114"]]
+  [1m[35m (4.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.5ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 18], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mRequest Create (0.8ms)[0m  [1m[32mINSERT INTO "requests" ("recrutement_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recrutement_id", 18], ["user_id", 7], ["created_at", "2019-09-11 11:29:00.130656"], ["updated_at", "2019-09-11 11:29:00.130656"]]
+  [1m[35m (4.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.6ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mEvent Create (1.6ms)[0m  [1m[32mINSERT INTO "events" ("start_date", "duration", "title", "description", "price", "location", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["start_date", "2019-09-12 00:32:12.631716"], ["duration", 25], ["title", "For a Breath I Tarry"], ["description", "Whether a gesture’s charming or alarming, depends on how it’s received."], ["price", 8257], ["location", "Thompsonburgh"], ["club_id", 5], ["created_at", "2019-09-11 11:29:00.172212"], ["updated_at", "2019-09-11 11:29:00.172212"]]
+  [1m[35m (9.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.5ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mEvent Create (0.8ms)[0m  [1m[32mINSERT INTO "events" ("start_date", "duration", "title", "description", "price", "location", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["start_date", "2019-09-12 06:11:29.351492"], ["duration", 95], ["title", "Infinite Jest"], ["description", "Definitions are important."], ["price", 9089], ["location", "North Shalandaborough"], ["club_id", 2], ["created_at", "2019-09-11 11:29:00.205786"], ["updated_at", "2019-09-11 11:29:00.205786"]]
+  [1m[35m (11.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mEvent Create (0.4ms)[0m  [1m[32mINSERT INTO "events" ("start_date", "duration", "title", "description", "price", "location", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["start_date", "2019-09-12 11:05:27.094039"], ["duration", 55], ["title", "Tender Is the Night"], ["description", "Because sometimes even if you know how something’s gonna end that doesn’t mean you can’t enjoy the ride."], ["price", 8248], ["location", "Amadafurt"], ["club_id", 5], ["created_at", "2019-09-11 11:29:00.229975"], ["updated_at", "2019-09-11 11:29:00.229975"]]
+  [1m[35m (6.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mEvent Create (0.5ms)[0m  [1m[32mINSERT INTO "events" ("start_date", "duration", "title", "description", "price", "location", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["start_date", "2019-09-11 20:48:25.991770"], ["duration", 30], ["title", "The Curious Incident of the Dog in the Night-Time"], ["description", "The future is scary but you can’t just run back to the past because it’s familiar."], ["price", 6176], ["location", "Beahanfort"], ["club_id", 1], ["created_at", "2019-09-11 11:29:00.246577"], ["updated_at", "2019-09-11 11:29:00.246577"]]
+  [1m[35m (6.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mEvent Create (0.4ms)[0m  [1m[32mINSERT INTO "events" ("start_date", "duration", "title", "description", "price", "location", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["start_date", "2019-09-11 22:32:22.330744"], ["duration", 50], ["title", "For a Breath I Tarry"], ["description", "The littlest thing can cause a ripple effect that changes your life."], ["price", 4967], ["location", "Lake Margurite"], ["club_id", 4], ["created_at", "2019-09-11 11:29:00.263084"], ["updated_at", "2019-09-11 11:29:00.263084"]]
+  [1m[35m (7.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mEvent Create (0.4ms)[0m  [1m[32mINSERT INTO "events" ("start_date", "duration", "title", "description", "price", "location", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["start_date", "2019-09-12 05:44:44.087898"], ["duration", 65], ["title", "The Mermaids Singing"], ["description", "I realized that I’m searching, searching for what I really want in life. And you know what? I have absolutely no idea what that is."], ["price", 5683], ["location", "Grantfort"], ["club_id", 2], ["created_at", "2019-09-11 11:29:00.279490"], ["updated_at", "2019-09-11 11:29:00.279490"]]
+  [1m[35m (7.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mEvent Create (0.8ms)[0m  [1m[32mINSERT INTO "events" ("start_date", "duration", "title", "description", "price", "location", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["start_date", "2019-09-11 21:08:51.070731"], ["duration", 45], ["title", "Tender Is the Night"], ["description", "The future is scary but you can’t just run back to the past because it’s familiar."], ["price", 9733], ["location", "Eufemiaview"], ["club_id", 5], ["created_at", "2019-09-11 11:29:00.301814"], ["updated_at", "2019-09-11 11:29:00.301814"]]
+  [1m[35m (8.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mEvent Create (0.8ms)[0m  [1m[32mINSERT INTO "events" ("start_date", "duration", "title", "description", "price", "location", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["start_date", "2019-09-12 08:36:12.238263"], ["duration", 100], ["title", "The Golden Bowl"], ["description", "Because sometimes even if you know how something’s gonna end that doesn’t mean you can’t enjoy the ride."], ["price", 5555], ["location", "Schaeferburgh"], ["club_id", 3], ["created_at", "2019-09-11 11:29:00.326932"], ["updated_at", "2019-09-11 11:29:00.326932"]]
+  [1m[35m (8.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mEvent Create (0.8ms)[0m  [1m[32mINSERT INTO "events" ("start_date", "duration", "title", "description", "price", "location", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["start_date", "2019-09-11 15:12:47.219033"], ["duration", 65], ["title", "What's Become of Waring"], ["description", "Whenever I’m sad, I stop being sad and be awesome instead."], ["price", 3676], ["location", "Felixchester"], ["club_id", 1], ["created_at", "2019-09-11 11:29:00.354190"], ["updated_at", "2019-09-11 11:29:00.354190"]]
+  [1m[35m (5.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mEvent Create (0.8ms)[0m  [1m[32mINSERT INTO "events" ("start_date", "duration", "title", "description", "price", "location", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["start_date", "2019-09-12 07:34:30.724264"], ["duration", 90], ["title", "The Wind's Twelve Quarters"], ["description", "There are two big days in any love story: the day you meet the girl of your dreams and the day you marry her."], ["price", 5072], ["location", "New Lanitaborough"], ["club_id", 5], ["created_at", "2019-09-11 11:29:00.377935"], ["updated_at", "2019-09-11 11:29:00.377935"]]
+  [1m[35m (6.4ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/" for ::1 at 2019-09-11 14:31:30 +0300
+  [1m[35m (2.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (2.5ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 78.7ms | Allocations: 8584)
+[Webpacker] Compiling…
+Started GET "/" for ::1 at 2019-09-11 14:31:33 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (3.4ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 14.0ms | Allocations: 1301)
+[Webpacker] Compiling…
+[Webpacker] Compiled all packs in /home/dev/Documents/Semaine_10/MalaS/public/packs
+[Webpacker] Compiled all packs in /home/dev/Documents/Semaine_10/MalaS/public/packs
+Completed 200 OK in 12253ms (Views: 12228.0ms | ActiveRecord: 10.6ms | Allocations: 1309579)
+
+
+Completed 200 OK in 9339ms (Views: 9333.5ms | ActiveRecord: 3.4ms | Allocations: 13503)
+
+
+Started GET "/users/sign_in" for ::1 at 2019-09-11 14:31:53 +0300
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 2.1ms | Allocations: 643)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 401.2ms | Allocations: 180030)
+Completed 200 OK in 553ms (Views: 421.2ms | ActiveRecord: 16.6ms | Allocations: 202197)
+
+
+Started GET "/" for ::1 at 2019-09-11 14:32:00 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.0ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 5.1ms | Allocations: 1269)
+Completed 200 OK in 31ms (Views: 29.2ms | ActiveRecord: 1.0ms | Allocations: 10733)
+
+
+Started GET "/clubs/new" for ::1 at 2019-09-11 14:32:06 +0300
+Processing by ClubsController#new as HTML
+  Rendering clubs/new.html.erb within layouts/application
+  Rendered clubs/_form.html.erb (Duration: 3.6ms | Allocations: 695)
+  Rendered clubs/new.html.erb within layouts/application (Duration: 6.0ms | Allocations: 1043)
+Completed 200 OK in 68ms (Views: 38.3ms | ActiveRecord: 2.8ms | Allocations: 16444)
+
+
+Started POST "/clubs" for ::1 at 2019-09-11 14:32:07 +0300
+Processing by ClubsController#create as HTML
+  Parameters: {"authenticity_token"=>"X/wFj/lcTg1T/R0gPF32XiDUI91OZMzWEwQAebcECSOWDYGLsP+LQuYwVQATkw3oujPtVygHIyZJi0IhHJkThw==", "commit"=>"Create Club"}
+  Rendering clubs/new.html.erb within layouts/application
+  Rendered clubs/_form.html.erb (Duration: 3.9ms | Allocations: 616)
+  Rendered clubs/new.html.erb within layouts/application (Duration: 4.6ms | Allocations: 701)
+Completed 200 OK in 76ms (Views: 35.0ms | ActiveRecord: 0.0ms | Allocations: 14404)
+
+
+Started GET "/" for ::1 at 2019-09-11 14:32:44 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (2.1ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 6.9ms | Allocations: 1192)
+Completed 200 OK in 31ms (Views: 27.8ms | ActiveRecord: 2.1ms | Allocations: 10643)
+
+
+Started GET "/users/sign_up" for ::1 at 2019-09-11 14:32:47 +0300
+Processing by Devise::RegistrationsController#new as HTML
+  Rendering devise/registrations/new.html.erb within layouts/application
+  Rendered devise/shared/_error_messages.html.erb (Duration: 1.0ms | Allocations: 213)
+  Rendered devise/shared/_links.html.erb (Duration: 0.6ms | Allocations: 123)
+  Rendered devise/registrations/new.html.erb within layouts/application (Duration: 20.9ms | Allocations: 1861)
+Completed 200 OK in 52ms (Views: 46.8ms | ActiveRecord: 0.0ms | Allocations: 12226)
+
+
+Started GET "/users/sign_in" for ::1 at 2019-09-11 14:33:01 +0300
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.0ms | Allocations: 132)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 8.2ms | Allocations: 1051)
+Completed 200 OK in 49ms (Views: 45.3ms | ActiveRecord: 0.0ms | Allocations: 10764)
+
+
+Started GET "/users/sign_up" for ::1 at 2019-09-11 14:33:04 +0300
+Processing by Devise::RegistrationsController#new as HTML
+  Rendering devise/registrations/new.html.erb within layouts/application
+  Rendered devise/shared/_error_messages.html.erb (Duration: 0.2ms | Allocations: 15)
+  Rendered devise/shared/_links.html.erb (Duration: 0.9ms | Allocations: 77)
+  Rendered devise/registrations/new.html.erb within layouts/application (Duration: 12.8ms | Allocations: 1054)
+Completed 200 OK in 48ms (Views: 44.4ms | ActiveRecord: 0.0ms | Allocations: 10689)
+
+
+Started GET "/" for ::1 at 2019-09-11 14:33:09 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (3.3ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 10.2ms | Allocations: 1190)
+Completed 200 OK in 48ms (Views: 42.6ms | ActiveRecord: 3.3ms | Allocations: 10643)
+
+
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mQuarter Load (0.6ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.4ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.5ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 20], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.6ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 18], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.9ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.6ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.4ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+Started GET "/" for ::1 at 2019-09-11 14:39:11 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.1ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 11.2ms | Allocations: 1729)
+Completed 200 OK in 46ms (Views: 43.1ms | ActiveRecord: 1.1ms | Allocations: 12299)
+
+
+Started GET "/" for ::1 at 2019-09-11 14:39:26 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (4.5ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 14.7ms | Allocations: 1622)
+Completed 200 OK in 44ms (Views: 37.3ms | ActiveRecord: 4.5ms | Allocations: 12183)
+
+
+Started GET "/clubs/new" for ::1 at 2019-09-11 14:39:37 +0300
+Processing by ClubsController#new as HTML
+  Rendering clubs/new.html.erb within layouts/application
+  Rendered clubs/_form.html.erb (Duration: 4.8ms | Allocations: 595)
+  Rendered clubs/new.html.erb within layouts/application (Duration: 22.6ms | Allocations: 937)
+Completed 200 OK in 73ms (Views: 69.3ms | ActiveRecord: 0.0ms | Allocations: 11123)
+
+
+Started POST "/clubs" for ::1 at 2019-09-11 14:39:38 +0300
+Processing by ClubsController#create as HTML
+  Parameters: {"authenticity_token"=>"t9CwrTktnsSYr/pAljwM2fI5FLC6I7qQhrSaMk5I8kZ+ITSpcI5biy1ismC58vdvaN7aOtxAVWDcO9hq5dXo4g==", "commit"=>"Create Club"}
+  Rendering clubs/new.html.erb within layouts/application
+  Rendered clubs/_form.html.erb (Duration: 6.3ms | Allocations: 605)
+  Rendered clubs/new.html.erb within layouts/application (Duration: 7.8ms | Allocations: 690)
+Completed 200 OK in 70ms (Views: 58.2ms | ActiveRecord: 0.0ms | Allocations: 11321)
+
+
+Started GET "/clubs" for ::1 at 2019-09-11 14:43:15 +0300
+Processing by ClubsController#index as HTML
+  Rendering clubs/index.html.erb within layouts/application
+  [1m[36mClub Load (2.9ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs"[0m
+  ↳ app/views/clubs/index.html.erb:13
+  Rendered clubs/index.html.erb within layouts/application (Duration: 25.1ms | Allocations: 2039)
+Completed 200 OK in 85ms (Views: 77.7ms | ActiveRecord: 2.9ms | Allocations: 12669)
+
+
+Started DELETE "/clubs/1" for ::1 at 2019-09-11 14:43:20 +0300
+Processing by ClubsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"uMKL9P3hyLY8TH+A0D1GAgLM50436xYj99YNg0UCI/CrkkF3W3nkft52Fg8klX5oZrtrPYz70XpvNkZLTTJoDQ==", "id"=>"1"}
+  [1m[36mClub Load (0.8ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/clubs_controller.rb:67:in `set_club'
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/clubs_controller.rb:57:in `destroy'
+  [1m[36mClub Destroy (2.0ms)[0m  [1m[31mDELETE FROM "clubs" WHERE "clubs"."id" = $1[0m  [["id", 1]]
+  ↳ app/controllers/clubs_controller.rb:57:in `destroy'
+  [1m[35m (11.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/clubs_controller.rb:57:in `destroy'
+Redirected to http://localhost:3000/clubs
+Completed 302 Found in 267ms (ActiveRecord: 15.0ms | Allocations: 4848)
+
+
+Started GET "/clubs" for ::1 at 2019-09-11 14:43:20 +0300
+Processing by ClubsController#index as HTML
+  Rendering clubs/index.html.erb within layouts/application
+  [1m[36mClub Load (1.0ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs"[0m
+  ↳ app/views/clubs/index.html.erb:13
+  Rendered clubs/index.html.erb within layouts/application (Duration: 20.4ms | Allocations: 1677)
+Completed 200 OK in 54ms (Views: 49.9ms | ActiveRecord: 1.0ms | Allocations: 11182)
+
+
+Started GET "/quarters" for ::1 at 2019-09-11 14:43:31 +0300
+Processing by QuartersController#index as HTML
+  Rendering quarters/index.html.erb within layouts/application
+  [1m[36mQuarter Load (0.7ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters"[0m
+  ↳ app/views/quarters/index.html.erb:15
+  Rendered quarters/index.html.erb within layouts/application (Duration: 37.1ms | Allocations: 6474)
+Completed 200 OK in 85ms (Views: 71.1ms | ActiveRecord: 10.9ms | Allocations: 16695)
+
+
+Started GET "/quarters/1" for ::1 at 2019-09-11 14:43:34 +0300
+Processing by QuartersController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mQuarter Load (0.6ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/quarters_controller.rb:67:in `set_quarter'
+  Rendering quarters/show.html.erb within layouts/application
+  Rendered quarters/show.html.erb within layouts/application (Duration: 1.9ms | Allocations: 275)
+Completed 200 OK in 28ms (Views: 21.9ms | ActiveRecord: 0.6ms | Allocations: 10551)
+
+
+Started GET "/" for ::1 at 2019-09-11 14:58:37 +0300
+  [1m[35m (9.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (48.2ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 108.4ms | Allocations: 8422)
+Completed 200 OK in 2331ms (Views: 2252.3ms | ActiveRecord: 58.3ms | Allocations: 1266493)
+
+
+Started GET "/" for ::1 at 2019-09-11 15:04:31 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (2.5ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 29.9ms | Allocations: 1736)
+Completed 200 OK in 111ms (Views: 102.0ms | ActiveRecord: 2.5ms | Allocations: 12312)
+
+
+Started GET "/" for ::1 at 2019-09-11 15:04:33 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.3ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 10.0ms | Allocations: 1197)
+Completed 200 OK in 69ms (Views: 65.3ms | ActiveRecord: 1.3ms | Allocations: 10657)
+
+
+Started GET "/" for ::1 at 2019-09-11 15:04:34 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.5ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 15.1ms | Allocations: 1190)
+Completed 200 OK in 71ms (Views: 67.2ms | ActiveRecord: 1.5ms | Allocations: 10649)
+
+
+Started GET "/" for ::1 at 2019-09-11 15:05:07 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.3ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 16.6ms | Allocations: 1622)
+Completed 200 OK in 63ms (Views: 57.7ms | ActiveRecord: 1.3ms | Allocations: 12193)
+
+
+DEPRECATION WARNING: Using `bin/rake routes` is deprecated and will be removed in Rails 6.1. Use `bin/rails routes` instead.
+ (called from load at /usr/local/bin/rake:23)
+Started GET "/" for ::1 at 2019-09-11 16:13:12 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (24.3ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 106.3ms | Allocations: 1740)
+  Rendered layouts/_navigation.html.erb (Duration: 1.2ms | Allocations: 142)
+Completed 200 OK in 303ms (Views: 272.4ms | ActiveRecord: 24.3ms | Allocations: 12707)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:13:17 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.1ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 6.6ms | Allocations: 1185)
+  Rendered layouts/_navigation.html.erb (Duration: 0.3ms | Allocations: 25)
+Completed 200 OK in 26ms (Views: 23.9ms | ActiveRecord: 1.1ms | Allocations: 10725)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:13:17 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (2.3ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 11.6ms | Allocations: 1182)
+  Rendered layouts/_navigation.html.erb (Duration: 0.4ms | Allocations: 25)
+Completed 200 OK in 64ms (Views: 59.7ms | ActiveRecord: 2.3ms | Allocations: 10719)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:13:17 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (4.3ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 13.9ms | Allocations: 1182)
+  Rendered layouts/_navigation.html.erb (Duration: 0.6ms | Allocations: 25)
+Completed 200 OK in 72ms (Views: 65.2ms | ActiveRecord: 4.3ms | Allocations: 10726)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:13:17 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (0.9ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 5.2ms | Allocations: 1182)
+  Rendered layouts/_navigation.html.erb (Duration: 0.3ms | Allocations: 25)
+Completed 200 OK in 52ms (Views: 49.9ms | ActiveRecord: 0.9ms | Allocations: 10723)
+
+
+Started GET "/users/sign_in" for ::1 at 2019-09-11 16:13:19 +0300
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.6ms | Allocations: 645)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 347.8ms | Allocations: 178904)
+  Rendered layouts/_navigation.html.erb (Duration: 0.1ms | Allocations: 28)
+Completed 200 OK in 449ms (Views: 369.5ms | ActiveRecord: 39.1ms | Allocations: 200832)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:13:20 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.1ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 8.1ms | Allocations: 1198)
+  Rendered layouts/_navigation.html.erb (Duration: 0.3ms | Allocations: 26)
+Completed 200 OK in 73ms (Views: 70.2ms | ActiveRecord: 1.1ms | Allocations: 10751)
+
+
+Started GET "/users/sign_in" for ::1 at 2019-09-11 16:13:21 +0300
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.4ms | Allocations: 132)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 9.5ms | Allocations: 1046)
+  Rendered layouts/_navigation.html.erb (Duration: 0.4ms | Allocations: 24)
+Completed 200 OK in 62ms (Views: 57.7ms | ActiveRecord: 0.0ms | Allocations: 10846)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:13:22 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.4ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 10.5ms | Allocations: 1182)
+  Rendered layouts/_navigation.html.erb (Duration: 0.4ms | Allocations: 25)
+Completed 200 OK in 59ms (Views: 55.0ms | ActiveRecord: 1.4ms | Allocations: 10718)
+
+
+Started GET "/users/sign_up" for ::1 at 2019-09-11 16:13:23 +0300
+Processing by Devise::RegistrationsController#new as HTML
+  Rendering devise/registrations/new.html.erb within layouts/application
+  Rendered devise/shared/_error_messages.html.erb (Duration: 2.1ms | Allocations: 215)
+  Rendered devise/shared/_links.html.erb (Duration: 1.0ms | Allocations: 123)
+  Rendered devise/registrations/new.html.erb within layouts/application (Duration: 23.2ms | Allocations: 1862)
+  Rendered layouts/_navigation.html.erb (Duration: 0.2ms | Allocations: 28)
+Completed 200 OK in 70ms (Views: 66.7ms | ActiveRecord: 0.0ms | Allocations: 12315)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:13:25 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.2ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 8.3ms | Allocations: 1190)
+  Rendered layouts/_navigation.html.erb (Duration: 0.3ms | Allocations: 26)
+Completed 200 OK in 64ms (Views: 60.8ms | ActiveRecord: 1.2ms | Allocations: 10731)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:14:20 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.2ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 17.6ms | Allocations: 1622)
+  Rendered layouts/_navigation.html.erb (Duration: 1.2ms | Allocations: 216)
+Completed 200 OK in 76ms (Views: 71.1ms | ActiveRecord: 1.2ms | Allocations: 12619)
+
+
+Started GET "/users/sign_in" for ::1 at 2019-09-11 16:14:22 +0300
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 3.3ms | Allocations: 544)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 12.8ms | Allocations: 1908)
+  Rendered layouts/_navigation.html.erb (Duration: 0.6ms | Allocations: 84)
+Completed 200 OK in 53ms (Views: 50.3ms | ActiveRecord: 0.0ms | Allocations: 12804)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:14:23 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (4.2ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 13.7ms | Allocations: 1190)
+  Rendered layouts/_navigation.html.erb (Duration: 0.9ms | Allocations: 61)
+Completed 200 OK in 73ms (Views: 66.6ms | ActiveRecord: 4.2ms | Allocations: 10768)
+
+
+Started GET "/users/sign_up" for ::1 at 2019-09-11 16:14:24 +0300
+Processing by Devise::RegistrationsController#new as HTML
+  Rendering devise/registrations/new.html.erb within layouts/application
+  Rendered devise/shared/_error_messages.html.erb (Duration: 2.6ms | Allocations: 206)
+  Rendered devise/shared/_links.html.erb (Duration: 0.8ms | Allocations: 79)
+  Rendered devise/registrations/new.html.erb within layouts/application (Duration: 17.2ms | Allocations: 1731)
+  Rendered layouts/_navigation.html.erb (Duration: 0.3ms | Allocations: 84)
+Completed 200 OK in 66ms (Views: 62.1ms | ActiveRecord: 0.0ms | Allocations: 12168)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:14:26 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.5ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 16.7ms | Allocations: 1190)
+  Rendered layouts/_navigation.html.erb (Duration: 0.5ms | Allocations: 61)
+Completed 200 OK in 69ms (Views: 64.4ms | ActiveRecord: 1.5ms | Allocations: 10772)
+
+
+Started GET "/users/sign_in" for ::1 at 2019-09-11 16:14:27 +0300
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.2ms | Allocations: 132)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 10.7ms | Allocations: 1051)
+  Rendered layouts/_navigation.html.erb (Duration: 0.7ms | Allocations: 84)
+Completed 200 OK in 74ms (Views: 69.5ms | ActiveRecord: 0.0ms | Allocations: 10883)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:16:28 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.5ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:47
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 13.2ms | Allocations: 1622)
+  Rendered layouts/_navigation.html.erb (Duration: 3.7ms | Allocations: 461)
+Completed 200 OK in 74ms (Views: 69.5ms | ActiveRecord: 1.5ms | Allocations: 12783)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:16:39 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (2.4ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:21
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 16.0ms | Allocations: 1334)
+  Rendered layouts/_navigation.html.erb (Duration: 3.0ms | Allocations: 505)
+Completed 200 OK in 81ms (Views: 73.5ms | ActiveRecord: 2.4ms | Allocations: 12539)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:16:41 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.1ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:21
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 9.9ms | Allocations: 1060)
+  Rendered layouts/_navigation.html.erb (Duration: 1.4ms | Allocations: 183)
+Completed 200 OK in 57ms (Views: 53.0ms | ActiveRecord: 1.1ms | Allocations: 10724)
+
+
+Started GET "/users/sign_up" for ::1 at 2019-09-11 16:16:43 +0300
+Processing by Devise::RegistrationsController#new as HTML
+  Rendering devise/registrations/new.html.erb within layouts/application
+  Rendered devise/shared/_error_messages.html.erb (Duration: 2.4ms | Allocations: 206)
+  Rendered devise/shared/_links.html.erb (Duration: 4.3ms | Allocations: 489)
+  Rendered devise/registrations/new.html.erb within layouts/application (Duration: 20.8ms | Allocations: 2280)
+  Rendered layouts/_navigation.html.erb (Duration: 0.6ms | Allocations: 163)
+Completed 200 OK in 78ms (Views: 73.2ms | ActiveRecord: 0.0ms | Allocations: 13140)
+
+
+Started GET "/users/sign_in" for ::1 at 2019-09-11 16:16:44 +0300
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.5ms | Allocations: 132)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 13.2ms | Allocations: 1357)
+  Rendered layouts/_navigation.html.erb (Duration: 1.0ms | Allocations: 163)
+Completed 200 OK in 73ms (Views: 68.9ms | ActiveRecord: 0.0ms | Allocations: 11910)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:16:45 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (3.2ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:21
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 12.1ms | Allocations: 1064)
+  Rendered layouts/_navigation.html.erb (Duration: 0.8ms | Allocations: 187)
+Completed 200 OK in 58ms (Views: 51.8ms | ActiveRecord: 3.2ms | Allocations: 10730)
+
+
+Started GET "/users/sign_in" for ::1 at 2019-09-11 16:16:45 +0300
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.6ms | Allocations: 132)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 11.3ms | Allocations: 1042)
+  Rendered layouts/_navigation.html.erb (Duration: 1.4ms | Allocations: 156)
+Completed 200 OK in 76ms (Views: 71.7ms | ActiveRecord: 0.0ms | Allocations: 10916)
+
+
+Started GET "/users/sign_up" for ::1 at 2019-09-11 16:16:46 +0300
+Processing by Devise::RegistrationsController#new as HTML
+  Rendering devise/registrations/new.html.erb within layouts/application
+  Rendered devise/shared/_error_messages.html.erb (Duration: 0.2ms | Allocations: 15)
+  Rendered devise/shared/_links.html.erb (Duration: 1.0ms | Allocations: 78)
+  Rendered devise/registrations/new.html.erb within layouts/application (Duration: 10.8ms | Allocations: 1059)
+  Rendered layouts/_navigation.html.erb (Duration: 1.0ms | Allocations: 163)
+Completed 200 OK in 71ms (Views: 66.7ms | ActiveRecord: 0.0ms | Allocations: 10874)
+
+
+Started POST "/users" for ::1 at 2019-09-11 16:17:04 +0300
+Processing by Devise::RegistrationsController#create as HTML
+  Parameters: {"authenticity_token"=>"y8C0FrKCCZNinbASRsJHE+ArapkYzbvVw1VeCbKtkbXC1WVidKXJiBoth9ws3cT5tOrc5pTP6c+fmvqUqkgvIA==", "user"=>{"email"=>"fefetest1@test.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign up"}
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (52.2ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "fefetest1@test.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (48.3ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["email", "fefetest1@test.com"], ["encrypted_password", "$2a$11$nS5uouz3IrWm6dmrX5CFbOsyWJFcWqbJe95uon.PJ8.scqSyYU/Je"], ["created_at", "2019-09-11 13:17:05.246168"], ["updated_at", "2019-09-11 13:17:05.246168"]]
+  [1m[35m (81.8ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/
+Completed 302 Found in 499ms (ActiveRecord: 182.4ms | Allocations: 10297)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:17:05 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (2.0ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:21
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 12.9ms | Allocations: 1058)
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:4
+  Rendered layouts/_navigation.html.erb (Duration: 6.6ms | Allocations: 1102)
+Completed 200 OK in 56ms (Views: 48.9ms | ActiveRecord: 3.5ms | Allocations: 11651)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:19:30 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.0ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:21
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 99.5ms | Allocations: 1333)
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:4
+  Rendered layouts/_navigation.html.erb (Duration: 10.9ms | Allocations: 1322)
+Completed 200 OK in 156ms (Views: 150.3ms | ActiveRecord: 1.9ms | Allocations: 13374)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:19:31 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.4ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:21
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 12.9ms | Allocations: 1060)
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:4
+  Rendered layouts/_navigation.html.erb (Duration: 5.9ms | Allocations: 1007)
+Completed 200 OK in 75ms (Views: 69.3ms | ActiveRecord: 2.6ms | Allocations: 11561)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:19:32 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (3.2ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:21
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 13.8ms | Allocations: 1059)
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:4
+  Rendered layouts/_navigation.html.erb (Duration: 10.1ms | Allocations: 1006)
+Completed 200 OK in 79ms (Views: 72.0ms | ActiveRecord: 4.5ms | Allocations: 11554)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:19:32 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (0.9ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:21
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 6.7ms | Allocations: 1059)
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:4
+  Rendered layouts/_navigation.html.erb (Duration: 8.2ms | Allocations: 1006)
+Completed 200 OK in 42ms (Views: 37.2ms | ActiveRecord: 2.0ms | Allocations: 11548)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:19:32 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.4ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:21
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 7.9ms | Allocations: 1059)
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:4
+  Rendered layouts/_navigation.html.erb (Duration: 7.4ms | Allocations: 1006)
+Completed 200 OK in 42ms (Views: 37.9ms | ActiveRecord: 2.2ms | Allocations: 11544)
+
+
+Started DELETE "/users/sign_out" for ::1 at 2019-09-11 16:19:36 +0300
+Processing by Devise::SessionsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"Y7McpwNx+Ii1Ivhs367LGFcHkPn6cwhljCWjG7VmD+Bw49YkpenUQFcYkeMrBvNyM3AcikFjzzwUxejTvVZEHQ=="}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+Redirected to http://localhost:3000/
+Completed 302 Found in 112ms (ActiveRecord: 0.5ms | Allocations: 4625)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:19:36 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.8ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:21
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 10.3ms | Allocations: 1058)
+  Rendered layouts/_navigation.html.erb (Duration: 0.6ms | Allocations: 185)
+Completed 200 OK in 51ms (Views: 46.5ms | ActiveRecord: 1.8ms | Allocations: 10729)
+
+
+Started GET "/users/sign_in" for ::1 at 2019-09-11 16:19:39 +0300
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 3.2ms | Allocations: 544)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 12.4ms | Allocations: 1909)
+  Rendered layouts/_navigation.html.erb (Duration: 0.5ms | Allocations: 163)
+Completed 200 OK in 61ms (Views: 56.8ms | ActiveRecord: 0.0ms | Allocations: 12851)
+
+
+Started POST "/users/sign_in" for ::1 at 2019-09-11 16:19:50 +0300
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"+gMaYO26JiE9AsdyCwCQdBmNnSMo8L2YzDnLKh5IQ1a6a7v6VzvyQdmfm0fMiBGuFuM3hbFisWR3JEXK2o/UNg==", "user"=>{"email"=>"fefetest1@test.com", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  [1m[36mUser Load (1.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "fefetest1@test.com"], ["LIMIT", 1]]
+Completed 401 Unauthorized in 245ms (ActiveRecord: 1.4ms | Allocations: 2162)
+
+
+Processing by Devise::SessionsController#new as HTML
+  Parameters: {"authenticity_token"=>"+gMaYO26JiE9AsdyCwCQdBmNnSMo8L2YzDnLKh5IQ1a6a7v6VzvyQdmfm0fMiBGuFuM3hbFisWR3JEXK2o/UNg==", "user"=>{"email"=>"fefetest1@test.com", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 0.4ms | Allocations: 132)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 3.3ms | Allocations: 1048)
+  Rendered layouts/_navigation.html.erb (Duration: 0.2ms | Allocations: 88)
+Completed 200 OK in 192ms (Views: 20.5ms | ActiveRecord: 0.0ms | Allocations: 10815)
+
+
+Started POST "/users/sign_in" for ::1 at 2019-09-11 16:19:57 +0300
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"BH/z7luJ1AMh0WAugpjQfzv9vi/WgxHGQataqd8X7Vlsux1dv6Zmaw+yGUzQQkB5zd7b71Kue6P5+Yu8b2J13w==", "user"=>{"email"=>"fefetest1@test.com", "password"=>"[FILTERED]", "remember_me"=>"1"}, "commit"=>"Log in"}
+  [1m[36mUser Load (2.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "fefetest1@test.com"], ["LIMIT", 1]]
+Completed 401 Unauthorized in 219ms (ActiveRecord: 2.6ms | Allocations: 1894)
+
+
+Processing by Devise::SessionsController#new as HTML
+  Parameters: {"authenticity_token"=>"BH/z7luJ1AMh0WAugpjQfzv9vi/WgxHGQataqd8X7Vlsux1dv6Zmaw+yGUzQQkB5zd7b71Kue6P5+Yu8b2J13w==", "user"=>{"email"=>"fefetest1@test.com", "password"=>"[FILTERED]", "remember_me"=>"1"}, "commit"=>"Log in"}
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 0.6ms | Allocations: 132)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 4.9ms | Allocations: 1042)
+  Rendered layouts/_navigation.html.erb (Duration: 0.2ms | Allocations: 88)
+Completed 200 OK in 199ms (Views: 25.5ms | ActiveRecord: 0.0ms | Allocations: 10783)
+
+
+Started POST "/users/sign_in" for ::1 at 2019-09-11 16:20:07 +0300
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"LiyUBY0mP/7KN6D2LcM6KcUQ/Y4qzoLKqLzGtZ7jY/VG6Hq2aQmNluRU2ZR/GaovMzOYTq7j6K8Q7hegLpb7cw==", "user"=>{"email"=>"fefetest1@test.com", "password"=>"[FILTERED]", "remember_me"=>"1"}, "commit"=>"Log in"}
+  [1m[36mUser Load (1.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "fefetest1@test.com"], ["LIMIT", 1]]
+Completed 401 Unauthorized in 212ms (ActiveRecord: 1.4ms | Allocations: 1893)
+
+
+Processing by Devise::SessionsController#new as HTML
+  Parameters: {"authenticity_token"=>"LiyUBY0mP/7KN6D2LcM6KcUQ/Y4qzoLKqLzGtZ7jY/VG6Hq2aQmNluRU2ZR/GaovMzOYTq7j6K8Q7hegLpb7cw==", "user"=>{"email"=>"fefetest1@test.com", "password"=>"[FILTERED]", "remember_me"=>"1"}, "commit"=>"Log in"}
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 0.3ms | Allocations: 132)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 2.5ms | Allocations: 1042)
+  Rendered layouts/_navigation.html.erb (Duration: 0.2ms | Allocations: 88)
+Completed 200 OK in 192ms (Views: 16.4ms | ActiveRecord: 0.0ms | Allocations: 10783)
+
+
+Started POST "/users/sign_in" for ::1 at 2019-09-11 16:20:19 +0300
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"/7pyhz/cMGHrGnOP8uDtPqyaNoSCK43ChCfpVN4rMgyXfpw02/OCCcV5Cu2gOn04WrlTRAYG56c8dThBbl6qig==", "user"=>{"email"=>"fefetest1@test.com", "password"=>"[FILTERED]", "remember_me"=>"1"}, "commit"=>"Log in"}
+  [1m[36mUser Load (3.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "fefetest1@test.com"], ["LIMIT", 1]]
+Completed 401 Unauthorized in 223ms (ActiveRecord: 3.1ms | Allocations: 1890)
+
+
+Processing by Devise::SessionsController#new as HTML
+  Parameters: {"authenticity_token"=>"/7pyhz/cMGHrGnOP8uDtPqyaNoSCK43ChCfpVN4rMgyXfpw02/OCCcV5Cu2gOn04WrlTRAYG56c8dThBbl6qig==", "user"=>{"email"=>"fefetest1@test.com", "password"=>"[FILTERED]", "remember_me"=>"1"}, "commit"=>"Log in"}
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 0.5ms | Allocations: 132)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 8.4ms | Allocations: 1042)
+  Rendered layouts/_navigation.html.erb (Duration: 0.2ms | Allocations: 88)
+Completed 200 OK in 202ms (Views: 29.5ms | ActiveRecord: 0.0ms | Allocations: 10786)
+
+
+Started POST "/users/sign_in" for ::1 at 2019-09-11 16:20:24 +0300
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"iNneKEvsmMYkbxfwnuTTw7/jB12wYWOnhalRfbm3aObgHTCbr8MqrgoMbpLMPkPFScBinTRMCcI9+4BoCcLwYA==", "user"=>{"email"=>"fefetest1@test.com", "password"=>"[FILTERED]", "remember_me"=>"1"}, "commit"=>"Log in"}
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "fefetest1@test.com"], ["LIMIT", 1]]
+Completed 401 Unauthorized in 179ms (ActiveRecord: 0.7ms | Allocations: 1894)
+
+
+Processing by Devise::SessionsController#new as HTML
+  Parameters: {"authenticity_token"=>"iNneKEvsmMYkbxfwnuTTw7/jB12wYWOnhalRfbm3aObgHTCbr8MqrgoMbpLMPkPFScBinTRMCcI9+4BoCcLwYA==", "user"=>{"email"=>"fefetest1@test.com", "password"=>"[FILTERED]", "remember_me"=>"1"}, "commit"=>"Log in"}
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 0.2ms | Allocations: 132)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 3.1ms | Allocations: 1042)
+  Rendered layouts/_navigation.html.erb (Duration: 0.6ms | Allocations: 88)
+Completed 200 OK in 202ms (Views: 26.0ms | ActiveRecord: 0.0ms | Allocations: 10784)
+
+
+Started POST "/users/sign_in" for ::1 at 2019-09-11 16:20:29 +0300
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"2QnEkwnGJi1hgCcA0a2bUTwHZhzi5t9vEpAzHtFWKD6xzSog7emURU/jXmKDdwtXyiQD3GbLtQqqwuILYSOwuA==", "user"=>{"email"=>"fefetest1@test.com", "password"=>"[FILTERED]", "remember_me"=>"1"}, "commit"=>"Log in"}
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "fefetest1@test.com"], ["LIMIT", 1]]
+Completed 401 Unauthorized in 188ms (ActiveRecord: 1.3ms | Allocations: 1892)
+
+
+Processing by Devise::SessionsController#new as HTML
+  Parameters: {"authenticity_token"=>"2QnEkwnGJi1hgCcA0a2bUTwHZhzi5t9vEpAzHtFWKD6xzSog7emURU/jXmKDdwtXyiQD3GbLtQqqwuILYSOwuA==", "user"=>{"email"=>"fefetest1@test.com", "password"=>"[FILTERED]", "remember_me"=>"1"}, "commit"=>"Log in"}
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 0.5ms | Allocations: 132)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 5.3ms | Allocations: 1042)
+  Rendered layouts/_navigation.html.erb (Duration: 0.2ms | Allocations: 88)
+Completed 200 OK in 196ms (Views: 23.2ms | ActiveRecord: 0.0ms | Allocations: 10783)
+
+
+Started GET "/users/sign_up" for ::1 at 2019-09-11 16:20:32 +0300
+Processing by Devise::RegistrationsController#new as HTML
+  Rendering devise/registrations/new.html.erb within layouts/application
+  Rendered devise/shared/_error_messages.html.erb (Duration: 3.0ms | Allocations: 206)
+  Rendered devise/shared/_links.html.erb (Duration: 0.9ms | Allocations: 79)
+  Rendered devise/registrations/new.html.erb within layouts/application (Duration: 17.3ms | Allocations: 1732)
+  Rendered layouts/_navigation.html.erb (Duration: 0.8ms | Allocations: 163)
+Completed 200 OK in 65ms (Views: 60.6ms | ActiveRecord: 0.0ms | Allocations: 12213)
+
+
+Started GET "/users/sign_in" for ::1 at 2019-09-11 16:20:40 +0300
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.3ms | Allocations: 132)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 8.8ms | Allocations: 1051)
+  Rendered layouts/_navigation.html.erb (Duration: 1.3ms | Allocations: 163)
+Completed 200 OK in 68ms (Views: 63.2ms | ActiveRecord: 0.0ms | Allocations: 10934)
+
+
+Started POST "/users/sign_in" for ::1 at 2019-09-11 16:20:57 +0300
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"31YbkAm1xp6VvwITvdlOM6afwS0zt3y2sD+EBvuJkDGfProKszQS/nEiXiZ6Uc/pqfFri6olcEoLIgrmP04HUQ==", "user"=>{"email"=>"fefetest1@test.com", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "fefetest1@test.com"], ["LIMIT", 1]]
+Redirected to http://localhost:3000/
+Completed 302 Found in 190ms (ActiveRecord: 0.8ms | Allocations: 3835)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:20:58 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (0.7ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:21
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 4.3ms | Allocations: 1063)
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:4
+  Rendered layouts/_navigation.html.erb (Duration: 2.3ms | Allocations: 1011)
+Completed 200 OK in 28ms (Views: 25.3ms | ActiveRecord: 0.9ms | Allocations: 11577)
+
+
+Started GET "/" for ::1 at 2019-09-11 16:21:14 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (0.6ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:21
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 4.1ms | Allocations: 1059)
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:4
+  Rendered layouts/_navigation.html.erb (Duration: 3.5ms | Allocations: 1006)
+Completed 200 OK in 28ms (Views: 25.9ms | ActiveRecord: 1.0ms | Allocations: 11549)
+
+
+Started GET "/clubs/new" for ::1 at 2019-09-11 16:21:16 +0300
+Processing by ClubsController#new as HTML
+  Rendering clubs/new.html.erb within layouts/application
+  Rendered clubs/_form.html.erb (Duration: 3.7ms | Allocations: 693)
+  Rendered clubs/new.html.erb within layouts/application (Duration: 23.0ms | Allocations: 1040)
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:4
+  Rendered layouts/_navigation.html.erb (Duration: 5.0ms | Allocations: 1010)
+Completed 200 OK in 108ms (Views: 52.8ms | ActiveRecord: 28.4ms | Allocations: 17450)
+
+
+Started POST "/clubs" for ::1 at 2019-09-11 16:21:18 +0300
+Processing by ClubsController#create as HTML
+  Parameters: {"authenticity_token"=>"J/2YK5wfQqtOoUvmFBNpoLa3Utbm22JHIN0x6KvyX/lteQMd2vv1HVQJ+FmPZrF6lX+Q9U0C/E2ce+9z9FWd7w==", "commit"=>"Create Club"}
+  Rendering clubs/new.html.erb within layouts/application
+  Rendered clubs/_form.html.erb (Duration: 7.4ms | Allocations: 614)
+  Rendered clubs/new.html.erb within layouts/application (Duration: 9.0ms | Allocations: 699)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:4
+  Rendered layouts/_navigation.html.erb (Duration: 2.8ms | Allocations: 1005)
+Completed 200 OK in 87ms (Views: 35.5ms | ActiveRecord: 0.3ms | Allocations: 15304)
+
+
+Started POST "/clubs" for ::1 at 2019-09-11 16:21:21 +0300
+Processing by ClubsController#create as HTML
+  Parameters: {"authenticity_token"=>"uY20LKtNIQC/D7qJmyBkKGZCA8tY2C6PBzK/fnPcuH0hlrDXNMoIMcRVaVv3e/c+BAJ0hwzgsjDWWTPuWWZnXQ==", "commit"=>"Create Club"}
+  Rendering clubs/new.html.erb within layouts/application
+  Rendered clubs/_form.html.erb (Duration: 2.3ms | Allocations: 605)
+  Rendered clubs/new.html.erb within layouts/application (Duration: 2.8ms | Allocations: 690)
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:4
+  Rendered layouts/_navigation.html.erb (Duration: 5.0ms | Allocations: 1005)
+Completed 200 OK in 31ms (Views: 25.2ms | ActiveRecord: 0.4ms | Allocations: 12285)
+
+
+Started POST "/clubs" for ::1 at 2019-09-11 16:21:21 +0300
+Processing by ClubsController#create as HTML
+  Parameters: {"authenticity_token"=>"NyKO4cbxk7QhavY0vcvhGP+5PFdgP5vJmdK9XGyOm9uvOYoaWXa6hVowJebRkHIOnflLGzQHB3ZIuTHMRjRE+w==", "commit"=>"Create Club"}
+  Rendering clubs/new.html.erb within layouts/application
+  Rendered clubs/_form.html.erb (Duration: 2.2ms | Allocations: 605)
+  Rendered clubs/new.html.erb within layouts/application (Duration: 3.1ms | Allocations: 690)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:4
+  Rendered layouts/_navigation.html.erb (Duration: 3.1ms | Allocations: 1005)
+Completed 200 OK in 38ms (Views: 34.9ms | ActiveRecord: 0.3ms | Allocations: 12295)
+
+
+Started POST "/clubs" for ::1 at 2019-09-11 16:21:21 +0300
+Processing by ClubsController#create as HTML
+  Parameters: {"authenticity_token"=>"ZvOnzFiWiuC7gr0qoR3xbXILZqKHAZOU+tut+hIlrYv+6KM3xxGj0cDYbvjNRmJ7EEsR7tM5DysrsCFqOJ9yqw==", "commit"=>"Create Club"}
+  Rendering clubs/new.html.erb within layouts/application
+  Rendered clubs/_form.html.erb (Duration: 5.5ms | Allocations: 605)
+  Rendered clubs/new.html.erb within layouts/application (Duration: 6.8ms | Allocations: 690)
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:4
+  Rendered layouts/_navigation.html.erb (Duration: 6.8ms | Allocations: 1005)
+Completed 200 OK in 73ms (Views: 62.1ms | ActiveRecord: 0.8ms | Allocations: 12283)
+
+
+Started POST "/clubs" for ::1 at 2019-09-11 16:21:22 +0300
+Processing by ClubsController#create as HTML
+  Parameters: {"authenticity_token"=>"vZwHfAIcmCKts2xaUuwL75CI6k3T03AL3KRje6uXWZMlhwOHnZuxE9bpv4g+t5j58sidAYfr7LQNz+/rgS2Gsw==", "commit"=>"Create Club"}
+  Rendering clubs/new.html.erb within layouts/application
+  Rendered clubs/_form.html.erb (Duration: 5.3ms | Allocations: 605)
+  Rendered clubs/new.html.erb within layouts/application (Duration: 7.4ms | Allocations: 690)
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:4
+  Rendered layouts/_navigation.html.erb (Duration: 10.3ms | Allocations: 1005)
+Completed 200 OK in 97ms (Views: 80.8ms | ActiveRecord: 0.7ms | Allocations: 12287)
+
+
+Started POST "/clubs" for ::1 at 2019-09-11 16:21:22 +0300
+Processing by ClubsController#create as HTML
+  Parameters: {"authenticity_token"=>"ayHDU9agbbWSYukZLQL86bLwm4K4bM54LEYccYTL3lLzOseoSSdEhOk4OstBWW//0LDszuxUUsf9LZDhrnEBcg==", "commit"=>"Create Club"}
+  Rendering clubs/new.html.erb within layouts/application
+  Rendered clubs/_form.html.erb (Duration: 5.5ms | Allocations: 605)
+  Rendered clubs/new.html.erb within layouts/application (Duration: 7.4ms | Allocations: 690)
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:4
+  Rendered layouts/_navigation.html.erb (Duration: 6.3ms | Allocations: 1005)
+Completed 200 OK in 67ms (Views: 55.6ms | ActiveRecord: 0.6ms | Allocations: 12288)
+
+
+Started POST "/clubs" for ::1 at 2019-09-11 16:21:22 +0300
+Processing by ClubsController#create as HTML
+  Parameters: {"authenticity_token"=>"q5RaSYSTpAWMhuQXegivAiLG+UIjNZ3xu6rAfoE2rEozj16yGxSNNPfcN8UWUzwUQIaODncNAU5qwUzuq4xzag==", "commit"=>"Create Club"}
+  Rendering clubs/new.html.erb within layouts/application
+  Rendered clubs/_form.html.erb (Duration: 1.5ms | Allocations: 605)
+  Rendered clubs/new.html.erb within layouts/application (Duration: 1.9ms | Allocations: 690)
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:4
+  Rendered layouts/_navigation.html.erb (Duration: 10.0ms | Allocations: 1005)
+Completed 200 OK in 32ms (Views: 27.9ms | ActiveRecord: 0.5ms | Allocations: 12293)
+
+
+Started GET "/clubs" for ::1 at 2019-09-11 16:25:19 +0300
+Processing by ClubsController#index as HTML
+  Rendering clubs/index.html.erb within layouts/application
+  [1m[36mClub Load (41.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs"[0m
+  ↳ app/views/clubs/index.html.erb:13
+  Rendered clubs/index.html.erb within layouts/application (Duration: 79.0ms | Allocations: 1927)
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:4
+  Rendered layouts/_navigation.html.erb (Duration: 5.2ms | Allocations: 1011)
+Completed 200 OK in 141ms (Views: 95.3ms | ActiveRecord: 42.2ms | Allocations: 12586)
+
+
+Started GET "/clubs/2" for ::1 at 2019-09-11 16:25:23 +0300
+Processing by ClubsController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mClub Load (1.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/clubs_controller.rb:67:in `set_club'
+  Rendering clubs/show.html.erb within layouts/application
+  Rendered clubs/show.html.erb within layouts/application (Duration: 2.4ms | Allocations: 225)
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:4
+  Rendered layouts/_navigation.html.erb (Duration: 7.1ms | Allocations: 1011)
+Completed 200 OK in 67ms (Views: 55.6ms | ActiveRecord: 1.8ms | Allocations: 11507)
+
+
+Started GET "/clubs/1" for ::1 at 2019-09-11 16:25:47 +0300
+Processing by ClubsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mClub Load (0.6ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/clubs_controller.rb:67:in `set_club'
+Completed 404 Not Found in 4ms (ActiveRecord: 0.6ms | Allocations: 1138)
+
+
+
+ActiveRecord::RecordNotFound - Couldn't find Club with 'id'=1:
+  app/controllers/clubs_controller.rb:67:in `set_club'
+
+Started POST "/__better_errors/998564a757ab515a/variables" for ::1 at 2019-09-11 16:25:47 +0300
+Started GET "/clubs/3" for ::1 at 2019-09-11 16:25:56 +0300
+Processing by ClubsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[36mClub Load (0.6ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  ↳ app/controllers/clubs_controller.rb:67:in `set_club'
+  Rendering clubs/show.html.erb within layouts/application
+  Rendered clubs/show.html.erb within layouts/application (Duration: 0.5ms | Allocations: 86)
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:4
+  Rendered layouts/_navigation.html.erb (Duration: 4.3ms | Allocations: 1006)
+Completed 200 OK in 35ms (Views: 30.8ms | ActiveRecord: 0.9ms | Allocations: 11107)
+
+
+Started GET "/rails/info/routes" for ::1 at 2019-09-11 16:29:21 +0300
+Processing by Rails::InfoController#routes as HTML
+  Rendering /usr/local/lib/ruby/gems/2.6.0/gems/railties-6.0.0/lib/rails/templates/rails/info/routes.html.erb within layouts/application
+  Rendered collection of /usr/local/lib/ruby/gems/2.6.0/gems/actionpack-6.0.0/lib/action_dispatch/middleware/templates/routes/_route.html.erb [75 times] (Duration: 100.7ms | Allocations: 10231)
+  Rendered /usr/local/lib/ruby/gems/2.6.0/gems/actionpack-6.0.0/lib/action_dispatch/middleware/templates/routes/_table.html.erb (Duration: 57.8ms | Allocations: 915)
+  Rendered /usr/local/lib/ruby/gems/2.6.0/gems/railties-6.0.0/lib/rails/templates/rails/info/routes.html.erb within layouts/application (Duration: 177.3ms | Allocations: 16688)
+Completed 200 OK in 194ms (Views: 184.0ms | ActiveRecord: 0.0ms | Allocations: 18048)
+
+
+Started GET "/clubs/3" for ::1 at 2019-09-12 08:00:53 +0300
+  [1m[35m (66.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ClubsController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[36mClub Load (36.7ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  ↳ app/controllers/clubs_controller.rb:67:in `set_club'
+  Rendering clubs/show.html.erb within layouts/application
+  Rendered clubs/show.html.erb within layouts/application (Duration: 58.0ms | Allocations: 375)
+  [1m[36mUser Load (24.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:4
+  Rendered layouts/_navigation.html.erb (Duration: 57.8ms | Allocations: 12254)
+Completed 200 OK in 1448ms (Views: 1246.1ms | ActiveRecord: 100.9ms | Allocations: 1276966)
+
+
+Started GET "/" for ::1 at 2019-09-12 08:00:58 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (40.5ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:21
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 133.6ms | Allocations: 7570)
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:4
+  Rendered layouts/_navigation.html.erb (Duration: 2.8ms | Allocations: 1012)
+Completed 200 OK in 196ms (Views: 102.3ms | ActiveRecord: 51.4ms | Allocations: 19241)
+
+
+Started GET "/" for ::1 at 2019-09-12 08:29:43 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (9.4ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:21
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 39.2ms | Allocations: 1444)
+  [1m[36mUser Load (4.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:3
+  Rendered layouts/_navigation.html.erb (Duration: 21.6ms | Allocations: 1322)
+Completed 200 OK in 431ms (Views: 372.6ms | ActiveRecord: 15.4ms | Allocations: 13493)
+
+
+Started GET "/clubs/new" for ::1 at 2019-09-12 08:31:56 +0300
+Processing by ClubsController#new as HTML
+  Rendering clubs/new.html.erb within layouts/application
+  Rendered clubs/_form.html.erb (Duration: 461.0ms | Allocations: 176495)
+  Rendered clubs/new.html.erb within layouts/application (Duration: 466.9ms | Allocations: 176841)
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:3
+  Rendered layouts/_navigation.html.erb (Duration: 3.5ms | Allocations: 1290)
+Completed 200 OK in 520ms (Views: 513.7ms | ActiveRecord: 0.5ms | Allocations: 188872)
+
+
+Started GET "/" for ::1 at 2019-09-12 08:31:59 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.3ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:21
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 12.7ms | Allocations: 1341)
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:3
+  Rendered layouts/_navigation.html.erb (Duration: 6.1ms | Allocations: 1013)
+Completed 200 OK in 75ms (Views: 67.1ms | ActiveRecord: 2.0ms | Allocations: 12538)
+
+
+Started GET "/users/edit" for ::1 at 2019-09-12 08:32:07 +0300
+Processing by Devise::RegistrationsController#edit as HTML
+  [1m[36mUser Load (1.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  Rendering devise/registrations/edit.html.erb within layouts/application
+  Rendered devise/shared/_error_messages.html.erb (Duration: 2.8ms | Allocations: 213)
+  Rendered devise/registrations/edit.html.erb within layouts/application (Duration: 45.8ms | Allocations: 3103)
+  Rendered layouts/_navigation.html.erb (Duration: 0.7ms | Allocations: 96)
+Completed 200 OK in 117ms (Views: 101.1ms | ActiveRecord: 1.8ms | Allocations: 15315)
+
+
+Started GET "/" for ::1 at 2019-09-12 08:32:50 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.4ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:21
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 17.2ms | Allocations: 1074)
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:3
+  Rendered layouts/_navigation.html.erb (Duration: 5.6ms | Allocations: 1013)
+Completed 200 OK in 81ms (Views: 75.6ms | ActiveRecord: 2.5ms | Allocations: 11593)
+
+
+  [1m[35m (5.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (40.8ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (483.7ms)[0m  [1m[35mDROP DATABASE IF EXISTS "scaff_development"[0m
+  [1m[35m (238.4ms)[0m  [1m[35mDROP DATABASE IF EXISTS "scaff_test"[0m
+  [1m[35m (884.2ms)[0m  [1m[35mCREATE DATABASE "scaff_development" ENCODING = 'unicode'[0m
+  [1m[35m (668.0ms)[0m  [1m[35mCREATE DATABASE "scaff_test" ENCODING = 'unicode'[0m
+  [1m[35m (180.5ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (113.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT pg_try_advisory_lock(1454809796900757255)[0m
+  [1m[35m (1.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to DeviseCreateUsers (20190911060712)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (82.2ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "quarter_id" bigint, "reset_password_token" character varying, "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (33.4ms)[0m  [1m[35mCREATE  INDEX  "index_users_on_quarter_id" ON "users"  ("quarter_id")[0m
+  [1m[35m (49.5ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_users_on_email" ON "users"  ("email")[0m
+  [1m[35m (36.9ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_users_on_reset_password_token" ON "users"  ("reset_password_token")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911060712"]]
+  [1m[35m (12.5ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateQuarters (20190911060923)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (62.3ms)[0m  [1m[35mCREATE TABLE "quarters" ("id" bigserial primary key, "zip_code" character varying, "name" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911060923"]]
+  [1m[35m (14.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateClubs (20190911061102)
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (50.8ms)[0m  [1m[35mCREATE TABLE "clubs" ("id" bigserial primary key, "recruiter_id" bigint, "quarter_id" bigint, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (38.8ms)[0m  [1m[35mCREATE  INDEX  "index_clubs_on_recruiter_id" ON "clubs"  ("recruiter_id")[0m
+  [1m[35m (31.2ms)[0m  [1m[35mCREATE  INDEX  "index_clubs_on_quarter_id" ON "clubs"  ("quarter_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911061102"]]
+  [1m[35m (10.4ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateRecrutements (20190911062120)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (75.0ms)[0m  [1m[35mCREATE TABLE "recrutements" ("id" bigserial primary key, "content" text, "deadline" timestamp, "club_id" bigint, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (33.2ms)[0m  [1m[35mCREATE  INDEX  "index_recrutements_on_club_id" ON "recrutements"  ("club_id")[0m
+  [1m[36mprimary::SchemaMigration Create (1.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911062120"]]
+  [1m[35m (12.5ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateRequests (20190911062143)
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (37.9ms)[0m  [1m[35mCREATE TABLE "requests" ("id" bigserial primary key, "recrutement_id" bigint, "user_id" bigint, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (39.0ms)[0m  [1m[35mCREATE  INDEX  "index_requests_on_recrutement_id" ON "requests"  ("recrutement_id")[0m
+  [1m[35m (42.0ms)[0m  [1m[35mCREATE  INDEX  "index_requests_on_user_id" ON "requests"  ("user_id")[0m
+  [1m[36mprimary::SchemaMigration Create (1.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911062143"]]
+  [1m[35m (10.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddNameToUsers (20190911062611)
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[35mALTER TABLE "users" ADD "first_name" character varying[0m
+  [1m[35m (1.6ms)[0m  [1m[35mALTER TABLE "users" ADD "last_name" character varying[0m
+  [1m[35m (1.1ms)[0m  [1m[35mALTER TABLE "users" ADD "quarter" character varying[0m
+  [1m[35m (1.3ms)[0m  [1m[35mALTER TABLE "users" ADD "age" integer[0m
+  [1m[35m (1.2ms)[0m  [1m[35mALTER TABLE "users" ADD "skills" text[0m
+  [1m[35m (1.4ms)[0m  [1m[35mALTER TABLE "users" ADD "gender" character varying[0m
+  [1m[35m (1.2ms)[0m  [1m[35mALTER TABLE "users" ADD "pseudonym" character varying[0m
+  [1m[36mprimary::SchemaMigration Create (1.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911062611"]]
+  [1m[35m (7.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddRoleToUsers (20190911062806)
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.9ms)[0m  [1m[35mALTER TABLE "users" ADD "role" character varying[0m
+  [1m[36mprimary::SchemaMigration Create (1.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911062806"]]
+  [1m[35m (6.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateEvents (20190911082906)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (69.0ms)[0m  [1m[35mCREATE TABLE "events" ("id" bigserial primary key, "start_date" timestamp, "duration" integer, "title" character varying, "description" text, "price" integer, "location" character varying, "club_id" bigint, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (47.9ms)[0m  [1m[35mCREATE  INDEX  "index_events_on_club_id" ON "events"  ("club_id")[0m
+  [1m[36mprimary::SchemaMigration Create (1.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190911082906"]]
+  [1m[35m (18.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2019-09-12 05:36:13.324875"], ["updated_at", "2019-09-12 05:36:13.324875"]]
+  [1m[35m (13.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT pg_advisory_unlock(1454809796900757255)[0m
+  [1m[35m (1.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mQuarter Load (0.5ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters"[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mClub Load (0.5ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs"[0m
+  [1m[36mRecrutement Load (0.5ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements"[0m
+  [1m[36mRequest Load (0.5ms)[0m  [1m[34mSELECT "requests".* FROM "requests"[0m
+  [1m[36mEvent Load (0.6ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "90460"], ["name", "Krajcik River"], ["created_at", "2019-09-12 05:36:13.833844"], ["updated_at", "2019-09-12 05:36:13.833844"]]
+  [1m[35m (24.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "61651-6175"], ["name", "Isidro Crossroad"], ["created_at", "2019-09-12 05:36:13.865089"], ["updated_at", "2019-09-12 05:36:13.865089"]]
+  [1m[35m (8.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "06720"], ["name", "Cole Parks"], ["created_at", "2019-09-12 05:36:13.881705"], ["updated_at", "2019-09-12 05:36:13.881705"]]
+  [1m[35m (7.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "01225-0903"], ["name", "Lonna Cliff"], ["created_at", "2019-09-12 05:36:13.897796"], ["updated_at", "2019-09-12 05:36:13.897796"]]
+  [1m[35m (10.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "08850"], ["name", "Maximina Drive"], ["created_at", "2019-09-12 05:36:13.914451"], ["updated_at", "2019-09-12 05:36:13.914451"]]
+  [1m[35m (9.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "05454-7928"], ["name", "Benita Grove"], ["created_at", "2019-09-12 05:36:13.931171"], ["updated_at", "2019-09-12 05:36:13.931171"]]
+  [1m[35m (10.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "52918-0135"], ["name", "Emmerich Crest"], ["created_at", "2019-09-12 05:36:13.947899"], ["updated_at", "2019-09-12 05:36:13.947899"]]
+  [1m[35m (9.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.8ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "14776-5081"], ["name", "Tina Manors"], ["created_at", "2019-09-12 05:36:13.966960"], ["updated_at", "2019-09-12 05:36:13.966960"]]
+  [1m[35m (10.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (1.1ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "70358-1270"], ["name", "Weber Pike"], ["created_at", "2019-09-12 05:36:13.991951"], ["updated_at", "2019-09-12 05:36:13.991951"]]
+  [1m[35m (10.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.9ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "69572"], ["name", "Hintz Island"], ["created_at", "2019-09-12 05:36:14.017132"], ["updated_at", "2019-09-12 05:36:14.017132"]]
+  [1m[35m (10.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "41774"], ["name", "Farrell Plaza"], ["created_at", "2019-09-12 05:36:14.040402"], ["updated_at", "2019-09-12 05:36:14.040402"]]
+  [1m[35m (7.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "69755-1121"], ["name", "Gabriel Gardens"], ["created_at", "2019-09-12 05:36:14.057480"], ["updated_at", "2019-09-12 05:36:14.057480"]]
+  [1m[35m (6.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.8ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "44778-2722"], ["name", "Lianne Crest"], ["created_at", "2019-09-12 05:36:14.075495"], ["updated_at", "2019-09-12 05:36:14.075495"]]
+  [1m[35m (11.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.6ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "23000"], ["name", "Barton Field"], ["created_at", "2019-09-12 05:36:14.098752"], ["updated_at", "2019-09-12 05:36:14.098752"]]
+  [1m[35m (6.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.4ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "79609"], ["name", "Shawnee Shore"], ["created_at", "2019-09-12 05:36:14.114199"], ["updated_at", "2019-09-12 05:36:14.114199"]]
+  [1m[35m (10.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.9ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "23568"], ["name", "Erdman Pine"], ["created_at", "2019-09-12 05:36:14.134278"], ["updated_at", "2019-09-12 05:36:14.134278"]]
+  [1m[35m (8.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.5ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "84252-6166"], ["name", "Spencer Court"], ["created_at", "2019-09-12 05:36:14.157240"], ["updated_at", "2019-09-12 05:36:14.157240"]]
+  [1m[35m (23.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.9ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "07157-2992"], ["name", "Catarina Park"], ["created_at", "2019-09-12 05:36:14.192376"], ["updated_at", "2019-09-12 05:36:14.192376"]]
+  [1m[35m (10.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.6ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "59286"], ["name", "Pfannerstill Islands"], ["created_at", "2019-09-12 05:36:14.217076"], ["updated_at", "2019-09-12 05:36:14.217076"]]
+  [1m[35m (7.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mQuarter Create (0.3ms)[0m  [1m[32mINSERT INTO "quarters" ("zip_code", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["zip_code", "83204-0070"], ["name", "Freida Village"], ["created_at", "2019-09-12 05:36:14.247814"], ["updated_at", "2019-09-12 05:36:14.247814"]]
+  [1m[35m (11.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "merlin@mrazmoriette.net"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.6ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "merlin@mrazmoriette.net"], ["encrypted_password", "$2a$11$TTEkedUc5RLl60cn1IoFnO4OUkS7V9OsWEroHdGKC..0KyWCRmswa"], ["quarter_id", 12], ["created_at", "2019-09-12 05:36:14.474732"], ["updated_at", "2019-09-12 05:36:14.474732"]]
+  [1m[35m (18.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "alfreda_smitham@baumbach.net"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "alfreda_smitham@baumbach.net"], ["encrypted_password", "$2a$11$iBaLexa10jeXeDQRn88qDeZaCwUCAYdNm9EQimh2ZxJCg5kLneybu"], ["quarter_id", 12], ["created_at", "2019-09-12 05:36:14.674149"], ["updated_at", "2019-09-12 05:36:14.674149"]]
+  [1m[35m (19.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "libbie@mclaughlin.biz"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "libbie@mclaughlin.biz"], ["encrypted_password", "$2a$11$3mGC7hcuWvLTGCEEf2X4RuHUbJAC1858Nw3D4CmliuP21nFeeXKFC"], ["quarter_id", 11], ["created_at", "2019-09-12 05:36:14.868188"], ["updated_at", "2019-09-12 05:36:14.868188"]]
+  [1m[35m (17.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "hayley_rosenbaum@pacocha.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "hayley_rosenbaum@pacocha.com"], ["encrypted_password", "$2a$11$TVBBW6SXov0i2GRX/FQSRerWCfPLplP2oTTaSDRcDJcf5WOFWVpVS"], ["quarter_id", 15], ["created_at", "2019-09-12 05:36:15.056477"], ["updated_at", "2019-09-12 05:36:15.056477"]]
+  [1m[35m (12.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (1.8ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "eliseo_schinner@schuppe.org"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "eliseo_schinner@schuppe.org"], ["encrypted_password", "$2a$11$EARvn4T7I5zywdff8Le3o.tP8UxrpbB9Rh/yy/KrswlfFXHZj3kl."], ["quarter_id", 16], ["created_at", "2019-09-12 05:36:15.246573"], ["updated_at", "2019-09-12 05:36:15.246573"]]
+  [1m[35m (10.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "amberly@wunsch.biz"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "amberly@wunsch.biz"], ["encrypted_password", "$2a$11$Op.uYYSk0XrpU2l1Dh3bK.uILU52ZBr/CXyxy0pO2AlXH2xmT7OTG"], ["quarter_id", 13], ["created_at", "2019-09-12 05:36:15.437966"], ["updated_at", "2019-09-12 05:36:15.437966"]]
+  [1m[35m (23.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "julee.labadie@price.info"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "julee.labadie@price.info"], ["encrypted_password", "$2a$11$7uaxGydNGJTOVSWmm1jDNepr2KqC8ihSPZ3/rzHFmngnLpTRv04kS"], ["quarter_id", 13], ["created_at", "2019-09-12 05:36:15.630928"], ["updated_at", "2019-09-12 05:36:15.630928"]]
+  [1m[35m (21.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "cristy@howe.io"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "cristy@howe.io"], ["encrypted_password", "$2a$11$8fIH9huIosc521pimkcgq.YI8sQFjPu68Ai11os/mB5giKDtEqQk."], ["quarter_id", 2], ["created_at", "2019-09-12 05:36:15.822279"], ["updated_at", "2019-09-12 05:36:15.822279"]]
+  [1m[35m (14.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "daniel_nicolas@mayerstrosin.co"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "daniel_nicolas@mayerstrosin.co"], ["encrypted_password", "$2a$11$T9kiAvmEy/v/CIDDFzTkjeeZHLc9gEyrr59NJZLPJ3IXSxJcb6n4e"], ["quarter_id", 15], ["created_at", "2019-09-12 05:36:16.005614"], ["updated_at", "2019-09-12 05:36:16.005614"]]
+  [1m[35m (15.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "shirleen.hahn@beahan.io"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "shirleen.hahn@beahan.io"], ["encrypted_password", "$2a$11$w/aJQGL7FBdC8sQoU1w8auTJq4WCPdDV/5oeN3WUCJiye9uJS0I5."], ["quarter_id", 20], ["created_at", "2019-09-12 05:36:16.189947"], ["updated_at", "2019-09-12 05:36:16.189947"]]
+  [1m[35m (20.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.5ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 18], ["LIMIT", 1]]
+  [1m[36mClub Create (0.9ms)[0m  [1m[32mINSERT INTO "clubs" ("recruiter_id", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recruiter_id", 1], ["quarter_id", 18], ["created_at", "2019-09-12 05:36:16.237017"], ["updated_at", "2019-09-12 05:36:16.237017"]]
+  [1m[35m (6.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.5ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 14], ["LIMIT", 1]]
+  [1m[36mClub Create (0.4ms)[0m  [1m[32mINSERT INTO "clubs" ("recruiter_id", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recruiter_id", 5], ["quarter_id", 14], ["created_at", "2019-09-12 05:36:16.255906"], ["updated_at", "2019-09-12 05:36:16.255906"]]
+  [1m[35m (3.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.8ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 15], ["LIMIT", 1]]
+  [1m[36mClub Create (0.4ms)[0m  [1m[32mINSERT INTO "clubs" ("recruiter_id", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recruiter_id", 2], ["quarter_id", 15], ["created_at", "2019-09-12 05:36:16.271954"], ["updated_at", "2019-09-12 05:36:16.271954"]]
+  [1m[35m (6.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 18], ["LIMIT", 1]]
+  [1m[36mClub Create (0.4ms)[0m  [1m[32mINSERT INTO "clubs" ("recruiter_id", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recruiter_id", 4], ["quarter_id", 18], ["created_at", "2019-09-12 05:36:16.286843"], ["updated_at", "2019-09-12 05:36:16.286843"]]
+  [1m[35m (8.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 14], ["LIMIT", 1]]
+  [1m[36mClub Create (0.5ms)[0m  [1m[32mINSERT INTO "clubs" ("recruiter_id", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recruiter_id", 3], ["quarter_id", 14], ["created_at", "2019-09-12 05:36:16.303686"], ["updated_at", "2019-09-12 05:36:16.303686"]]
+  [1m[35m (6.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mClub Create (0.3ms)[0m  [1m[32mINSERT INTO "clubs" ("recruiter_id", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recruiter_id", 3], ["quarter_id", 3], ["created_at", "2019-09-12 05:36:16.322190"], ["updated_at", "2019-09-12 05:36:16.322190"]]
+  [1m[35m (6.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.5ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mClub Create (0.9ms)[0m  [1m[32mINSERT INTO "clubs" ("recruiter_id", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recruiter_id", 3], ["quarter_id", 5], ["created_at", "2019-09-12 05:36:16.347515"], ["updated_at", "2019-09-12 05:36:16.347515"]]
+  [1m[35m (11.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.4ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mClub Create (0.5ms)[0m  [1m[32mINSERT INTO "clubs" ("recruiter_id", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recruiter_id", 4], ["quarter_id", 4], ["created_at", "2019-09-12 05:36:16.379479"], ["updated_at", "2019-09-12 05:36:16.379479"]]
+  [1m[35m (6.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.3ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mClub Create (0.4ms)[0m  [1m[32mINSERT INTO "clubs" ("recruiter_id", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recruiter_id", 4], ["quarter_id", 5], ["created_at", "2019-09-12 05:36:16.395411"], ["updated_at", "2019-09-12 05:36:16.395411"]]
+  [1m[35m (7.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mQuarter Load (0.2ms)[0m  [1m[34mSELECT "quarters".* FROM "quarters" WHERE "quarters"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mClub Create (0.3ms)[0m  [1m[32mINSERT INTO "clubs" ("recruiter_id", "quarter_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recruiter_id", 2], ["quarter_id", 9], ["created_at", "2019-09-12 05:36:16.411610"], ["updated_at", "2019-09-12 05:36:16.411610"]]
+  [1m[35m (8.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.5ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.7ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "William (Bill Huggins)"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 4], ["created_at", "2019-09-12 05:36:16.440644"], ["updated_at", "2019-09-12 05:36:16.440644"]]
+  [1m[35m (9.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.5ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.4ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "The Lord of the Eagles"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 3], ["created_at", "2019-09-12 05:36:16.460942"], ["updated_at", "2019-09-12 05:36:16.460942"]]
+  [1m[35m (8.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.8ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.6ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Gandalf The Grey"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 5], ["created_at", "2019-09-12 05:36:16.487740"], ["updated_at", "2019-09-12 05:36:16.487740"]]
+  [1m[35m (4.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.3ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "The Great Goblin"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 2], ["created_at", "2019-09-12 05:36:16.503760"], ["updated_at", "2019-09-12 05:36:16.503760"]]
+  [1m[35m (7.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.6ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.5ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Roac"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 2], ["created_at", "2019-09-12 05:36:16.528043"], ["updated_at", "2019-09-12 05:36:16.528043"]]
+  [1m[35m (6.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.3ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Carc"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 2], ["created_at", "2019-09-12 05:36:16.544340"], ["updated_at", "2019-09-12 05:36:16.544340"]]
+  [1m[35m (8.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.7ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Beorn"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 1], ["created_at", "2019-09-12 05:36:16.564914"], ["updated_at", "2019-09-12 05:36:16.564914"]]
+  [1m[35m (10.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.7ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Balin"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 3], ["created_at", "2019-09-12 05:36:16.590652"], ["updated_at", "2019-09-12 05:36:16.590652"]]
+  [1m[35m (10.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.9ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Ori"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 2], ["created_at", "2019-09-12 05:36:16.615546"], ["updated_at", "2019-09-12 05:36:16.615546"]]
+  [1m[35m (9.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.5ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.8ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "William (Bill Huggins)"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 4], ["created_at", "2019-09-12 05:36:16.641447"], ["updated_at", "2019-09-12 05:36:16.641447"]]
+  [1m[35m (9.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.6ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.9ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Bungo Baggins"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 4], ["created_at", "2019-09-12 05:36:16.668339"], ["updated_at", "2019-09-12 05:36:16.668339"]]
+  [1m[35m (7.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.5ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.8ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Galion"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 1], ["created_at", "2019-09-12 05:36:16.692410"], ["updated_at", "2019-09-12 05:36:16.692410"]]
+  [1m[35m (8.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.5ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.9ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Radagast"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 3], ["created_at", "2019-09-12 05:36:16.717332"], ["updated_at", "2019-09-12 05:36:16.717332"]]
+  [1m[35m (7.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.6ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (1.0ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Dain"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 5], ["created_at", "2019-09-12 05:36:16.744394"], ["updated_at", "2019-09-12 05:36:16.744394"]]
+  [1m[35m (5.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.6ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (1.0ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Bolg"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 2], ["created_at", "2019-09-12 05:36:16.767783"], ["updated_at", "2019-09-12 05:36:16.767783"]]
+  [1m[35m (5.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.5ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.8ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Carc"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 3], ["created_at", "2019-09-12 05:36:16.795619"], ["updated_at", "2019-09-12 05:36:16.795619"]]
+  [1m[35m (3.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.4ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Gloin"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 4], ["created_at", "2019-09-12 05:36:16.813214"], ["updated_at", "2019-09-12 05:36:16.813214"]]
+  [1m[35m (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.4ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Bombur"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 2], ["created_at", "2019-09-12 05:36:16.827925"], ["updated_at", "2019-09-12 05:36:16.827925"]]
+  [1m[35m (8.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.3ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Kili"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 1], ["created_at", "2019-09-12 05:36:16.843977"], ["updated_at", "2019-09-12 05:36:16.843977"]]
+  [1m[35m (10.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.7ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mRecrutement Create (0.6ms)[0m  [1m[32mINSERT INTO "recrutements" ("content", "deadline", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["content", "Golfimbul"], ["deadline", "0021-09-19 00:00:00"], ["club_id", 4], ["created_at", "2019-09-12 05:36:16.872044"], ["updated_at", "2019-09-12 05:36:16.872044"]]
+  [1m[35m (4.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.4ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mRequest Create (1.5ms)[0m  [1m[32mINSERT INTO "requests" ("recrutement_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recrutement_id", 9], ["user_id", 7], ["created_at", "2019-09-12 05:36:16.912101"], ["updated_at", "2019-09-12 05:36:16.912101"]]
+  [1m[35m (4.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.4ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mRequest Create (0.4ms)[0m  [1m[32mINSERT INTO "requests" ("recrutement_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recrutement_id", 11], ["user_id", 7], ["created_at", "2019-09-12 05:36:16.930739"], ["updated_at", "2019-09-12 05:36:16.930739"]]
+  [1m[35m (5.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.5ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 18], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mRequest Create (0.7ms)[0m  [1m[32mINSERT INTO "requests" ("recrutement_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recrutement_id", 18], ["user_id", 8], ["created_at", "2019-09-12 05:36:16.950237"], ["updated_at", "2019-09-12 05:36:16.950237"]]
+  [1m[35m (10.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.4ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mRequest Create (0.4ms)[0m  [1m[32mINSERT INTO "requests" ("recrutement_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recrutement_id", 5], ["user_id", 5], ["created_at", "2019-09-12 05:36:16.970874"], ["updated_at", "2019-09-12 05:36:16.970874"]]
+  [1m[35m (24.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.3ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mRequest Create (0.4ms)[0m  [1m[32mINSERT INTO "requests" ("recrutement_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recrutement_id", 5], ["user_id", 8], ["created_at", "2019-09-12 05:36:17.029603"], ["updated_at", "2019-09-12 05:36:17.029603"]]
+  [1m[35m (7.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.3ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mRequest Create (0.4ms)[0m  [1m[32mINSERT INTO "requests" ("recrutement_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recrutement_id", 1], ["user_id", 9], ["created_at", "2019-09-12 05:36:17.045541"], ["updated_at", "2019-09-12 05:36:17.045541"]]
+  [1m[35m (7.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.2ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mRequest Create (0.4ms)[0m  [1m[32mINSERT INTO "requests" ("recrutement_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recrutement_id", 8], ["user_id", 2], ["created_at", "2019-09-12 05:36:17.061903"], ["updated_at", "2019-09-12 05:36:17.061903"]]
+  [1m[35m (8.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.3ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mRequest Create (0.4ms)[0m  [1m[32mINSERT INTO "requests" ("recrutement_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recrutement_id", 5], ["user_id", 8], ["created_at", "2019-09-12 05:36:17.078783"], ["updated_at", "2019-09-12 05:36:17.078783"]]
+  [1m[35m (8.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.2ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 15], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mRequest Create (0.3ms)[0m  [1m[32mINSERT INTO "requests" ("recrutement_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recrutement_id", 15], ["user_id", 4], ["created_at", "2019-09-12 05:36:17.097412"], ["updated_at", "2019-09-12 05:36:17.097412"]]
+  [1m[35m (6.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRecrutement Load (0.3ms)[0m  [1m[34mSELECT "recrutements".* FROM "recrutements" WHERE "recrutements"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mRequest Create (0.4ms)[0m  [1m[32mINSERT INTO "requests" ("recrutement_id", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["recrutement_id", 8], ["user_id", 5], ["created_at", "2019-09-12 05:36:17.112052"], ["updated_at", "2019-09-12 05:36:17.112052"]]
+  [1m[35m (8.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mEvent Create (0.8ms)[0m  [1m[32mINSERT INTO "events" ("start_date", "duration", "title", "description", "price", "location", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["start_date", "2019-09-12 18:21:50.666195"], ["duration", 55], ["title", "Postern of Fate"], ["description", "Revenge fantasies never work out the way you want."], ["price", 3386], ["location", "Mertzville"], ["club_id", 3], ["created_at", "2019-09-12 05:36:17.146177"], ["updated_at", "2019-09-12 05:36:17.146177"]]
+  [1m[35m (4.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mEvent Create (0.6ms)[0m  [1m[32mINSERT INTO "events" ("start_date", "duration", "title", "description", "price", "location", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["start_date", "2019-09-12 18:08:44.475174"], ["duration", 55], ["title", "The Cricket on the Hearth"], ["description", "Revenge fantasies never work out the way you want."], ["price", 3872], ["location", "Wilfordberg"], ["club_id", 4], ["created_at", "2019-09-12 05:36:17.161407"], ["updated_at", "2019-09-12 05:36:17.161407"]]
+  [1m[35m (7.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.4ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mEvent Create (0.4ms)[0m  [1m[32mINSERT INTO "events" ("start_date", "duration", "title", "description", "price", "location", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["start_date", "2019-09-12 16:37:48.138206"], ["duration", 90], ["title", "Blood's a Rover"], ["description", "Revenge fantasies never work out the way you want."], ["price", 7519], ["location", "East Giovanni"], ["club_id", 4], ["created_at", "2019-09-12 05:36:17.179202"], ["updated_at", "2019-09-12 05:36:17.179202"]]
+  [1m[35m (7.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mEvent Create (0.4ms)[0m  [1m[32mINSERT INTO "events" ("start_date", "duration", "title", "description", "price", "location", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["start_date", "2019-09-12 13:59:21.833508"], ["duration", 40], ["title", "Specimen Days"], ["description", "That’s life, you know, we never end up where you thought you wanted to be."], ["price", 5152], ["location", "North Refugiochester"], ["club_id", 5], ["created_at", "2019-09-12 05:36:17.194247"], ["updated_at", "2019-09-12 05:36:17.194247"]]
+  [1m[35m (9.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mEvent Create (0.4ms)[0m  [1m[32mINSERT INTO "events" ("start_date", "duration", "title", "description", "price", "location", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["start_date", "2019-09-12 18:24:11.279756"], ["duration", 80], ["title", "The Heart Is Deceitful Above All Things"], ["description", "The littlest thing can cause a ripple effect that changes your life."], ["price", 6472], ["location", "North Aricafurt"], ["club_id", 4], ["created_at", "2019-09-12 05:36:17.210783"], ["updated_at", "2019-09-12 05:36:17.210783"]]
+  [1m[35m (9.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.3ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mEvent Create (0.4ms)[0m  [1m[32mINSERT INTO "events" ("start_date", "duration", "title", "description", "price", "location", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["start_date", "2019-09-12 10:03:45.883343"], ["duration", 50], ["title", "Ring of Bright Water"], ["description", "Ted, how many times have I told you to put the lid back on the peanut butter jar?! It’s this inconsiderate, immature jackassery that makes me feel like I’m living in The Real World House! And not the early days when they all had jobs and social consciences, I’m talking about Hawaii, and after!"], ["price", 1261], ["location", "East Brianborough"], ["club_id", 1], ["created_at", "2019-09-12 05:36:17.228596"], ["updated_at", "2019-09-12 05:36:17.228596"]]
+  [1m[35m (7.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.6ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mEvent Create (0.9ms)[0m  [1m[32mINSERT INTO "events" ("start_date", "duration", "title", "description", "price", "location", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["start_date", "2019-09-12 22:34:36.705993"], ["duration", 90], ["title", "To Say Nothing of the Dog"], ["description", "You can’t just skip ahead to where you think your life should be."], ["price", 8643], ["location", "Port Manuelshire"], ["club_id", 1], ["created_at", "2019-09-12 05:36:17.254738"], ["updated_at", "2019-09-12 05:36:17.254738"]]
+  [1m[35m (10.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.6ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mEvent Create (0.9ms)[0m  [1m[32mINSERT INTO "events" ("start_date", "duration", "title", "description", "price", "location", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["start_date", "2019-09-12 19:19:31.775864"], ["duration", 75], ["title", "Mr Standfast"], ["description", "Ted, how many times have I told you to put the lid back on the peanut butter jar?! It’s this inconsiderate, immature jackassery that makes me feel like I’m living in The Real World House! And not the early days when they all had jobs and social consciences, I’m talking about Hawaii, and after!"], ["price", 1823], ["location", "Shainabury"], ["club_id", 2], ["created_at", "2019-09-12 05:36:17.286509"], ["updated_at", "2019-09-12 05:36:17.286509"]]
+  [1m[35m (4.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.5ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mEvent Create (0.6ms)[0m  [1m[32mINSERT INTO "events" ("start_date", "duration", "title", "description", "price", "location", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["start_date", "2019-09-12 11:34:27.678149"], ["duration", 45], ["title", "A Glass of Blessings"], ["description", "The littlest thing can cause a ripple effect that changes your life."], ["price", 2960], ["location", "East Tiana"], ["club_id", 5], ["created_at", "2019-09-12 05:36:17.311212"], ["updated_at", "2019-09-12 05:36:17.311212"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mClub Load (0.2ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mEvent Create (0.4ms)[0m  [1m[32mINSERT INTO "events" ("start_date", "duration", "title", "description", "price", "location", "club_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["start_date", "2019-09-13 05:06:16.102637"], ["duration", 55], ["title", "Clouds of Witness"], ["description", "The littlest thing can cause a ripple effect that changes your life."], ["price", 9932], ["location", "West Jamaport"], ["club_id", 4], ["created_at", "2019-09-12 05:36:17.329250"], ["updated_at", "2019-09-12 05:36:17.329250"]]
+  [1m[35m (7.2ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/" for ::1 at 2019-09-12 08:36:41 +0300
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (2.5ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:17
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 68.8ms | Allocations: 8098)
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:3
+  Rendered layouts/_navigation.html.erb (Duration: 12.5ms | Allocations: 2710)
+Completed 200 OK in 1352ms (Views: 1317.8ms | ActiveRecord: 17.9ms | Allocations: 1269035)
+
+
+Started GET "/users/sign_in" for ::1 at 2019-09-12 08:36:49 +0300
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.3ms | Allocations: 643)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 150.6ms | Allocations: 178895)
+  Rendered layouts/_navigation.html.erb (Duration: 0.5ms | Allocations: 163)
+Completed 200 OK in 223ms (Views: 174.9ms | ActiveRecord: 0.0ms | Allocations: 199941)
+
+
+Started POST "/users/sign_in" for ::1 at 2019-09-12 08:37:02 +0300
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"9FxzxrIuFBZfZz7tFAfrB2KE9V3cUXJsidfgeessRPUSUNax61ZfiQ3hV0E1Ybgepha3MxQoTc34yc18oj3REg==", "user"=>{"email"=>"fefetest1@test.com", "password"=>"[FILTERED]", "remember_me"=>"1"}, "commit"=>"Log in"}
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "fefetest1@test.com"], ["LIMIT", 1]]
+Completed 401 Unauthorized in 28ms (ActiveRecord: 0.8ms | Allocations: 2007)
+
+
+Processing by Devise::SessionsController#new as HTML
+  Parameters: {"authenticity_token"=>"9FxzxrIuFBZfZz7tFAfrB2KE9V3cUXJsidfgeessRPUSUNax61ZfiQ3hV0E1Ybgepha3MxQoTc34yc18oj3REg==", "user"=>{"email"=>"fefetest1@test.com", "password"=>"[FILTERED]", "remember_me"=>"1"}, "commit"=>"Log in"}
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 0.3ms | Allocations: 132)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 4.9ms | Allocations: 1050)
+  Rendered layouts/_navigation.html.erb (Duration: 0.8ms | Allocations: 104)
+Completed 200 OK in 217ms (Views: 31.9ms | ActiveRecord: 0.0ms | Allocations: 11399)
+
+
+Started GET "/users/sign_up" for ::1 at 2019-09-12 08:37:05 +0300
+Processing by Devise::RegistrationsController#new as HTML
+  Rendering devise/registrations/new.html.erb within layouts/application
+  Rendered devise/shared/_error_messages.html.erb (Duration: 13.6ms | Allocations: 215)
+  Rendered devise/shared/_links.html.erb (Duration: 0.8ms | Allocations: 123)
+  Rendered devise/registrations/new.html.erb within layouts/application (Duration: 44.3ms | Allocations: 1863)
+  Rendered layouts/_navigation.html.erb (Duration: 0.5ms | Allocations: 163)
+Completed 200 OK in 85ms (Views: 81.0ms | ActiveRecord: 0.0ms | Allocations: 12393)
+
+
+Started POST "/users" for ::1 at 2019-09-12 08:37:18 +0300
+Processing by Devise::RegistrationsController#create as HTML
+  Parameters: {"authenticity_token"=>"AkXvQ3C+JRuad8hVSHLYP5Oct0PZvtjXlM3hRraekKWzNccNyazdg1GvUp3Xa8G5RbwcXbhJRJL5B7U2cWE+4A==", "user"=>{"email"=>"fefetest1@test.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign up"}
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "fefetest1@test.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.6ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["email", "fefetest1@test.com"], ["encrypted_password", "$2a$11$JBhoxxwix7nFAoNM/QJtDeol7x6du7eMntZZGhH641UjMMVdrD0s2"], ["created_at", "2019-09-12 05:37:19.180349"], ["updated_at", "2019-09-12 05:37:19.180349"]]
+  [1m[35m (18.9ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/
+Completed 302 Found in 293ms (ActiveRecord: 20.3ms | Allocations: 8926)
+
+
+Started GET "/" for ::1 at 2019-09-12 08:37:19 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (0.8ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:17
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 6.6ms | Allocations: 1064)
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:3
+  Rendered layouts/_navigation.html.erb (Duration: 6.9ms | Allocations: 1025)
+Completed 200 OK in 48ms (Views: 42.6ms | ActiveRecord: 1.6ms | Allocations: 11599)
+
+
+Started GET "/" for ::1 at 2019-09-12 08:37:24 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.4ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:17
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 10.6ms | Allocations: 1068)
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:3
+  Rendered layouts/_navigation.html.erb (Duration: 4.3ms | Allocations: 1008)
+Completed 200 OK in 52ms (Views: 46.4ms | ActiveRecord: 2.1ms | Allocations: 11563)
+
+
+Started GET "/" for ::1 at 2019-09-12 08:38:08 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.7ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:17
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 17.7ms | Allocations: 1340)
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:3
+  Rendered layouts/_navigation.html.erb (Duration: 10.9ms | Allocations: 1291)
+Completed 200 OK in 88ms (Views: 79.6ms | ActiveRecord: 2.9ms | Allocations: 13363)
+
+
+Started GET "/" for ::1 at 2019-09-12 08:38:24 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (1.5ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:17
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 10.4ms | Allocations: 1061)
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:3
+  Rendered layouts/_navigation.html.erb (Duration: 4.8ms | Allocations: 1006)
+Completed 200 OK in 61ms (Views: 56.1ms | ActiveRecord: 2.1ms | Allocations: 11555)
+
+
+Started GET "/clubs/1" for ::1 at 2019-09-12 08:38:33 +0300
+Processing by ClubsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mClub Load (0.5ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/clubs_controller.rb:67:in `set_club'
+  Rendering clubs/show.html.erb within layouts/application
+  Rendered clubs/show.html.erb within layouts/application (Duration: 18.7ms | Allocations: 231)
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:3
+  Rendered layouts/_navigation.html.erb (Duration: 5.2ms | Allocations: 1011)
+Completed 200 OK in 91ms (Views: 51.8ms | ActiveRecord: 8.3ms | Allocations: 17296)
+
+
+Started GET "/clubs/1" for ::1 at 2019-09-12 09:05:51 +0300
+  [1m[35m (21.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by ClubsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mClub Load (1.5ms)[0m  [1m[34mSELECT "clubs".* FROM "clubs" WHERE "clubs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/clubs_controller.rb:67:in `set_club'
+  Rendering clubs/show.html.erb within layouts/application
+  Rendered clubs/show.html.erb within layouts/application (Duration: 37.9ms | Allocations: 375)
+  [1m[36mUser Load (2.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:3
+  Rendered layouts/_navigation.html.erb (Duration: 80.6ms | Allocations: 12228)
+Completed 200 OK in 4924ms (Views: 4837.0ms | ActiveRecord: 20.0ms | Allocations: 1375926)
+
+
+Started GET "/" for ::1 at 2019-09-12 09:06:08 +0300
+Processing by StaticPagesController#index as HTML
+  Rendering static_pages/index.html.erb within layouts/application
+  [1m[36mEvent Load (0.8ms)[0m  [1m[34mSELECT "events".* FROM "events"[0m
+  ↳ app/views/static_pages/index.html.erb:17
+  Rendered static_pages/index.html.erb within layouts/application (Duration: 77.9ms | Allocations: 7568)
+  [1m[36mUser Load (4.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  ↳ app/views/layouts/_navigation.html.erb:3
+  Rendered layouts/_navigation.html.erb (Duration: 9.3ms | Allocations: 1014)
+Completed 200 OK in 235ms (Views: 168.7ms | ActiveRecord: 10.3ms | Allocations: 26815)
+
+
