@@ -10,6 +10,7 @@ class ClubsController < ApplicationController
   # GET /clubs/1
   # GET /clubs/1.json
   def show
+    @club = Club.find(params[:id])
   end
 
   # GET /clubs/new

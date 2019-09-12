@@ -22,7 +22,7 @@
           
  <% @clubs.each do |club| %>
             <div class="col-md-5 border border-primary shadow p-3 mb-5 bg-white rounded">
-                <h3>nom club: <%= link_to "#{club.nom_club}" %> </h3>
+                <h3>nom club: <%= link_to "#{club.nom_club}", club_path(club.id) %> </h3>
                 
                
                 <p>categorie: <%= club.categorie %></p>
