@@ -3,7 +3,6 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-         has_many :recrutements
-     has_many :clubs, through: :recrutements
-     belongs_to :quarter, optional: true
+     belongs_to :quarter
+     belongs_to :club, optional: true
 end

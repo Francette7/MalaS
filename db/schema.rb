@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 2019_09_11_132319) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.bigint "quarter_id"
+    t.bigint "club_id"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -81,6 +82,7 @@ ActiveRecord::Schema.define(version: 2019_09_11_132319) do
     t.string "gender"
     t.string "pseudonym"
     t.string "role"
+    t.index ["club_id"], name: "index_users_on_club_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["quarter_id"], name: "index_users_on_quarter_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
