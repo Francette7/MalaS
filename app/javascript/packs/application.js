@@ -3,10 +3,13 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-require("@rails/ujs").start()
+// require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
+
+import Rails from 'rails-ujs'
+Rails.start()
 
 
 // Uncomment to copy all static images under ../images to the output folder and reference
@@ -15,3 +18,35 @@ require("channels")
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+
+
+$(document).on('turbolinks:load',function(){
+
+$('.envoi').off("click").on("click",function(){
+
+
+     		var id = $(this).attr('id');
+
+
+     		Rails.ajax({
+
+     	  		url: "/recrutements/new",
+
+     	  		type: "get",
+
+     	  		data: "data_value="+id,
+
+     	  		success: function(data) {
+                         window.location.replace('/recrutements/new?data_value='+id)
+     	  		},
+
+     	  		error: function(data) {}
+
+     			})
+
+     	})
+
+     	
+
+    });
+
