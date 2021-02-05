@@ -1,0 +1,39 @@
+
+
+
+
+  <br/>
+<br/>
+<br/>
+<main role="main">
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+        <div class="container text-center">
+        <h1 class="display-3 text-primary">Listes des club</h1>
+ 
+        <p>pour acceder a la page d un club clique sur son blue nom du club</p>
+        </div>
+      </div>
+      
+      <div class="container">
+        <!-- Example row of columns -->
+        <div class="row d-flex justify-content-around">
+          
+ <% @clubs.each do |club| %>
+            <div class="col-md-5 border border-primary shadow p-3 mb-5 bg-white rounded">
+                <h3>nom club: <%= link_to "#{club.nom_club}", club_path(club.id) %> </h3>
+                
+               
+                <p>categorie: <%= club.categorie %></p>
+            </div>
+            <% end %>
+            
+        </div>
+
+        <hr>
+
+      </div> <!-- /container -->
+
+        
+  </main>
