@@ -14,21 +14,18 @@
 
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Content:</strong>
-  <%= @recrutement.content %>
-</p>
 
-<p>
-  <strong>Deadline:</strong>
-  <%= @recrutement.deadline %>
-</p>
 
-<p>
-  <strong>Club:</strong>
-  <%= @recrutement.club.nom_club %>
-</p>
-    	
+<div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3">Hello! vous etes sur le recrutement du club  <%= @recrutement.club.nom_club %> </h1>
+      <p><strong>Deadline:</strong>
+  <%= @recrutement.deadline %></p>
+     
+    </div>
+  </div>
+
+
 
 <%= link_to 'Edit', edit_recrutement_path(@recrutement) %> |
 <%= link_to 'Back', recrutements_path %>

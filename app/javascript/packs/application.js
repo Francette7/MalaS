@@ -57,7 +57,7 @@ $('.demand').off("click").on("click",function(){
                Rails.ajax({
 
                     url: "/requests/new",
-                    
+
 
                     type: "get",
 
@@ -65,6 +65,35 @@ $('.demand').off("click").on("click",function(){
 
                     success: function(data) {
                          window.location.replace('/requests/new?data_value='+id)
+                    },
+
+                    error: function(data) {}
+
+                    })
+
+          })
+
+
+
+
+
+$('.lasa').off("click").on("click",function(){
+
+
+               var id = $(this).attr('id');
+
+
+               Rails.ajax({
+
+                    url: "/events/new",
+                    
+
+                    type: "get",
+
+                    data: "data_value="+id,
+
+                    success: function(data) {
+                         window.location.replace('/events/new?data_value='+id)
                     },
 
                     error: function(data) {}

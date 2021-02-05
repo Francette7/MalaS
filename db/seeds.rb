@@ -21,15 +21,21 @@ Event.destroy_all
 
 puts "20 seed for Quarter created succesfully with 4 attributs"
 
-    10.times do
+    20.times do
         User.create(email: Faker::Internet.email,
-                    password: "123456", quarter_id: rand(1..20))
+                    password: "123456", 
+                    quarter_id: rand(1..20),
+                    club_id: rand(1..20)
+                    )
     end
 
 puts "20 seed for Recrutement created succesfully with 2 attributs"
 
-10.times do
-        Club.create(nom_club: Faker::Game.title,categorie: Faker::Address.city, recruiter_id: rand(1..5), quarter_id: rand(1..20))
+20.times do
+        Club.create(nom_club: Faker::Game.title,
+                    categorie: Faker::Address.city, 
+                    recruiter_id: rand(1..20), 
+                    quarter_id: rand(1..20))
     end
 puts "10 seed for user created succesfully with 2 attributs and quarter_id"
 
@@ -50,12 +56,6 @@ puts "10 seed for Club created succesfully with attribut user_id and quarter_id"
     end
 
 puts "10 seed for Request created succesfully with attribut user_id "
-
-10.times do
-    event = Event.create!(start_date: Faker::Time.between(from: DateTime.now, to: DateTime.now + 1), duration: 5*rand(5..20), title: Faker::Book.title, description: Faker::TvShows::HowIMetYourMother.quote, price: Faker::Number.number(digits: 4), location: Faker::Address.city, club_id: rand(1..5))
-end
-
-puts "10 seed for Event created succesfully with attribut club_id "
 
 
     
